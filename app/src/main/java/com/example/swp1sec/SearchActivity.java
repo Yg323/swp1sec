@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applikeysolutions.cosmocalendar.view.CalendarView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +70,7 @@ public class SearchActivity extends AppCompatActivity {
         ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(SearchActivity.this, MainActivity.class);
+                intent = new Intent(SearchActivity.this, CalendarView.class);
                 startActivity(intent);
             }
         });

@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applikeysolutions.cosmocalendar.view.CalendarView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +77,7 @@ public class DayTrackerActivity extends AppCompatActivity {
         ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(DayTrackerActivity.this, MainActivity.class);
+                intent = new Intent(DayTrackerActivity.this, CalendarView.class);
                 startActivity(intent);
             }
         });

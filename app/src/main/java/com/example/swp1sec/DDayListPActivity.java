@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.applikeysolutions.cosmocalendar.view.CalendarView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +74,7 @@ public class DDayListPActivity extends AppCompatActivity {
         ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(DDayListPActivity.this, MainActivity.class);
+                intent = new Intent(DDayListPActivity.this, CalendarView.class);
                 startActivity(intent);
             }
         });
