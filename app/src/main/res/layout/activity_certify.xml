@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CertifyActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:fontFamily="@font/nanumsquare_acr"
+        android:textColor="#000000"
+        android:gravity="center_horizontal"
+        android:text="하나뿐인 나만의 비서"
+        android:textSize="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/nanumsquare_0"
+        android:textColor="#000000"
+        android:gravity="center_horizontal"
+        android:text="1Sec."
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="312dp"
+        android:background="@drawable/button_shape"
+        android:ems="13"
+        android:padding="10dp"
+        android:fontFamily="@font/nanumsquare"
+        android:gravity="center"
+        android:hint="이메일주소를 입력하세요"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_shape"
+        android:ems="13"
+        android:fontFamily="@font/nanumsquare"
+        android:gravity="center"
+        android:hint="인증번호를 입력하세요."
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_email" />
+
+    <Button
+        android:id="@+id/btn_codecheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="20dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@color/colorTransparent"
+        android:fontFamily="@font/nanumsquare"
+        android:text="인증번호 확인"
+        app:layout_constraintStart_toEndOf="@+id/et_code"
+        app:layout_constraintTop_toBottomOf="@+id/btn_send" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="304dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@color/colorTransparent"
+        android:fontFamily="@font/nanumsquare"
+        android:text="인증번호 받기"
+        app:layout_constraintStart_toEndOf="@+id/et_email"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_passupdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@color/colorTransparent"
+        android:fontFamily="@font/nanumsquare"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="68dp"
+        android:text="비밀번호 변경"
+        app:layout_constraintStart_toEndOf="@+id/et_newpassck"
+        app:layout_constraintTop_toBottomOf="@+id/btn_codecheck" />
+
+    <EditText
+        android:id="@+id/et_newpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        android:ems="13"
+        android:fontFamily="@font/nanumsquare"
+        android:gravity="center"
+        android:hint="새 비밀번호를 입력하세요"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_code" />
+
+    <EditText
+        android:id="@+id/et_newpassck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        android:ems="13"
+        android:fontFamily="@font/nanumsquare"
+        android:gravity="center"
+        android:hint="비밀번호를 다시 입력하세요"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_newpass" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

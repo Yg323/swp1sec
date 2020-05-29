@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Calendar View Lib</string>
+    <string name="not_available">not available</string>
+    <string name="previous_month">previous month</string>
+    <string name="next_month">next month</string>
+    <string name="Sunday">일요일</string>
+    <string name="Monday">월요일</string>
+    <string name="Tuesday">화요일</string>
+    <string name="Wednesday">수요일</string>
+    <string name="Thursday">목요일</string>
+    <string name="Friday">금요일</string>
+    <string name="Saturday">토요일</string>
+
+</resources>

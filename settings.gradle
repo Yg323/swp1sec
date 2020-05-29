@@ -1,0 +1,4 @@
+rootProject.name='swp1sec'
+include ':app'
+include ':library'
+include ':mylibrary'
