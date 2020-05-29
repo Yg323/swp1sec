@@ -1,9 +1,5 @@
 package com.example.swp1sec;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +31,7 @@ public class DayTrackerActivity extends AppCompatActivity {
     private RecyclerView todoRecyclerView, habitRecyclerView;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private Button btn_daytracker, btn_monthtracker;
-    private TextView txt_todopercent,txt_habitpercent;
+    private TextView txt_todopercent,txt_habitpercent,txt_dayfeedback,txt_average;
     private Intent intent;
     // 할일 리사이클러뷰
     private TodoAdapter toDoAdapter;
@@ -39,6 +39,8 @@ public class DayTrackerActivity extends AppCompatActivity {
     private String todojsonString;
     private static String TODOURL = "http://159.89.193.200//todotracker.php";
     private static String TODOTAG = "gettodo";
+
+
     // 습관 리사이클러뷰
     private DayHabitAdapter dayHabitAdapter;
     private ArrayList<DayHabit> habitArrayList;
@@ -47,6 +49,8 @@ public class DayTrackerActivity extends AppCompatActivity {
     private static String HABITTAG = "gethabit";
 
 
+    private int todoper=0;
+    private int dayhabitper=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,9 @@ public class DayTrackerActivity extends AppCompatActivity {
 
         txt_todopercent=findViewById(R.id.txt_todopercent);
         txt_habitpercent=findViewById(R.id.txt_habitpercent);
+        txt_average = findViewById(R.id.txt_average);
+
+        txt_dayfeedback=findViewById(R.id.txt_dayfeedback);
 
         String email = PreferenceManager.getString(DayTrackerActivity.this, "email");
 
@@ -239,31 +246,36 @@ public class DayTrackerActivity extends AppCompatActivity {
     private void toDoShowResult() { //이부분 잘봐
 
         String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
+        String TAG_SUCCESS = "success";
         String TAG_TITLE = "title";
         String TAG_PERFORMANCE = "performance";
         String TAG_CATEGORY_TITLE = "category_title";
 
         try {
             JSONObject jsonObject = new JSONObject(todojsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            boolean success = jsonObject.getBoolean(TAG_SUCCESS);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
+            if(success) {
+                for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
+                    JSONObject item = jsonArray.getJSONObject(i);
+                    //반복문인점 주의!
+                    String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                    int performance = item.getInt(TAG_PERFORMANCE);
+                    String categorytitle = item.getString(TAG_CATEGORY_TITLE);
+                    Todo todo = new Todo(Title);
+                    todo.setTitle(categorytitle + "_" + Title);
+                    todo.setPerformance(performance);
 
-            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
-                JSONObject item = jsonArray.getJSONObject(i);
-                //반복문인점 주의!
-                String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
-                int performance = item.getInt(TAG_PERFORMANCE);
-                String categorytitle = item.getString(TAG_CATEGORY_TITLE);
-                Todo todo = new Todo(Title);
-                todo.setTitle(categorytitle+"_"+Title);
-                todo.setPerformance(performance);
-
-                todoArrayList.add(todo); //받아온값이들어있는 dayHabit 객체들을 ArrayList<DayHabit>에 차례로 집어넣고
-                toDoAdapter.notifyDataSetChanged(); //집어넣었으니까 어댑터한테 값 새로 들어갔다고 알려줌 -> 리사이클러뷰 새로고침
+                    todoArrayList.add(todo); //받아온값이들어있는 dayHabit 객체들을 ArrayList<DayHabit>에 차례로 집어넣고
+                    toDoAdapter.notifyDataSetChanged(); //집어넣었으니까 어댑터한테 값 새로 들어갔다고 알려줌 -> 리사이클러뷰 새로고침
+                }
+                // 습관 퍼센트 출력
+                todoper = jsonObject.getInt("percent");
+                txt_todopercent.setText("오늘 할 일 완료도는 " + todoper + "%입니다.");
             }
-            // 습관 퍼센트 출력
-            int per = jsonObject.getInt("percent");
-            txt_todopercent.setText("오늘 할 일 완료도는 "+ per +"%입니다.");
-
+            else{
+                txt_todopercent.setText("오늘 할 일이 존재하지 않습니다!");
+            }
 
         } catch (JSONException e) {
             Log.d(TODOTAG, "showResult : ", e);
@@ -299,6 +311,28 @@ public class DayTrackerActivity extends AppCompatActivity {
             else {
                 habitjsonString = result; //크롬으로 확인했던 문자열 받아오고
                 dayHabitShowResult(); //밑에 dayHabitShowResult함수 실행
+                String percent = Integer.toString((dayhabitper + todoper)/2);
+                txt_average.setText("오늘의 수행도는 "+percent+"%입니다!");
+                switch ((dayhabitper + todoper) / 20){
+                    case 0: case 1:
+                        txt_dayfeedback.setText("분발하세요!");
+                        break;
+                    case 2: case 3:
+                        txt_dayfeedback.setText("조금만 더 힘내볼까요");
+                        break;
+                    case 4: case 5:
+                        txt_dayfeedback.setText("반은 했어요!");
+                        break;
+                    case 6: case 7:
+                        txt_dayfeedback.setText("잘 할 수 있어요! 화이팅! ");
+                        break;
+                    case 8: case 9:
+                        txt_dayfeedback.setText("고지가 코앞이에요! 조금더 수행해볼까요?");
+                        break;
+                    default:
+                        txt_dayfeedback.setText("완벽합니다! 오늘 하루도 수고 많으셨어요!");
+                }
+
             }
         }
 
@@ -383,8 +417,8 @@ public class DayTrackerActivity extends AppCompatActivity {
                 dayHabitAdapter.notifyDataSetChanged(); //집어넣었으니까 어댑터한테 값 새로 들어갔다고 알려줌 -> 리사이클러뷰 새로고침
             }
             // 습관 퍼센트 출력
-            int per = jsonObject.getInt("percent");
-            txt_habitpercent.setText("오늘 습관 완료도는 "+ per +"%입니다.");
+            dayhabitper = jsonObject.getInt("percent");
+            txt_habitpercent.setText("오늘 습관 완료도는 "+ dayhabitper +"%입니다.");
 
 
         } catch (JSONException e) {

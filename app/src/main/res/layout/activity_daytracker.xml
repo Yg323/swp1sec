@@ -17,6 +17,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -81,7 +82,7 @@
                 android:fontFamily="@font/nanumsquare_acr"
                 android:padding="10dp"
                 android:layout_margin="10dp"
-                android:text="오늘 할 일 완료도는 %입니다."
+                android:text="오늘 할 일이 존재하지 않습니다! \n일정을 먼저 등록해주세요."
                 android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -107,7 +108,7 @@
                 android:fontFamily="@font/nanumsquare_acr"
                 android:padding="10dp"
                 android:layout_margin="10dp"
-                android:text="오늘 습관 완료도는 %입니다."
+                android:text="습관이 존재하지 않습니다! \n일정을 먼저 등록해주세요."
                 android:textSize="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -123,13 +124,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/text_dayfeedback"
+            android:id="@+id/txt_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquare_acr"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="20dp"
+            android:text="%"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/txt_dayfeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nanumsquare_acr"
