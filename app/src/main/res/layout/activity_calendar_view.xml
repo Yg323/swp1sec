@@ -56,7 +56,7 @@
 
 
     <ImageButton
-        android:id="@+id/imgRight2"
+        android:id="@+id/imgRight"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_alignParentRight="true"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <ImageButton
-        android:id="@+id/imgleft2"
+        android:id="@+id/imgleft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
