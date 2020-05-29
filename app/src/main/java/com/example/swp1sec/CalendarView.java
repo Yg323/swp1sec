@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CalendarView extends AppCompatActivity {
-    //test!
+    //test 주석달기
     private final static int CREATE_EVENT_REQUEST_CODE = 100;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private String[] mShortMonths;
