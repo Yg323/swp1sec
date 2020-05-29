@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 
 import java.util.Calendar;
@@ -68,9 +68,7 @@ public class Loding extends AppCompatActivity {
 
         handler.sendEmptyMessageDelayed(0, 7000); //7초후 화면전환
 
-        // 액션바 없애기
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+
 
     }
 

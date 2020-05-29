@@ -37,8 +37,7 @@
         <activity android:name=".DayRemind"></activity>
 
         //지원
-        <activity android:name=".CalendarView"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity android:name=".CalendarView"></activity>
 
     </application>
 
