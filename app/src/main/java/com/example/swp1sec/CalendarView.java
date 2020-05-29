@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,7 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CalendarView extends AppCompatActivity {
-    //test라고
+    //test
     private final static int CREATE_EVENT_REQUEST_CODE = 100;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private String[] mShortMonths;
@@ -163,15 +162,15 @@ public class CalendarView extends AppCompatActivity {
         return true;
     }
 
-    @Override//메뉴바 아이템  <오늘> 버튼 / 수정:메뉴바를 빼고 버튼을 하단에 추가하였음.
+    /*@Override//메뉴바 아이템  <오늘> 버튼 / 수정:메뉴바를 빼고 버튼을 하단에 추가하였음.
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*switch (item.getItemId()) {
+        *//*switch (item.getItemId()) {
             case R.id.action_today: {
                 mCalendarView.setSelectedDate(Calendar.getInstance());
                 return true; }
-        }*/
+        }*//*
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
 
