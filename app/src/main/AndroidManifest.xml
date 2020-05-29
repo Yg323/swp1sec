@@ -36,8 +36,13 @@
         <activity android:name=".WeekRemind"></activity>
         <activity android:name=".DayRemind"></activity>
 
-        //지원
-        <activity android:name=".CalendarView"></activity>
+        <activity android:name=".CalendarView"/>
+        <activity android:name=".CreateExercise" />
+        <activity android:name=".CreateNormal" />
+        <activity android:name=".Category" />
+        <activity android:name=".WeekCalendar" />
+        <activity android:name=".CreateHabit" />
+        <activity android:name=".CreateSubject" />
 
     </application>
 

@@ -4,97 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
+    android:background="#FAFAFA"
     android:orientation="vertical"
     tools:context="com.example.swp1sec.CalendarView">
 
-    <com.example.mylibrary.CalendarView
-        android:id="@+id/calendarView"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:content_background_color="#fff"
-        app:current_day_circle_enable="true"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:month_header_show="false"
-        app:week_header_background_color="#fff"
-        app:week_header_movable="false"
-        app:week_header_text_color="#000"
-        app:current_day_text_color="@color/colorPrimaryDark"
-        app:day_text_color="#000" />
-
-    <androidx.appcompat.widget.Toolbar
-
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#FFFFFF"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        app:buttonGravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleMarginStart="200dp"
-        app:titleTextAppearance="@style/AppTheme.TitleText">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/cal_changer"
+            android:id="@+id/imgleft2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="false"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/icon_personsetting"
+            android:scaleType="center" />
+
+        <androidx.appcompat.widget.Toolbar
+
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="#FFFFFF"
-            android:foregroundGravity="center"
-            app:srcCompat="@drawable/icon_expand_more"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="16dp" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/AppTheme.TitleText">
 
-    </androidx.appcompat.widget.Toolbar>
+            <ImageButton
+                android:id="@+id/cal_changer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="false"
+                android:layout_centerVertical="false"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/icon_expand_more"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
 
+        </androidx.appcompat.widget.Toolbar>
 
-    <ImageButton
-        android:id="@+id/imgRight"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/icon_setting"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+        <ImageButton
+            android:id="@+id/imgRight2"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentRight="false"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/icon_setting" />
 
-    <ImageButton
-        android:id="@+id/imgleft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/icon_personsetting"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+    </LinearLayout>
 
-
-    <Button
-        android:id="@+id/button_today"
-        android:layout_width="60dp"
-        android:layout_height="27dp"
-        android:background="@drawable/button_today_shape"
-        android:gravity="center"
-        android:text="오늘"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/calendarView"
+    <com.example.library.WeekView
+        android:id="@+id/weekView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:dayBackgroundColor="#FFFFFF"
+        app:eventCornerRadius="5dp"
+        app:eventTextColor="@android:color/white"
+        app:futureBackgroundColor="@color/accent"
+        app:headerColumnBackground="#ffffffff"
+        app:headerColumnPadding="8dp"
+        app:headerColumnTextColor="@color/toolbar_text"
+        app:headerRowBackgroundColor="#FFFFFF"
+        app:headerRowPadding="12dp"
+        app:hourHeight="60dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:noOfVisibleDays="5"
+        app:nowLineColor="@color/accent"
+        app:nowLineThickness="2dp"
+        app:showNowLine="true"
+        app:textSize="12sp"
+        app:todayBackgroundColor="#18585A5C"
+        app:todayHeaderTextColor="@color/accent" />
 
 
     <LinearLayout

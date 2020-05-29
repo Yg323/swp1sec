@@ -1,14 +1,18 @@
 package com.example.swp1sec;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.swp1sec.data.Event;
 import com.example.swp1sec.uihelpers.CalendarDialog;
@@ -31,7 +35,7 @@ public class CalendarView extends AppCompatActivity {
     public static Intent makeIntent(Context context) {
         return new Intent(context, CalendarView.class);
     }
-    //오오
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +55,10 @@ public class CalendarView extends AppCompatActivity {
         ibtn_calenderplus = findViewById(R.id.ibtn_calendarplus);
         ibtn_tracker = findViewById(R.id.ibtn_tracker);
         ibtn_store = findViewById(R.id.ibtn_store);
-        //final Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
 
-        //final TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-        //setSupportActionBar(toolbar);
-
+        //툴바
+        setSupportActionBar(toolbar);
         mCalendarView = findViewById(R.id.calendarView);
         //상단 툴바에 뜨는 달(Title)이랑 년도(subtitle) 설정 움직일때 변경되는 것
         mCalendarView.setOnMonthChangedListener(new com.example.mylibrary.CalendarView.OnMonthChangedListener() {
@@ -70,11 +73,68 @@ public class CalendarView extends AppCompatActivity {
         });
 
         //캘린더를 선택했을 때 size가 제로가 아니다 즉, 일정이 있으면 다이얼로그를 표시하고 없으면 바로 일정 추가창을 띄운다.
+        mCalendarView.setOnItemClickedListener(new com.example.mylibrary.CalendarView.OnItemClickListener() {
+            @Override
+            public void onItemClicked(List<com.example.mylibrary.CalendarView.CalendarObject> calendarObjects,
+                                      Calendar previousDate,
+                                      Calendar selectedDate) {
+                if (calendarObjects.size() != 0) {
+                    mCalendarDialog.setSelectedDate(selectedDate);
+                    mCalendarDialog.show();
+                } else {
+                    if (diffYMD(previousDate, selectedDate) == 0)
+                        createEvent(selectedDate);
+                }
+            }
+        });
+
+
+        //상단 액션바와 연관 움직일때x 초기화면을 말함
+        if (getSupportActionBar() != null) {
+            // int day = mCalendarView.getCurrentDate().get(Calendar.DATE);
+            int month = mCalendarView.getCurrentDate().get(Calendar.MONTH);
+            int year = mCalendarView.getCurrentDate().get(Calendar.YEAR);
+            getSupportActionBar().setTitle(year + "." + (month+1)); // //mShortMonths[month] 여기에 +day 를 추가
+
+        }
+
+        //캘린더 다이얼로그 창
+        mCalendarDialog = CalendarDialog.Builder.instance(this)
+                .setEventList(mEventList)
+                .setOnItemClickListener(new CalendarDialog.OnCalendarDialogListener() {
+                    @Override
+                    public void onEventClick(Event event) {
+                        onEventSelected(event);
+                    }
+
+                    @Override
+                    public void onCreateEvent(Calendar calendar) {
+                        createEvent(calendar);
+                    }
+                })
+                .create();
+
+
+        //액티비티 주간 캘린더로 전환
+        ImageButton changer = findViewById(R.id.cal_changer);
+        changer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // 액티비티 전환 코드
+                Intent intent = new Intent(CalendarView.this, WeekCalendar.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+
+            }
+        });
+
 
         ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(CalendarView.this, MainActivity.class);
+                intent = new Intent(CalendarView.this, CalendarView.class);
                 startActivity(intent);
             }
         });
@@ -119,8 +179,6 @@ public class CalendarView extends AppCompatActivity {
             //getSupportActionBar().setSubtitle(Integer.toString(year));
         }
 
-
-
         //오늘 버튼
         Button button = findViewById(R.id.button_today);
         button.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +193,7 @@ public class CalendarView extends AppCompatActivity {
     //일간 캘린더 다이얼로그에서 이벤트를 클릭시 일정 추가 즉, 이벤트 생성창이 올라온다.
     private void onEventSelected(Event event) {
 
-        //calclick();
+        calclick();
         /*Activity context = CalendarView.this;
         Intent intent = CreateHabit.makeIntent(context, event);
 
@@ -146,7 +204,7 @@ public class CalendarView extends AppCompatActivity {
     //이벤트 생성 transition을 통해 애니메이션 기법 사용, 아래에서 위로 올라온다.
     private void createEvent(Calendar selectedDate) {
 
-        //calclick();
+        calclick();
         /*Activity context = CalendarView.this;
         Intent intent = CreateHabit.makeIntent(context, selectedDate);
 
@@ -172,9 +230,17 @@ public class CalendarView extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }*/
 
+    public static int diffYMD(Calendar date1, Calendar date2) {
+        if (date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
+                date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH) &&
+                date1.get(Calendar.DAY_OF_MONTH) == date2.get(Calendar.DAY_OF_MONTH))
+            return 0;
 
+        return date1.before(date2) ? -1 : 1;
+    }
 
-    /*public void OnClickHandler(View view)
+    //가운데 일정 추가버튼
+    public void OnClickHandler(View view)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -201,9 +267,9 @@ public class CalendarView extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }*/
+    }
 
-    /*public void calclick(){
+    public void calclick(){
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(CalendarView.this);
         dlg.setTitle("일정-습관 선택"); //제목
@@ -230,6 +296,6 @@ public class CalendarView extends AppCompatActivity {
             }
         });
         dlg.show();
-    }*/
+    }
 
 }
