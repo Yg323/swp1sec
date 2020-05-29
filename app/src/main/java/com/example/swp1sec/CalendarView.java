@@ -31,7 +31,7 @@ public class CalendarView extends AppCompatActivity {
     public static Intent makeIntent(Context context) {
         return new Intent(context, CalendarView.class);
     }
-    //ㅇㅋㅇㅋㅇㄹㄷㄹ
+    //오오
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,7 @@ public class CalendarView extends AppCompatActivity {
 
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(year +"."+(month+1));//mShortMonths[month]
-                    //getSupportActionBar().setSubtitle(Integer.toString(year)); //위에 년이랑 달을 합쳐서 더이상 필요x
+
                 }
             }
         });
