@@ -50,15 +50,315 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/spin_habit"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             />
 
-        <com.applikeysolutions.cosmocalendar.view.CalendarView
+
+
+        <TableLayout
             android:layout_width="match_parent"
-            android:id="@+id/cosmo_calendar"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:stretchColumns="0, 1, 2, 3, 4, 5, 6">
+            <TableRow>
+                <TextView
+                    android:id="@+id/txt_monthname"
+                    android:layout_span="7"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="월"
+                    android:textSize="20dp"/>
+
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="일"
+                    android:textColor="#FF0000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="월"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="화"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="수"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="목"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="금"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="토"
+                    android:textColor="#0054FF"/>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tr_1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="4"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="5"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="6"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="7"/>
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tr_2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="4"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="5"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="6"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="7"/>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tr_3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="4"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="5"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="6"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="7"/>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tr_4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="4" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="5"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="6"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="7"/>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tr_5">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="4"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="5"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="6"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="7"/>
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tr_6">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="1"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="3"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="4"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="5"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="6"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="7"/>
+
+            </TableRow>
+        </TableLayout>
 
     </LinearLayout>
 
@@ -68,38 +368,41 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/txt_habitpercent"
-            android:layout_width="match_parent"
+            android:id="@+id/txt_habitcount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="5dp"
             android:fontFamily="@font/nanumsquare_acr"
             android:padding="10dp"
-            android:text="오늘 습관 완료도는 %입니다."
+            android:text=" 일중 일 완료했습니다."
             android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txt_habitpercent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="5dp"
             android:fontFamily="@font/nanumsquare_acr"
             android:padding="10dp"
-            android:text="오늘 습관 완료도는 %입니다."
+            android:text="00/00"
             android:textSize="20dp" />
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical">
 
         <TextView
-            android:id="@+id/text_dayfeedback"
+            android:id="@+id/txt_dayfeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nanumsquare_acr"
-            android:gravity="center_horizontal|center_vertical"
+            android:layout_gravity="center_vertical|center_horizontal"
             android:text="칭찬의 말!"
             android:textSize="17dp" />
     </LinearLayout>
