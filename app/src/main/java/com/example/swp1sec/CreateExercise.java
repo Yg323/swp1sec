@@ -63,7 +63,7 @@ public class CreateExercise extends AppCompatActivity {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
-        TextView et_date = (TextView) findViewById(R.id.sub_start_date);
+        TextView et_date = (TextView) findViewById(R.id.ex_start_date);
         et_date.setText(sdf.format(myCalendar.getTime()));
 
     }
@@ -72,7 +72,7 @@ public class CreateExercise extends AppCompatActivity {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
-        TextView et_date = (TextView) findViewById(R.id.sub_end_date);
+        TextView et_date = (TextView) findViewById(R.id.ex_end_date);
         et_date.setText(sdf.format(myCalendar.getTime()));
     }
 
@@ -142,14 +142,9 @@ public class CreateExercise extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(CreateExercise.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String state = "AM";
-                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
-                        if (hourOfDay > 12) {
-                            hourOfDay -= 12;
-                            state = "PM";
-                        }
+
                         // EditText에 출력할 형식 지정
-                        end_time.setText(state + " " + hourOfDay + "시 " + minute + "분");
+                        end_time.setText(hourOfDay + ":" + minute);
                     }
                 }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
                 mTimePicker.setTitle("Select Time");
@@ -175,8 +170,10 @@ public class CreateExercise extends AppCompatActivity {
                 String memo = et_exercise_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
+                String enddate = end_date.getText().toString();
+                String endtime = end_time.getText().toString();
 
-                float importance = ex_star.getRating();
+                int importance = (int) ex_star.getRating();
 
                 if (title.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateExercise.this);
@@ -193,7 +190,7 @@ public class CreateExercise extends AppCompatActivity {
                             JSONObject jasonObject = new JSONObject(response);//Register2 php에 response
                             boolean success = jasonObject.getBoolean("success");//Register2 php에 sucess
                             if (success) {//저장 완료
-                                Toast toast = Toast.makeText(getApplicationContext(), "과목이 등록되었습니다. ", Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(getApplicationContext(), "운동이 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
                                 Intent intent = new Intent(CreateExercise.this, CalendarView.class);
@@ -210,9 +207,9 @@ public class CreateExercise extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, importance, responseListener);
+                CreateExerciseRequest createExerciseRequest = new CreateExerciseRequest(email, title, memo, date, time, enddate, endtime, importance, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateExercise.this);
-                queue.add(createSubjectRequest);
+                queue.add(createExerciseRequest);
             }
         });
     }
