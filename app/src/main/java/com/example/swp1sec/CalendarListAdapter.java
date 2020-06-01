@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapter.CustomViewHolder> {
-
+///
     private ArrayList<CalendarList> mList = null;
     private Activity context = null;
 

@@ -93,7 +93,7 @@
                             style="@style/createEventItemTextView"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:hint="운동이름"
+                            android:hint="운동내용"
                             android:paddingStart="6dp"
                             android:paddingEnd="6dp"
                             android:textColor="#252525" />

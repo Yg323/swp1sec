@@ -154,14 +154,9 @@ public class CreateSubject extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(CreateSubject.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String state = "AM";
-                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
-                        if (hourOfDay > 12) {
-                            hourOfDay -= 12;
-                            state = "PM";
-                        }
+
                         // EditText에 출력할 형식 지정
-                        end_time.setText(state + " " + hourOfDay + "시 " + minute + "분");
+                        end_time.setText(hourOfDay + ": " + minute);
                     }
                 }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
                 mTimePicker.setTitle("Select Time");
@@ -187,8 +182,10 @@ public class CreateSubject extends AppCompatActivity {
                 String memo = et_subject_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
+                String enddate = end_date.getText().toString();
+                String endtime = end_time.getText().toString();
 
-                float importance = sub_star.getRating();
+                int importance = (int) sub_star.getRating();
 
                 if (title.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateSubject.this);
@@ -222,7 +219,7 @@ public class CreateSubject extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, importance, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
             }

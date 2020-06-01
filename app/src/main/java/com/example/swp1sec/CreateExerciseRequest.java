@@ -14,7 +14,7 @@ public class CreateExerciseRequest extends StringRequest {
 
     //private Map<String, String>parameters;
 
-    public CreateExerciseRequest(String email, String title, String memo, String date, String time, float importance, Response.Listener<String> listener) {
+    public CreateExerciseRequest(String email, String title, String memo, String date, String time, String enddate, String endtime, int importance, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null); // 위 url에 post방식으로 값을 전송
 
         map = new HashMap<>();
@@ -25,6 +25,8 @@ public class CreateExerciseRequest extends StringRequest {
         map.put("date", date);
         map.put("time", time);
         map.put("importance", String.valueOf(importance));
+        map.put("enddate", enddate);
+        map.put("endtime", endtime);
 
     }
 
