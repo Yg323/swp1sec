@@ -55,14 +55,14 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="333dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:clipToPadding="false">
+                android:clipToPadding="false"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="14dp"
-                    android:paddingEnd="14dp" >
+                    android:paddingEnd="14dp">
 
                     <ImageView
                         style="@style/createEventIconStyle"
@@ -82,13 +82,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
                         android:layout_marginTop="1dp"
                         android:layout_marginBottom="1dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="5.5dp"
+                        android:orientation="horizontal"
                         android:paddingStart="4dp"
-                        android:paddingEnd="4dp">
+                        android:paddingTop="6dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="5.5dp">
 
                         <EditText
                             android:id="@+id/et_subject_title"
@@ -110,23 +110,23 @@
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="14dp"
-                    android:paddingEnd="14dp" >
+                    android:paddingEnd="14dp">
 
                     <ImageView
                         style="@style/createEventIconStyle"
-                        android:src="@drawable/icon_title"/>
+                        android:src="@drawable/icon_title" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
                         android:layout_marginTop="1dp"
                         android:layout_marginBottom="1dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="5.5dp"
+                        android:orientation="horizontal"
                         android:paddingStart="4dp"
-                        android:paddingEnd="4dp">
+                        android:paddingTop="6dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="5.5dp">
 
                         <EditText
                             android:id="@+id/et_subject_memo"
@@ -143,23 +143,22 @@
 
                 </LinearLayout>
 
-                <View style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp"/>
-
-                <View style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="14dp"
-                    android:paddingEnd="14dp" >
+                    android:paddingEnd="14dp">
 
                     <ImageView
                         style="@style/createEventIconStyle"
-                        android:src="@drawable/icon_clock"/>
+                        android:src="@drawable/icon_clock" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
 
                     <TextView
                         android:id="@+id/sub_start_date"
@@ -174,13 +173,8 @@
                         android:paddingTop="6.5dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="6.5dp"
-                        android:textColor="#252525"
-                        android:text="2020/05/28" />
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10" />
+                        android:text="2020/05/28"
+                        android:textColor="#252525" />
 
                     <TextView
                         android:id="@+id/sub_start_time"
@@ -195,14 +189,11 @@
                         android:paddingTop="6.5dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="6.5dp"
-                        android:textColor="#252525"
-                        android:text="07:00" />
+                        android:text="07:00"
+                        android:textColor="#252525" />
 
 
                 </LinearLayout>
-
-                <View style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,11 +201,16 @@
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="14dp"
-                    android:paddingEnd="14dp" >
+                    android:paddingEnd="14dp">
 
                     <ImageView
                         style="@style/createEventIconStyle"
-                        android:src="@drawable/icon_clock"/>
+                        android:src="@drawable/icon_clock" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
 
                     <TextView
                         android:id="@+id/sub_end_date"
@@ -228,13 +224,8 @@
                         android:paddingTop="6.5dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="6.5dp"
-                        android:textColor="#252525"
-                        android:text="2020/05/28" />
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10" />
+                        android:text="2020/05/28"
+                        android:textColor="#252525" />
 
                     <TextView
                         android:id="@+id/sub_end_time"
@@ -249,16 +240,11 @@
                         android:paddingTop="6.5dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="6.5dp"
-                        android:textColor="#252525"
-                        android:text="07:00" />
+                        android:text="07:00"
+                        android:textColor="#252525" />
 
 
                 </LinearLayout>
-
-                <View style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp"/>
-
-                <View style="@style/createEventSeparator" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -300,9 +286,56 @@
 
                 </LinearLayout>
 
+                <View
+                    style="@style/createEventSeparator"
+                    android:layout_marginStart="57dp" />
+
+                <View
+                    style="@style/createEventSeparator"
+                    android:layout_marginStart="57dp" />
+
+                <View
+                    style="@style/createEventSeparator"
+                    android:layout_marginStart="57dp" />
+
+                <View
+                    style="@style/createEventSeparator"
+                    android:layout_marginStart="57dp" />
+
+                <View style="@style/createEventSeparator" />
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner"
+                app:layout_constraintBottom_toTopOf="@id/ex_ratingBar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <Button
+                android:text="알람설정"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timePicker"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="20dp"
+                android:id="@+id/s_alm_button" />
+        </LinearLayout>
 
     </LinearLayout>
 
