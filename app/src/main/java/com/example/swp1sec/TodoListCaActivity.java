@@ -49,6 +49,7 @@ public class TodoListCaActivity extends AppCompatActivity {
     private static String URL = "http://159.89.193.200//gettodolist_ca.php";
     private static String TAG = "gettodo";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

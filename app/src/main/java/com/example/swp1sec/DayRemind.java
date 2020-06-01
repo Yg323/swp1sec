@@ -18,7 +18,7 @@ public class DayRemind extends AppCompatActivity {
         btn_redayclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(DayRemind.this,MainActivity.class);
+                Intent intent=new Intent(DayRemind.this,CalendarView.class);
                 startActivity(intent);
             }
         });
