@@ -35,7 +35,8 @@ public class MonthTrackerActivity extends AppCompatActivity{
     private Spinner spin_habit;
 
     //스피너
-    ArrayList<String> monthHabitNameArrayList ;
+    private ArrayList<String> monthHabitNameArrayList;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,13 +170,16 @@ public class MonthTrackerActivity extends AppCompatActivity{
         tr_2.getChildAt(1).setBackgroundResource(R.drawable.icon_circle);
         tr_2.getChildAt(2).setBackgroundResource(R.drawable.icon_circle);
 
-        monthHabitNameArrayList =  new ArrayList<String>();
-        getData();
+        monthHabitNameArrayList =  new ArrayList<>();
 
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,monthHabitNameArrayList);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,monthHabitNameArrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_habit.setAdapter(adapter);
+
+        monthHabitNameArrayList.clear();
+        adapter.notifyDataSetChanged();
+
+        getData();
 
         spin_habit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -205,6 +209,7 @@ public class MonthTrackerActivity extends AppCompatActivity{
                             JSONObject item = data.getJSONObject(i);
                             String title = item.getString("title");
                             monthHabitNameArrayList.add(title);
+                            adapter.notifyDataSetChanged();
                         }
 
                     }
