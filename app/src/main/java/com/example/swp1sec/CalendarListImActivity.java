@@ -1,6 +1,8 @@
 package com.example.swp1sec;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -85,13 +87,12 @@ public class CalendarListImActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*ibtn_calenderplus.setOnClickListener(new View.OnClickListener() {
+        ibtn_calenderplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(DayTrackerActivity.this, CalendarPlusActivity.class);
-                startActivity(intent);
+                calclick();
             }
-        });*/
+        });
         ibtn_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -344,5 +345,33 @@ public class CalendarListImActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.d(CalTAG, "showResult : ", e);
         }
+    }
+    public void calclick(){
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(CalendarListImActivity.this);
+        dlg.setTitle("일정-습관 선택"); //제목
+        //dlg.setMessage("안녕하세요 계발에서 개발까지 입니다."); // 메시지
+        //dlg.setIcon(R.drawable.deum); // 아이콘 설정
+//                버튼 클릭시 동작
+        dlg.setItems(R.array.LAN, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int pos)
+            {
+                switch (pos) {
+                    case 0:{
+                        Intent intent = new Intent(getApplicationContext(), Category.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 1:{
+                        Intent intent = new Intent(getApplicationContext(), CreateHabit.class);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+            }
+        });
+        dlg.show();
     }
 }
