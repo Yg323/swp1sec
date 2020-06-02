@@ -397,7 +397,7 @@ public class LockScreenActivity extends  AppCompatActivity{
         try{
             ArrayList result = new ArrayList();
             JSONObject object = new JSONObject(str);
-            JSONArray index = object.getJSONArray("dday");
+            JSONArray index = object.getJSONArray("date");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject tt = index.getJSONObject(i);
@@ -417,7 +417,7 @@ public class LockScreenActivity extends  AppCompatActivity{
         try{
             ArrayList result = new ArrayList();
             JSONObject object = new JSONObject(str);
-            JSONArray index = object.getJSONArray("dday");
+            JSONArray index = object.getJSONArray("date");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject dd = index.getJSONObject(i);
@@ -457,11 +457,11 @@ public class LockScreenActivity extends  AppCompatActivity{
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return FirstFragment.newInstance(0,title.get(0).toString() +  "\n" + dday.get(0).toString());
+                    return FirstFragment.newInstance(0,title.get(0).toString() +  "\nD" + dday.get(0).toString());
                 case 1:
-                    return SecondFragment.newInstance(1,title.get(1).toString() + "\n" + dday.get(1).toString());
+                    return SecondFragment.newInstance(1,title.get(1).toString() + "\nD" + dday.get(1).toString());
                 case 2:
-                    return ThirdFragment.newInstance(2, title.get(2).toString() + "\n" + dday.get(2).toString());
+                    return ThirdFragment.newInstance(2, title.get(2).toString() + "\nD" + dday.get(2).toString());
                 default:
                     return null;
             }
