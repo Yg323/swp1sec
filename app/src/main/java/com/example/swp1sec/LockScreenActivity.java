@@ -1,6 +1,8 @@
 package com.example.swp1sec;
 
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import me.relex.circleindicator.CircleIndicator;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -23,9 +26,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.swp1sec.FirstFragment;
+import com.example.swp1sec.R;
+import com.example.swp1sec.RequestHttpURLConnection;
+import com.example.swp1sec.SecondFragment;
+import com.example.swp1sec.ThirdFragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import me.relex.circleindicator.CircleIndicator;
 
 
 public class LockScreenActivity extends  AppCompatActivity{
@@ -177,7 +188,7 @@ public class LockScreenActivity extends  AppCompatActivity{
         //Log.d(TAG,"outPut: "+ outPut);
 
         hb_doJSONParser(outPut);
-        //Log.d(TAG, "ind = "+ind);
+        Log.d(TAG, "ind = "+ind);
 
         ArrayList<HashMap<String, String>> childListC = new ArrayList<>();
 
@@ -298,7 +309,7 @@ public class LockScreenActivity extends  AppCompatActivity{
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            //Log.d(TAG, "result = " + result);
+            Log.d(TAG, "result = " + result);
 
             return result;
         }
@@ -446,11 +457,11 @@ public class LockScreenActivity extends  AppCompatActivity{
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return FirstFragment.newInstance(0,"first_fragment");
+                    return FirstFragment.newInstance(0,title.get(0).toString() +  "\n" + dday.get(0).toString());
                 case 1:
-                    return SecondFragment.newInstance(1,"second_fragment");
+                    return SecondFragment.newInstance(1,title.get(1).toString() + "\n" + dday.get(1).toString());
                 case 2:
-                    return ThirdFragment.newInstance(2, "third_fragment");
+                    return ThirdFragment.newInstance(2, title.get(2).toString() + "\n" + dday.get(2).toString());
                 default:
                     return null;
             }

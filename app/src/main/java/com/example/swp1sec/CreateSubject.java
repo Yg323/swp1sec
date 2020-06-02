@@ -60,8 +60,9 @@ public class CreateSubject extends AppCompatActivity {
     private RatingBar sub_star;
     private AlertDialog dialog;
     private static String URL = "http://159.89.193.200//plusSubject.php";
-    private static String alm_url = "http://159.89.193.200/alarm_insert.php";
+    //private static String alm_url = "http://159.89.193.200/alarm_insert.php";
     private static String TAG = "setsubject";
+    private TimePicker Alarm;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -116,7 +117,7 @@ public class CreateSubject extends AppCompatActivity {
         end_date = findViewById(R.id.sub_end_date);
         end_time = findViewById(R.id.sub_end_time);
         //Title= (EditText)findViewById(R.id.editText_main_title);
-        //Alarm = (EditText)findViewById(R.id.editText_main_alarm);
+        Alarm = (TimePicker)findViewById(R.id.timePicker);
 
         //Result.setMovementMethod(new ScrollingMovementMethod());
 
@@ -201,7 +202,7 @@ public class CreateSubject extends AppCompatActivity {
                 //String email = PreferenceManager.getString(CreateHabit.this, "email");
                 String email = "14dnfnfn@gmail.com"; //임시
                 String title = et_subject_title.getText().toString();
-                //String alarm = Alarm.getText().toString();
+                String alarm = Alarm.getText().toString();
                 String memo = et_subject_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
@@ -244,7 +245,7 @@ public class CreateSubject extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, alarm, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
 

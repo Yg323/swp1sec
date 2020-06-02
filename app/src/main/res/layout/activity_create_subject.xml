@@ -256,6 +256,57 @@
 
                     <ImageView
                         style="@style/createEventIconStyle"
+                        android:src="@drawable/icon_clock" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10" />
+
+                    <TextView
+                        android:id="@+id/sub_end_date"
+                        style="@style/createEventItemTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="0dp"
+                        android:gravity="end"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6.5dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6.5dp"
+                        android:text="2020/05/28"
+                        android:textColor="#252525" />
+
+                    <TextView
+                        android:id="@+id/alm_set"
+                        style="@style/createEventItemTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:paddingStart="8dp"
+                        android:paddingTop="6.5dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="6.5dp"
+                        android:text="07:00"
+                        android:textColor="#252525" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp">
+
+                    <ImageView
+                        style="@style/createEventIconStyle"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center_vertical"
@@ -313,7 +364,8 @@
             android:layout_width="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="-570dp">
+            android:layout_marginTop="-570dp"
+            android:id = "@+id/picker">
 
             <DatePicker
                 android:id="@+id/datePicker"
@@ -337,7 +389,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
-            <Button
+            <!--<Button
                 android:text="알람설정"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -347,7 +399,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:id="@+id/s_alm_button"
                 android:layout_marginLeft="-250dp"
-                android:layout_marginTop="200dp"/>
+                android:layout_marginTop="200dp"/>-->
         </LinearLayout>
 
     </LinearLayout>
