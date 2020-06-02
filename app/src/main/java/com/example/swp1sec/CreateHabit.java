@@ -23,8 +23,6 @@ public class CreateHabit extends AppCompatActivity {
     private Button btn_save, btn_cancel;
     private Button btn_mon,btn_tue,btn_wed,btn_thu,btn_fri,btn_sat,btn_sun;
     private AlertDialog dialog;
-    private static String URL = "http://159.89.193.200//plushabit.php";
-    private static String TAG = "sethabit";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,8 +157,7 @@ public class CreateHabit extends AppCompatActivity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                String email = "14dnfnfn@gmail.com"; //임시
+                String email = PreferenceManager.getString(CreateHabit.this, "email");
                 String title = et_event_title.getText().toString();
                 String memo = et_habitmemo.getText().toString();
                 String mon = PreferenceManager.getString(CreateHabit.this, "mon");
@@ -182,8 +179,8 @@ public class CreateHabit extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONObject jasonObject=new JSONObject(response);//Register2 php에 response
-                            boolean success=jasonObject.getBoolean("success");//Register2 php에 sucess
+                            JSONObject jasonObject=new JSONObject(response);
+                            boolean success=jasonObject.getBoolean("success");
                             if (success) {//저장 완료
                                 Toast toast = Toast.makeText(getApplicationContext(), "습관이 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
