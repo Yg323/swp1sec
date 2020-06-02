@@ -56,6 +56,9 @@ public class CreateSubject extends AppCompatActivity {
     //private EditText mEditTextEnd;
     private TextView Result;
     private TextView start_date, start_time, end_date, end_time;
+    //알람
+    private TextView alm_set, alm_date_set;
+
     private Button btn_subject_save, btn_subject_cancel;
     private RatingBar sub_star;
     private AlertDialog dialog;
@@ -86,6 +89,16 @@ public class CreateSubject extends AppCompatActivity {
         }
     };
 
+    DatePickerDialog.OnDateSetListener Alm_Date_Set = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, month);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel3();
+        }
+    };
+
     private void updateLabel() {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
@@ -103,6 +116,14 @@ public class CreateSubject extends AppCompatActivity {
         et_date.setText(sdf.format(myCalendar.getTime()));
     }
 
+    private void updateLabel3() {
+        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
+
+        TextView et_date = (TextView) findViewById(R.id.alm_date_set);
+        et_date.setText(sdf.format(myCalendar.getTime()));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +137,10 @@ public class CreateSubject extends AppCompatActivity {
         start_time = findViewById(R.id.sub_start_time);
         end_date = findViewById(R.id.sub_end_date);
         end_time = findViewById(R.id.sub_end_time);
+        //알람
+        alm_set = findViewById(R.id.alm_set);
+        alm_date_set = findViewById(R.id.alm_date_set);
+
         //Title= (EditText)findViewById(R.id.editText_main_title);
         Alarm = (TimePicker)findViewById(R.id.timePicker);
 
@@ -138,6 +163,14 @@ public class CreateSubject extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(CreateSubject.this, EndDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        //알람 데이트 피커
+        alm_date_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(CreateSubject.this, Alm_Date_Set, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -179,7 +212,29 @@ public class CreateSubject extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
                         // EditText에 출력할 형식 지정
-                        end_time.setText(hourOfDay + ": " + minute);
+                        end_time.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        //알람 타임 피커
+        alm_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(CreateSubject.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                        // EditText에 출력할 형식 지정
+                        alm_set.setText(hourOfDay + ":" + minute);
                     }
                 }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
                 mTimePicker.setTitle("Select Time");
@@ -189,7 +244,7 @@ public class CreateSubject extends AppCompatActivity {
         });
 
 
-       btn_subject_cancel.setOnClickListener(new View.OnClickListener() {
+        btn_subject_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -202,7 +257,9 @@ public class CreateSubject extends AppCompatActivity {
                 //String email = PreferenceManager.getString(CreateHabit.this, "email");
                 String email = "14dnfnfn@gmail.com"; //임시
                 String title = et_subject_title.getText().toString();
-                String alarm = Alarm.getText().toString();
+                //String alarm = Alarm.getText().toString();
+                String alarm = alm_set.getText().toString();
+
                 String memo = et_subject_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
@@ -300,11 +357,11 @@ public class CreateSubject extends AppCompatActivity {
 
                 //일정 추가 시, 알람시간을 DB로 넘겨줌
                 InsertData task = new InsertData();
-                task.execute(alm_url, alarm);
+                //task.execute(alm_url, alarm);
                 //Title.setText("");
                 //Alarm.setText("");
 
-                diaryNotification(calendar);
+                //diaryNotification(calendar);
             }
         });
 
@@ -457,9 +514,9 @@ public class CreateSubject extends AppCompatActivity {
             }
 
             // 부팅 후 실행되는 리시버 사용가능하게 설정
-            pm.setComponentEnabledSetting(receiver,
+            /*pm.setComponentEnabledSetting(receiver,
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP);
+                    PackageManager.DONT_KILL_APP);*/
 
         }
 //        else { //Disable Daily Notifications

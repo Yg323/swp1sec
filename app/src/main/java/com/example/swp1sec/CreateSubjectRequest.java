@@ -14,7 +14,7 @@ public class CreateSubjectRequest extends StringRequest {
 
     //private Map<String, String>parameters;
 
-    public CreateSubjectRequest(String email, String title, String memo, String date, String time, String enddate, String endtime, String alarm, int importance, Response.Listener<String> listener) {
+    public CreateSubjectRequest(String email, String title, String memo, String date, String time, String enddate, String endtime, int importance, String alarm, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null); // 위 url에 post방식으로 값을 전송
 
         map = new HashMap<>();
@@ -27,6 +27,8 @@ public class CreateSubjectRequest extends StringRequest {
         map.put("importance", String.valueOf(importance));
         map.put("enddate", enddate);
         map.put("endtime", endtime);
+        //알람
+        map.put("alarm", alarm);
 
     }
 

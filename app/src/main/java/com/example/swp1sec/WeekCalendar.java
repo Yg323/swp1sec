@@ -30,12 +30,15 @@ import java.util.List;
 
 public class WeekCalendar extends BaseActivity {
 
-    private ArrayList<CategoryItem> categoryArrayList;
+    private ArrayList<WeekCalendarSub> weekCalendarSubArrayList;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private Intent intent;
     private String catejsonString;
-    private static String URL = "http://159.89.193.200//getweek.php";
-    private static String TAG = "getweek";
+    private static String URL = "http://159.89.193.200//getWeek.php";
+    private static String TAG = "getWeek";
+
+    int year;
+    int month, date, hour, minute;
 
 
     private com.example.mylibrary.CalendarView mCalendarView;
@@ -127,7 +130,7 @@ public class WeekCalendar extends BaseActivity {
         startTime.set(Calendar.DATE, 0,0);
         startTime.set(Calendar.MINUTE, 0);
         //startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, 2020);
+        startTime.set(Calendar.YEAR, year);
         //끝나는 시간 기억
         Calendar endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR, 1);
@@ -163,6 +166,20 @@ public class WeekCalendar extends BaseActivity {
         event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, true);
         event.setColor(getResources().getColor(R.color.event_color_01));
         events.add(event);
+
+        WeekCalendarSub weekCalendarSub = new WeekCalendarSub();
+        //시작 시간 기억
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(weekCalendarSub.getTime().substring(0,2)));
+        startTime.set(Calendar.MINUTE, Integer.parseInt(weekCalendarSub.getTime().substring(3,5)));
+        startTime.set(Calendar.MONTH, Integer.parseInt(weekCalendarSub.getDate().substring(5,7)) - 1);
+        startTime.set(Calendar.YEAR, Integer.parseInt(weekCalendarSub.getDate().substring(8,10)));
+        //끝나는 시간 기억
+        endTime = (Calendar) startTime.clone();
+        endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(weekCalendarSub.getTime().substring(0,2))); //시
+        endTime.set(Calendar.MINUTE, Integer.parseInt(weekCalendarSub.getTime().substring(0,2))); // 분
+        endTime.set(Calendar.MONTH, Integer.parseInt(weekCalendarSub.getDate().substring(5,7))-1);
+
 
         return events;
     }
@@ -265,6 +282,8 @@ public class WeekCalendar extends BaseActivity {
         String TAG_TITLE = "title";
         String TAG_DATE = "date";
         String TAG_TIME = "time";
+        String TAG_ENDDATE = "enddate";
+        String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division";
 
         try {
@@ -277,18 +296,33 @@ public class WeekCalendar extends BaseActivity {
                 String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
                 String Date = item.getString(TAG_DATE);
                 String Time = item.getString(TAG_TIME);
+                String EndDate = item.getString(TAG_ENDDATE);
+                String EndTime = item.getString(TAG_ENDTIME);
                 int division = item.getInt(TAG_DIVISION);
 
-                List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+                WeekCalendarSub weekCalendarSub = new WeekCalendarSub(Title);
+                weekCalendarSub.setTitle(Title);
+                weekCalendarSub.setDate(Date);
+                weekCalendarSub.setTime(Time);
+                weekCalendarSub.setEnddate(EndDate);
+                weekCalendarSub.setEndtime(EndTime);
+
+                //시작 시간 기억
                 Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(Date));
-                startTime.set(Calendar.HOUR, Integer.parseInt(Time));
-                startTime.set(Calendar.MINUTE, Integer.parseInt(Time));
+                startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(weekCalendarSub.getTime().substring(0,2)));
+                startTime.set(Calendar.MINUTE, Integer.parseInt(weekCalendarSub.getTime().substring(3,5)));
+                startTime.set(Calendar.MONTH, Integer.parseInt(weekCalendarSub.getDate().substring(5,7)) - 1);
+                startTime.set(Calendar.YEAR, Integer.parseInt(weekCalendarSub.getDate().substring(8,10)));
+                //끝나는 시간 기억
                 Calendar endTime = (Calendar) startTime.clone();
-                endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(Time) + 1); //시
-                endTime.set(Calendar.MINUTE, Integer.parseInt(Time) + 30); // 분
-                WeekViewEvent event = new WeekViewEvent(1, getEventTitle(Title), startTime, endTime);
+                endTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(weekCalendarSub.getTime().substring(0,2))); //시
+                endTime.set(Calendar.MINUTE, Integer.parseInt(weekCalendarSub.getTime().substring(0,2))); // 분
+                endTime.set(Calendar.MONTH, Integer.parseInt(weekCalendarSub.getDate().substring(5,7))-1);
+                WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
                 event.setColor(getResources().getColor(R.color.event_color_01));
+                //events.add(event);
+
+                weekCalendarSubArrayList.add(weekCalendarSub);
 
                 //categoryArrayList.add(categoryItem); //받아온값이들어있는 dayHabit 객체들을 ArrayList<DayHabit>에 차례로 집어넣고
 

@@ -264,7 +264,7 @@
                         android:layout_weight="10" />
 
                     <TextView
-                        android:id="@+id/sub_end_date"
+                        android:id="@+id/alm_date_set"
                         style="@style/createEventItemTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -341,17 +341,6 @@
                     style="@style/createEventSeparator"
                     android:layout_marginStart="57dp" />
 
-                <View
-                    style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp" />
-
-                <View
-                    style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp" />
-
-                <View
-                    style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp" />
 
                 <View style="@style/createEventSeparator" />
 
