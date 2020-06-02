@@ -2,9 +2,9 @@ package com.example.swp1sec;
 
 public class badge_todo_data {
     private String title;
-    private int badge_todo;
+    private static int badge_todo;
 
-
+    //static으로 선언
     public badge_todo_data(String title) {
         this.title = title;
     }
@@ -21,7 +21,7 @@ public class badge_todo_data {
         this.badge_todo = badge_todo;
     }
 
-    public int getbadge_todo() {
+    public static int getbadge_todo() {
         return badge_todo;
     }
 }
