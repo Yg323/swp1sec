@@ -3,14 +3,18 @@ package com.example.swp1sec;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +35,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,11 +49,18 @@ import java.util.Locale;
 
 public class CreateSubject extends AppCompatActivity {
     private EditText et_subject_title,et_subject_memo;
+    private EditText Title;
+    private String alarm;
+    //private EditText mEditTextTime;
+    //private EditText mEditTextMemo;
+    //private EditText mEditTextEnd;
+    private TextView Result;
     private TextView start_date, start_time, end_date, end_time;
     private Button btn_subject_save, btn_subject_cancel;
     private RatingBar sub_star;
     private AlertDialog dialog;
     private static String URL = "http://159.89.193.200//plusSubject.php";
+    private static String alm_url = "http://159.89.193.200/alarm_insert.php";
     private static String TAG = "setsubject";
 
     Calendar myCalendar = Calendar.getInstance();
@@ -98,11 +115,16 @@ public class CreateSubject extends AppCompatActivity {
         start_time = findViewById(R.id.sub_start_time);
         end_date = findViewById(R.id.sub_end_date);
         end_time = findViewById(R.id.sub_end_time);
+        //Title= (EditText)findViewById(R.id.editText_main_title);
+        //Alarm = (EditText)findViewById(R.id.editText_main_alarm);
+
+        //Result.setMovementMethod(new ScrollingMovementMethod());
 
         sub_star = findViewById(R.id.sub_ratingBar);
 
-        final TimePicker picker = (TimePicker)findViewById(R.id.timePicker);
-        picker.setIs24HourView(true);
+        final TimePicker t_picker=(TimePicker)findViewById(R.id.timePicker);
+        final DatePicker d_picker = (DatePicker)findViewById(R.id.datePicker);
+        t_picker.setIs24HourView(true);
 
         start_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,13 +201,16 @@ public class CreateSubject extends AppCompatActivity {
                 //String email = PreferenceManager.getString(CreateHabit.this, "email");
                 String email = "14dnfnfn@gmail.com"; //임시
                 String title = et_subject_title.getText().toString();
+                //String alarm = Alarm.getText().toString();
                 String memo = et_subject_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
                 String enddate = end_date.getText().toString();
                 String endtime = end_time.getText().toString();
+                String am_pm;
 
                 int importance = (int) sub_star.getRating();
+                int year, month, pdate, hour, hour_24, minute;
 
                 if (title.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateSubject.this);
@@ -222,54 +247,20 @@ public class CreateSubject extends AppCompatActivity {
                 CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
-            }
-        });
 
-        //알람 설정 파트
-        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
-        long millis = sharedPreferences.getLong("nextNotifyTime", Calendar.getInstance().getTimeInMillis());
-
-        Calendar nextNotifyTime = new GregorianCalendar();
-        nextNotifyTime.setTimeInMillis(millis);
-
-        Date nextDate = nextNotifyTime.getTime();
-        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
-        Toast.makeText(getApplicationContext(),"[처음 실행시] 다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
-
-
-        // 이전 설정값으로 TimePicker 초기화
-        Date currentTime = nextNotifyTime.getTime();
-        SimpleDateFormat HourFormat = new SimpleDateFormat("kk", Locale.getDefault());
-        SimpleDateFormat MinuteFormat = new SimpleDateFormat("mm", Locale.getDefault());
-
-        int pre_hour = Integer.parseInt(HourFormat.format(currentTime));
-        int pre_minute = Integer.parseInt(MinuteFormat.format(currentTime));
-
-
-        if (Build.VERSION.SDK_INT >= 23 ){
-            picker.setHour(pre_hour);
-            picker.setMinute(pre_minute);
-        }
-        else{
-            picker.setCurrentHour(pre_hour);
-            picker.setCurrentMinute(pre_minute);
-        }
-
-
-        Button button = (Button) findViewById(R.id.s_alm_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-
-                int hour, hour_24, minute;
-                String am_pm;
                 if (Build.VERSION.SDK_INT >= 23 ){
-                    hour_24 = picker.getHour();
-                    minute = picker.getMinute();
+                    year = d_picker.getYear();
+                    month = d_picker.getMonth();
+                    pdate = d_picker.getDayOfMonth();
+                    hour_24 = t_picker.getHour();
+                    minute = t_picker.getMinute();
                 }
                 else{
-                    hour_24 = picker.getCurrentHour();
-                    minute = picker.getCurrentMinute();
+                    year = d_picker.getYear();
+                    month = d_picker.getMonth();
+                    pdate = d_picker.getDayOfMonth();
+                    hour_24 = t_picker.getCurrentHour();
+                    minute = t_picker.getCurrentMinute();
                 }
                 if(hour_24 > 12) {
                     am_pm = "PM";
@@ -284,6 +275,9 @@ public class CreateSubject extends AppCompatActivity {
                 // 현재 지정된 시간으로 알람 시간 설정
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DATE, pdate);
                 calendar.set(Calendar.HOUR_OF_DAY, hour_24);
                 calendar.set(Calendar.MINUTE, minute);
                 calendar.set(Calendar.SECOND, 0);
@@ -296,17 +290,143 @@ public class CreateSubject extends AppCompatActivity {
                 Date currentDateTime = calendar.getTime();
                 String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
                 Toast.makeText(getApplicationContext(),date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                alarm = date_text;
 
                 //  Preference에 설정한 값 저장
-                SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
-                editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
-                editor.apply();
+                //SharedPreferences.Editor editor = getSharedPreferences("daily alarm", MODE_PRIVATE).edit();
+                //editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
+                //editor.apply();
 
+                //일정 추가 시, 알람시간을 DB로 넘겨줌
+                InsertData task = new InsertData();
+                task.execute(alm_url, alarm);
+                //Title.setText("");
+                //Alarm.setText("");
 
                 diaryNotification(calendar);
             }
         });
+
+        //알람 설정 파트
+        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
+        long millis = sharedPreferences.getLong("nextNotifyTime", Calendar.getInstance().getTimeInMillis());
+
+        Calendar nextNotifyTime = new GregorianCalendar();
+        nextNotifyTime.setTimeInMillis(millis);
+
+        Date nextDate = nextNotifyTime.getTime();
+        String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
+        //Toast.makeText(getApplicationContext(),"[처음 실행시] 다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+
+
+        // 이전 설정값으로 TimePicker 초기화
+        Date currentTime = nextNotifyTime.getTime();
+        SimpleDateFormat HourFormat = new SimpleDateFormat("kk", Locale.getDefault());
+        SimpleDateFormat MinuteFormat = new SimpleDateFormat("mm", Locale.getDefault());
+
+        int pre_hour = Integer.parseInt(HourFormat.format(currentTime));
+        int pre_minute = Integer.parseInt(MinuteFormat.format(currentTime));
+
+
+        if (Build.VERSION.SDK_INT >= 23 ){
+            t_picker.setHour(pre_hour);
+            t_picker.setMinute(pre_minute);
+        }
+        else{
+            t_picker.setCurrentHour(pre_hour);
+            t_picker.setCurrentMinute(pre_minute);
+        }
+
     }//onCreate 끝
+
+    //알람데이터 DB입력
+    class InsertData extends AsyncTask<String, Void, String> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(CreateSubject.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            //Result.setText(result);
+            Log.d(TAG, "POST response  - " + result);
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String alarm = (String)params[1];
+
+            String serverURL = (String)params[0];
+            String postParameters = "alarm=" + alarm;
+
+
+            try {
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "POST response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+
+                return new String("Error: " + e.getMessage());
+            }
+
+        }
+    }
 
     void diaryNotification(Calendar calendar) {
 //        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -351,5 +471,6 @@ public class CreateSubject extends AppCompatActivity {
 //                    PackageManager.DONT_KILL_APP);
 //        }
     }
+
 }
 
