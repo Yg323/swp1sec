@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4' //캘린더뷰 minSdkVersion 15 => 17
 
+
     //지원
     implementation project(":mylibrary") // 라이브러리 연결
     implementation project(":library")
