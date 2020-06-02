@@ -359,7 +359,6 @@ public class CalendarView extends AppCompatActivity {
 
 
 
-
         //Timepicker
         morningtime = findViewById(R.id.morning_time);
         nighttime = findViewById(R.id.night_time);
