@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.applikeysolutions.cosmocalendar.view.CalendarView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
