@@ -431,6 +431,7 @@ public class CalendarView extends AppCompatActivity {
                     }
                 });
 
+
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         imgLeft.setOnClickListener(new View.OnClickListener() {
             @Override
