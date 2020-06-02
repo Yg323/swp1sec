@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.swp1sec">
+    <!-- Samsung -->
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
+    <!-- badge -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <application
@@ -62,6 +66,9 @@
             android:theme="@style/colorTheme"
             android:screenOrientation="fullSensor"/>
         <activity android:name="com.example.swp1sec.update_cate_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.badge_dialog"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
         <activity android:name=".cate_dataview"></activity>
