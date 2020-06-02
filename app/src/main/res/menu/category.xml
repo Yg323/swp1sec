@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/subject"
+        android:title="과목"
+        android:icon="@android:drawable/ic_menu_save" />
+    <item
+        android:id="@+id/exercise"
+        android:title="운동"
+        android:icon="@android:drawable/ic_menu_search" />
+    <item
+        android:id="@+id/normal"
+        android:title="일반"
+        android:icon="@android:drawable/ic_menu_edit" />
+</menu>
+
+

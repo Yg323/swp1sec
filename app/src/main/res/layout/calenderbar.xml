@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/calenderbar"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:scrollbarSize="4dp"
+    android:background="#ADADAD"
+    app:titleTextColor="@color/colorAccent">
+
+    <TextView
+        android:id="@+id/calender_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="캘린더"
+        android:fontFamily="@font/nanumsquare_acr"
+
+        android:textSize="16dp">
+    </TextView>
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="315dp"
+        android:background="@drawable/calender_add"/>
+
+</androidx.appcompat.widget.Toolbar>

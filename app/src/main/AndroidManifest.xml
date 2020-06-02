@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.swp1sec">
-
-    <uses-permission android:name="android.permission.INTERNET"/>\
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -48,15 +44,31 @@
         <activity android:name=".CreateHabit" />
         <activity android:name=".CreateSubject" />
 
-        <receiver
-            android:name = ".DeviceBootReceiver"
-            android:enabled = "false">
-            <intent-filter>
-                <action android:name ="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
-        <receiver android:name=".AlarmReceiver" />
+        <activity android:name="com.example.swp1sec.add_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.sb_dialog"
+            android:theme="@style/sbTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.exercise_dialog"
+            android:theme="@style/exerciseTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.normal_dialog"
+            android:theme="@style/normalTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.color_dialog"
+            android:theme="@style/colorTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.update_cate_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name=".cate_dataview"></activity>
+
+
+        <receiver android:name = "com.example.swp1sec.ScreenReceiver"></receiver>
+        <service android:name = "com.example.swp1sec.ScreenService"></service>
+        <activity android:name="com.example.swp1sec.LockScreenActivity"></activity>
 
     </application>
 

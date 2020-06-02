@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/settingbackground"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/title1sec"></ImageView>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/sunrise"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="54dp" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="00:00"
+            tools:layout_editor_absoluteX="77dp"
+            tools:layout_editor_absoluteY="54dp"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/moon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/moon"
+            tools:layout_editor_absoluteX="255dp"
+            tools:layout_editor_absoluteY="54dp" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="00:00"
+            tools:layout_editor_absoluteX="285dp"
+            tools:layout_editor_absoluteY="54dp" />
+
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/settingbackground"
+                android:orientation="vertical">
+                <include layout="@layout/calenderbar" />
+            </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/settingbackground"
+            android:orientation="vertical">
+
+            <include layout="@layout/categorybar" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <include layout="@layout/addbar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="19"
+            android:text="일정"
+            android:textSize="20dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="19"
+            android:text="공휴일"
+            android:textSize="20dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="19"
+            android:text="학사 달력"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+</LinearLayout>

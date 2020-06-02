@@ -18,4 +18,6 @@
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
     //
+    //settingbackground
+    <color name="settingbackground">#E9E9E9</color>
 </resources>

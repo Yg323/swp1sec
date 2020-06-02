@@ -81,4 +81,12 @@
         <item name="android:layout_marginEnd">18dp</item>
     </style>
 
+    <!--도연님꺼-->
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
 </resources>
