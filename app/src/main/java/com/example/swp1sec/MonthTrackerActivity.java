@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TableRow;
@@ -28,6 +29,7 @@ import java.util.Calendar;
 public class MonthTrackerActivity extends AppCompatActivity{
 
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
+    private Button btn_daytracker, btn_monthtracker;
     private Intent intent;
     private TableRow tr_1, tr_2, tr_3, tr_4, tr_5, tr_6;
     private TextView txt_monthhabitcheck, txt_monthfeedback, txt_monthname;
@@ -53,6 +55,9 @@ public class MonthTrackerActivity extends AppCompatActivity{
         txt_monthname = findViewById(R.id.txt_monthname);
         txt_monthhabitcheck = findViewById(R.id.txt_monthhabitcheck);
         txt_monthfeedback = findViewById(R.id.txt_monthfeedback);
+
+        btn_daytracker = findViewById(R.id.btn_daytracker);
+        btn_monthtracker = findViewById(R.id.btn_monthtracker);
 
         tr_1 = findViewById(R.id.tr_1);
         tr_2 = findViewById(R.id.tr_2);
@@ -99,6 +104,20 @@ public class MonthTrackerActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });*/
+        btn_daytracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(MonthTrackerActivity.this, DayTrackerActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_monthtracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(MonthTrackerActivity.this, MonthTrackerActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // 달력 생성
         Calendar cal = Calendar.getInstance();

@@ -116,7 +116,7 @@ public class CalendarView extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
 
         //로그아웃
-       txt_logout = findViewById(R.id.txt_logout);
+        txt_logout = findViewById(R.id.txt_logout);
         txt_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
