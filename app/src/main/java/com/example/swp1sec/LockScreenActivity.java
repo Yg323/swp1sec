@@ -16,8 +16,10 @@ import android.widget.TextView;
 import me.relex.circleindicator.CircleIndicator;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -252,28 +254,37 @@ public class LockScreenActivity extends  AppCompatActivity{
                             int Date = calendar.get(Calendar.DAY_OF_WEEK); //요일
                             int hour = calendar.get(Calendar.HOUR_OF_DAY); // 시
                             int minute = calendar.get(Calendar.MINUTE); // 분
+                            long time = System.currentTimeMillis();
+
+                           Date d_time = new Date(time);
+                            Date d_date = new Date(time);
+                            SimpleDateFormat t_now = new SimpleDateFormat("HH : mm");
+                            SimpleDateFormat d_now = new SimpleDateFormat("MM / dd");
+
+                            String s_time = t_now.format(d_time);
+                            String s_date = d_now.format(d_date);
 
                             switch (Date){
                                 case 1:
-                                    textDate.setText(month + " / " + day + " 일요일");
+                                    textDate.setText(s_date + " 목요일");
                                 case 2:
-                                    textDate.setText(month + " / " + day + " 월요일");
+                                    textDate.setText(s_date + " 금요일");
                                 case 3:
-                                    textDate.setText(month + " / " + day + " 화요일");
+                                    textDate.setText(s_date + " 토요일");
                                 case 4:
-                                    textDate.setText(month + " / " + day + " 수요일");
+                                    textDate.setText(s_date + " 일요일");
                                 case 5:
-                                    textDate.setText(month + " / " + day + " 목요일");
+                                    textDate.setText(s_date + " 월요일");
                                 case 6:
-                                    textDate.setText(month + " / " + day + " 금요일");
+                                    textDate.setText(s_date + " 화요일");
                                 case 7:
-                                    textDate.setText(month + " / " + day + " 토요일");
+                                    textDate.setText(s_date + " 수요일");
                             }
 
                             if(minute < 10) {
-                                textTime.setText(hour + " : 0" + minute);
+                                textTime.setText(s_time);
                             }else{
-                                textTime.setText(hour + " : " + minute);
+                                textTime.setText(s_time);
                             }
 
                         }
