@@ -3,7 +3,6 @@ package com.example.swp1sec;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -120,22 +118,13 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                     if (isChecked) {
                         viewholder.swit_Dplus.setChecked(false);
                         mList.get(position).setDday(0);
-                        Toast toast = Toast.makeText(context, mList.get(position).getTitle() + "0", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                        toast.show();
                     }
                     else {
                         if (viewholder.swit_Dplus.isChecked()) {
                             mList.get(position).setDday(1);
-                            Toast toast = Toast.makeText(context, mList.get(position).getTitle() + "1", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                            toast.show();
                         }
                         else {
                             mList.get(position).setDday(2);
-                            Toast toast = Toast.makeText(context, mList.get(position).getTitle() + "2", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                            toast.show();
                         }
                     }
                 }
@@ -152,22 +141,13 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
                     if (isChecked) {
                         viewholder.swit_Dmin.setChecked(false);
                         mList.get(position).setDday(1);
-                        Toast toast = Toast.makeText(context, mList.get(position).getTitle() + "1", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                        toast.show();
                     }
                     else {
                         if (viewholder.swit_Dmin.isChecked()) {
                             mList.get(position).setDday(0);
-                            Toast toast = Toast.makeText(context, mList.get(position).getTitle() + "0", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                            toast.show();
                         }
                         else {
                             mList.get(position).setDday(2);
-                            Toast toast = Toast.makeText(context, mList.get(position).getTitle() + "2", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                            toast.show();
                         }
                     }
                     if (mListener != null) mListener.onCheckedChanged(viewholder.swit_Dplus, isChecked, pos);

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.swp1sec">
+    <!-- Samsung -->
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
+    <!-- badge -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <application
@@ -10,32 +15,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
         <activity android:name=".Loding">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".CertifyActivity"></activity>
-        <activity android:name=".TutorialActivity"></activity>
-        <activity android:name=".DayTrackerActivity"></activity>
-        <activity android:name=".MonthTrackerActivity"></activity>
-        <activity android:name=".CalendarListActivity"></activity>
-        <activity android:name=".CalendarListImActivity"></activity>
-        <activity android:name=".CalendarListCaActivity"></activity>
-        <activity android:name=".TodoListActivity"></activity>
-        <activity android:name=".TodoListImActivity"></activity>
-        <activity android:name=".TodoListCaActivity"></activity>
-        <activity android:name=".HabitListActivity"></activity>
-        <activity android:name=".DDayListActivity"></activity>
-        <activity android:name=".DDayListPActivity"></activity>
-        <activity android:name=".SearchActivity"></activity>
-        <activity android:name=".WeekRemind"></activity>
-        <activity android:name=".DayRemind"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".CertifyActivity" />
+        <activity android:name=".TutorialActivity" />
+        <activity android:name=".DayTrackerActivity" />
+        <activity android:name=".MonthTrackerActivity" />
+        <activity android:name=".CalendarListActivity" />
+        <activity android:name=".CalendarListImActivity" />
+        <activity android:name=".CalendarListCaActivity" />
+        <activity android:name=".TodoListActivity" />
+        <activity android:name=".TodoListImActivity" />
+        <activity android:name=".TodoListCaActivity" />
+        <activity android:name=".HabitListActivity" />
+        <activity android:name=".DDayListActivity" />
+        <activity android:name=".DDayListPActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".WeekRemind" />
+        <activity android:name=".DayRemind" />
 
         <activity android:name=".CalendarView"/>
         <activity android:name=".CreateExercise" />
@@ -64,12 +70,15 @@
         <activity android:name="com.example.swp1sec.update_cate_dialog"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
-        <activity android:name=".cate_dataview"></activity>
+        <activity android:name="com.example.swp1sec.badge_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name=".cate_dataview" />
 
 
-        <receiver android:name = "com.example.swp1sec.ScreenReceiver"></receiver>
-        <service android:name = "com.example.swp1sec.ScreenService"></service>
-        <activity android:name="com.example.swp1sec.LockScreenActivity"></activity>
+        <receiver android:name="com.example.swp1sec.ScreenReceiver" />
+        <service android:name="com.example.swp1sec.ScreenService" />
+        <activity android:name="com.example.swp1sec.LockScreenActivity" />
 
     </application>
 

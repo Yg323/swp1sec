@@ -62,7 +62,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CalendarView extends AppCompatActivity {
-    //test 주석달기
+
     private final static int CREATE_EVENT_REQUEST_CODE = 100;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private String[] mShortMonths;
@@ -79,6 +79,7 @@ public class CalendarView extends AppCompatActivity {
     LinearLayout drawer_right, drawer_left;
     TextView morningtime, nighttime;
     int mHour, mMinute, nHour, nMinute;
+    private TextView txt_logout;
 
     //카테고리
     private category_title_adapter category_title_adapter;
@@ -113,6 +114,18 @@ public class CalendarView extends AppCompatActivity {
         ibtn_tracker = findViewById(R.id.ibtn_tracker);
         ibtn_store = findViewById(R.id.ibtn_store);
         final Toolbar toolbar = findViewById(R.id.toolbar);
+
+        //로그아웃
+       txt_logout = findViewById(R.id.txt_logout);
+        txt_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CalendarView.this, LoginActivity.class);
+                PreferenceManager.clear(CalendarView.this);
+
+                startActivity(intent);
+            }
+        });
 
         //툴바
         setSupportActionBar(toolbar);
@@ -305,15 +318,15 @@ public class CalendarView extends AppCompatActivity {
 
                                 break;
                             case 1:
-                                /*if(categoryArrayList.get(position).getdivision() == "0") {
+                                if(categoryArrayList.get(position).getdivision() == "0") {
 
-                                    intent = new Intent(getApplicationContext(), update_cate_dialog.class);
-                                    intent.putExtra("position", position);
-                                    startActivity(intent);
-                                }*/
-                                cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
+                                    cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
+                                    cateintent.putExtra("position", position);
+                                    startActivity(cateintent);
+                                }
+                                /*cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                 cateintent.putExtra("position", position);
-                                startActivity(cateintent);
+                                startActivity(cateintent);*/
 
                                 break;
                             case 2:
@@ -343,7 +356,6 @@ public class CalendarView extends AppCompatActivity {
                 }
             }
         });
-
 
 
 
@@ -417,6 +429,7 @@ public class CalendarView extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+
 
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         imgLeft.setOnClickListener(new View.OnClickListener() {

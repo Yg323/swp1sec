@@ -39,7 +39,7 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2'
     implementation 'androidx.recyclerview:recyclerview:1.1.0' //리사이클러뷰
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4' //캘린더뷰 minSdkVersion 15 => 17
+
 
 
     //지원
@@ -52,6 +52,9 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.kyleduo.switchbutton:library:2.0.0'
+
+    //badge
+    implementation 'com.github.arturogutierrez:badges:1.0.5@aar'
 
 
 }
