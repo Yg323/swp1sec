@@ -16,15 +16,15 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/up_cate_Cancle"
+            android:id="@+id/badge_todo_"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="up_cate_cancle"
+            android:onClick="createNotification"
             android:text="할일"
             android:layout_weight="1"/>
 
         <Button
-            android:id="@+id/up_cate_OK"
+            android:id="@+id/badge_habit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="습관"

@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.kyleduo.switchbutton:library:2.0.0'
 
     //badge
-    implementation 'com.github.arturogutierrez:badges:1.0.5@aar'
+    implementation "me.leolin:ShortcutBadger:1.1.22@aar"
 
 
 }

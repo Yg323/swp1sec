@@ -77,7 +77,7 @@ public class CalendarView extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     ImageButton imgLeft, imgRight;
     LinearLayout drawer_right, drawer_left;
-    TextView morningtime, nighttime,setting_theme,setting_start_day;
+    TextView morningtime, nighttime,setting_theme,setting_start_day,badge;
     int mHour, mMinute, nHour, nMinute;
     private TextView txt_logout;
 
@@ -118,6 +118,16 @@ public class CalendarView extends AppCompatActivity {
         setting_start_day=findViewById(R.id.setting_start_day);
 
 
+
+        //뱃지
+        badge=findViewById(R.id.badge);
+        badge.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CalendarView.this, badge_dialog.class);
+                startActivity(intent);
+            }
+        });
 
         //로그아웃
         txt_logout = findViewById(R.id.txt_logout);

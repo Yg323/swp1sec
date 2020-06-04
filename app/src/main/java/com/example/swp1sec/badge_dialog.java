@@ -1,7 +1,15 @@
 package com.example.swp1sec;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +17,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
-import com.github.arturogutierrez.Badges;
-import com.github.arturogutierrez.BadgesNotSupportedException;
+/*import com.github.arturogutierrez.Badges;
+import com.github.arturogutierrez.BadgesNotSupportedException;*/
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +32,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class badge_dialog extends AppCompatActivity {
     private String badge_todojsonString;
@@ -50,7 +61,56 @@ public class badge_dialog extends AppCompatActivity {
 
     }
 
-    public void todo_badge(View v){
+
+    public static final String notificationChannelId = "nofiticationChannelId";
+
+    @TargetApi(Build.VERSION_CODES.O)
+    public void createNotificationChannel() {
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel notificationChannel =new NotificationChannel(notificationChannelId, "notificationName", NotificationManager.IMPORTANCE_DEFAULT);
+        notificationManager.createNotificationChannel(notificationChannel);
+    }
+    public static int notificationId = badge_todo_data.getbadge_todo();
+
+    public void createNotification(int badgeCount) {
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
+        ShortcutBadger.applyCount(this, badgeCount);
+
+        Notification.Builder builder = new Notification.Builder(this)
+                .setContentTitle("알림 제목")
+                .setContentText("알림 내용")
+                .setNumber(badgeCount)
+                //statusBar 및 notification view에 표시되는 작은 아이콘
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                //클릭 시 자동 cancel(삭제)
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL);
+            builder.setChannelId(notificationChannelId);
+        }
+
+        //클릭했을 때, 해당 Activity로 이동시키기 위해 추가
+        Intent intent = new Intent(this, CalendarView.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        builder.setContentIntent(contentIntent);
+
+        Notification notification = builder.build();
+        //폰 제조사가 Xiaomi일 경우만, 뭔가 별도 처리하는 듯. 일단 추가
+        /*ShortcutBadger.applyNotification(context, notification, badgeCount);
+        notificationManager.notify(notificationId, notification);*/
+    }
+    public void removeNotification() {
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
+        ShortcutBadger.removeCount(this);
+        notificationManager.cancel(notificationId);
+    }
+
+   /* public void todo_badge(View v){
 
         try{
             Badges.setBadge(badge_dialog.this,badge_todo_data.getbadge_todo());
@@ -59,7 +119,7 @@ public class badge_dialog extends AppCompatActivity {
         }
 
         finish();
-    }
+    }*/
     private class badge_todo_Data extends AsyncTask<String, Void, String> { //php읽어서 디비에서 데이터 가져오는 전체 프로세스를 클래스로 생성
         //모든일은 background 에서 AsyncTask로 발생
         //결과만 눈에 보임 -> 리사이클러뷰에 값출력
@@ -157,22 +217,17 @@ public class badge_dialog extends AppCompatActivity {
 
 
         try {
-            JSONObject jsonObject = new JSONObject(badge_todojsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
-            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
-
-            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
-                JSONObject item = jsonArray.getJSONObject(i);
-                //반복문인점 주의!
-                 //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
-                String Title = item.getString(TAG_title);
-                int badgetodo = item.getInt(TAG_todo);
-
-                badge_todo_data badge_todo_data = new badge_todo_data(Title);
-                badge_todo_data.setbadge_todotitle(Title);
-                badge_todo_data.setbadge_todo(badgetodo);
+            JSONObject jsonObject = new JSONObject(badge_todojsonString);
+            boolean success = jsonObject.getBoolean("success");
+            if(success){
+                String todoCount = jsonObject.getString("todocount");// 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
 
 
+                badge_todo_data badge_todo_data = new badge_todo_data(todoCount);
+                int todoCountint=Integer.parseInt(todoCount);
+                badge_todo_data.setbadge_todo(todoCountint);
             }
+
 
         } catch (JSONException e) {
             Log.d(badge_todoTAG, "showResult : ", e);
