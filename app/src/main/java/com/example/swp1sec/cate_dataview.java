@@ -2,12 +2,13 @@ package com.example.swp1sec;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class cate_dataview extends AppCompatActivity {
-    TextView tvid,tvname,tvemail,tvcontact;
+    TextView title,proname,proemail,day,classstart,classends,lectureroom;
     int position;
 
     @Override
@@ -17,12 +18,33 @@ public class cate_dataview extends AppCompatActivity {
 
         //Initializing Views
 
-        tvid =findViewById(R.id.cate_id);
+        title =findViewById(R.id.dt_category_title);
+        proname =findViewById(R.id.dt_pro_name);
+        proemail =findViewById(R.id.dt_pro_email);
+        day =findViewById(R.id.dt_day);
+        classstart =findViewById(R.id.dt_class_start);
+        classends =findViewById(R.id.dt_class_ends);
+        lectureroom =findViewById(R.id.dt_lectureroom);
 
         position = getIntent().getIntExtra("position",1);
 
 
-        tvid.setText("cate_id" +CalendarView.categoryArrayList.get(position).gettitle());
+        title.setText("제목: " +CalendarView.categoryArrayList.get(position).gettitle());
+        proname.setText("교수님 성함: " +CalendarView.categoryArrayList.get(position).getpro_name());
+        proemail.setText("교수님 이메일: " +CalendarView.categoryArrayList.get(position).getpro_email());
+        day.setText("날짜: " +CalendarView.categoryArrayList.get(position).getday());
+        classstart.setText(CalendarView.categoryArrayList.get(position).getclass_start());
+        classends.setText(CalendarView.categoryArrayList.get(position).getclass_ends());
+        lectureroom.setText("강의실: " +CalendarView.categoryArrayList.get(position).getlectureroom());
 
+    }
+
+    public  void dt_cate_cancle(View v){
+
+        finish();
+    }
+    public  void dt_cate_OK(View v){
+
+        finish();
     }
 }

@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:openDrawer="start"
+
     tools:context="com.example.swp1sec.CalendarView">
 
 <RelativeLayout
@@ -184,12 +184,12 @@
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="22dp"
             android:src="@drawable/title1sec"
             android:background="@color/settingbackground"></ImageView>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:background="@color/settingbackground"
             android:layout_gravity="center"
             android:orientation="horizontal">
@@ -227,7 +227,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="200dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -248,7 +248,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="360dp">
+            android:layout_height="270dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -338,6 +338,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
+
             android:layout_height="200dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -359,6 +360,7 @@
                         android:text="  테마 설정"/>
 
                     <TextView
+                        android:id="@+id/setting_theme"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -371,6 +373,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
@@ -382,6 +385,7 @@
                         android:text="  주 시작 요일"/>
 
                     <TextView
+                        android:id="@+id/setting_start_day"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -416,7 +420,6 @@
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/txt_logout"
-                        android:clickable="true"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="3"

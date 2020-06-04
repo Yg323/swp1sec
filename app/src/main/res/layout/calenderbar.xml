@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/calenderbar"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="23dp"
     android:scrollbarSize="4dp"
     android:background="#ADADAD"
     app:titleTextColor="@color/colorAccent">
@@ -22,7 +22,7 @@
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="315dp"
+        android:layout_marginLeft="285dp"
         android:background="@drawable/calender_add"/>
 
 </androidx.appcompat.widget.Toolbar>

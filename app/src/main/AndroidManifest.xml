@@ -73,7 +73,9 @@
         <activity android:name="com.example.swp1sec.badge_dialog"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
-        <activity android:name=".cate_dataview" />
+        <activity android:name="com.example.swp1sec.cate_dataview"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
 
 
         <receiver android:name="com.example.swp1sec.ScreenReceiver" />

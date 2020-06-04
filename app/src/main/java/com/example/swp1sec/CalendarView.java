@@ -77,7 +77,7 @@ public class CalendarView extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     ImageButton imgLeft, imgRight;
     LinearLayout drawer_right, drawer_left;
-    TextView morningtime, nighttime;
+    TextView morningtime, nighttime,setting_theme,setting_start_day;
     int mHour, mMinute, nHour, nMinute;
     private TextView txt_logout;
 
@@ -114,6 +114,10 @@ public class CalendarView extends AppCompatActivity {
         ibtn_tracker = findViewById(R.id.ibtn_tracker);
         ibtn_store = findViewById(R.id.ibtn_store);
         final Toolbar toolbar = findViewById(R.id.toolbar);
+        setting_theme = findViewById(R.id.setting_theme);
+        setting_start_day=findViewById(R.id.setting_start_day);
+
+
 
         //로그아웃
         txt_logout = findViewById(R.id.txt_logout);
@@ -318,15 +322,15 @@ public class CalendarView extends AppCompatActivity {
 
                                 break;
                             case 1:
-                                if(categoryArrayList.get(position).getdivision() == "0") {
+                                /*if(categoryArrayList.get(position).getdivision() == "0") {
 
                                     cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                     cateintent.putExtra("position", position);
                                     startActivity(cateintent);
-                                }
-                                /*cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
+                                }*/
+                                cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                 cateintent.putExtra("position", position);
-                                startActivity(cateintent);*/
+                                startActivity(cateintent);
 
                                 break;
                             case 2:
@@ -739,6 +743,7 @@ public class CalendarView extends AppCompatActivity {
         String TAG_class_ends = "class_ends";
         String TAG_lectureroom = "lectureroom";
         String TAG_division = "division";
+        String TAG_color = "color";
 
 
 
@@ -760,11 +765,12 @@ public class CalendarView extends AppCompatActivity {
                 String class_ends = item.getString(TAG_class_ends);
                 String lectureroom = item.getString(TAG_lectureroom);
                 String division = item.getString(TAG_division);
+                String color = item.getString(TAG_color);
 
 
 
 
-                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,division);
+                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,division,color);
                 category_title_data.setid(id);
                 category_title_data.settitle(Title);
                 category_title_data.setpro_name(pro_name);
@@ -774,6 +780,7 @@ public class CalendarView extends AppCompatActivity {
                 category_title_data.setclass_ends(class_ends);
                 category_title_data.setlectureroom(lectureroom);
                 category_title_data.setdivision(division);
+                category_title_data.setcolor(color);
 
 
 

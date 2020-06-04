@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/categorybar"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="23dp"
     android:scrollbarSize="4dp"
     android:background="#ADADAD"
     app:titleTextColor="@color/colorAccent">
@@ -21,7 +21,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="260dp"
+        android:layout_marginLeft="240dp"
         android:background="@drawable/calender_add"
         android:onClick="onPopupButtonClick"/>
 

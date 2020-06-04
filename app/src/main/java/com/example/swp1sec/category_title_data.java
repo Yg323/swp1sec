@@ -10,12 +10,13 @@ public class category_title_data {
     private String class_ends;
     private String lectureroom;
     private String division;
+    private String color;
 
 
 
 
 
-    public category_title_data(String id,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,String division) {
+    public category_title_data(String id,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,String division,String color) {
         this.cate_title = cate_title;
         this.id = id;
         this.pro_name = pro_name;
@@ -25,6 +26,7 @@ public class category_title_data {
         this.class_ends = class_ends;
         this.lectureroom = lectureroom;
         this.division = division;
+        this.color = color;
 
 
     }
@@ -74,4 +76,8 @@ public class category_title_data {
         return division;
     }
 
+    public void setcolor(String color) { this.color = color; }
+    public String getcolor() {
+        return color;
+    }
 }
