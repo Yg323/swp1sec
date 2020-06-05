@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.library.WeekView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class CreateSubject extends AppCompatActivity {
+
+    public WeekView weekView;
     private EditText et_subject_title,et_subject_memo;
     private EditText Title;
     private String alm_text_time;
@@ -110,6 +113,7 @@ public class CreateSubject extends AppCompatActivity {
         et_date.setText(sdf.format(myCalendar.getTime()));
 
     }
+
 
     private void updateLabel2() {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
@@ -297,8 +301,11 @@ public class CreateSubject extends AppCompatActivity {
                                 Toast toast = Toast.makeText(getApplicationContext(), "과목이 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
-                                Intent intent = new Intent(CreateSubject.this, CalendarView.class);
-                                startActivity(intent);
+
+                                onBackPressed();
+                                //Intent intent = new Intent(CreateSubject.this, CalendarView.class);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                //startActivity(intent);
                             } else {//저장 실패한 경우
                                 Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
@@ -324,8 +331,8 @@ public class CreateSubject extends AppCompatActivity {
                     calendar.add(Calendar.DATE, 1);
                 }
 
-                String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
-                Toast.makeText(getApplicationContext(),date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                //String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
+                //Toast.makeText(getApplicationContext(),date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
                 //alarm = date_text;
 
                 //  Preference에 설정한 값 저장
@@ -340,7 +347,9 @@ public class CreateSubject extends AppCompatActivity {
                 //Alarm.setText("");
 
                 //diaryNotification(calendar);
+
             }
+
         });
 
         //알람 설정 파트

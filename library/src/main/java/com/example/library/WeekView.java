@@ -1980,7 +1980,7 @@ public class WeekView extends View {
             return;
         }
 
-        mRefreshEvents = true;
+        //mRefreshEvents = true; 이거 때문에 개고생..2시간 날림 오늘로 가는 버튼이 이벤트를 계속 갱신했기 때문에 이벤트가 옆으로 쭉 계속 추가되었던 것임!!!
 
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 0);
@@ -2001,6 +2001,11 @@ public class WeekView extends View {
      */
     public void notifyDatasetChanged(){
         mRefreshEvents = true;
+        invalidate();
+    }
+
+    public void notifyDatasetChanged2(){
+        mRefreshEvents = false;
         invalidate();
     }
 

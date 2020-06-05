@@ -206,10 +206,12 @@ public class CalendarView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
                 // 액티비티 전환 코드
-                Intent intent = new Intent(CalendarView.this, WeekCalendar.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent intent = new Intent(CalendarView.this, WeekCalendarF.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);//
                 startActivity(intent);
+
 
             }
         });
