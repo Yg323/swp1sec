@@ -97,13 +97,13 @@ public class MonthTrackerActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-        /*ibtn_store.setOnClickListener(new View.OnClickListener() {
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(MonthTrackerActivity.this, StoreActivity.class);
+                intent=new Intent(MonthTrackerActivity.this, Store_main.class);
                 startActivity(intent);
             }
-        });*/
+        });
         btn_daytracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

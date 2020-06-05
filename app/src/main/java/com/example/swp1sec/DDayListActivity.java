@@ -99,13 +99,13 @@ public class DDayListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*ibtn_store.setOnClickListener(new View.OnClickListener() {
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(DDayListActivity.this, StoreActivity.class);
+                intent=new Intent(DDayListActivity.this, Store_main.class);
                 startActivity(intent);
             }
-        });*/
+        });
         btn_callist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

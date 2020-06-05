@@ -78,6 +78,40 @@
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
 
+        <!--상점-->
+        <activity android:name=".Store_main"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".t_r_PopupActivity"
+            android:theme="@style/PopUpTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+
+        <activity android:name=".t_c_PopupActivity"
+            android:theme="@style/PopUpTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+
+        <activity android:name=".p_r_PopupActivity"
+            android:theme="@style/PopUpTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+
+        <activity android:name=".p_c_PopUpActivity"
+            android:theme="@style/PopUpTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+
+        <activity android:name=".a_r_PopUpActivity"
+            android:theme="@style/PopUpTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+
+        <activity android:name=".a_c_PopUpActivity"
+            android:theme="@style/PopUpTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+
 
         <receiver android:name="com.example.swp1sec.ScreenReceiver" />
         <service android:name="com.example.swp1sec.ScreenService" />

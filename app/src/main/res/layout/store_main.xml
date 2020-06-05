@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/Logo">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="35dp"
+                android:layout_weight="0.1"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STORE"
+                android:textStyle="bold"
+                android:textSize="35dp"
+                android:layout_weight="0.7"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+                <ImageView
+                    android:id="@+id/coin_logo"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    app:layout_constraintBottom_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    app:srcCompat="@drawable/coin" />
+                <TextView
+                    android:id="@+id/coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Coin"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/store_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/Logo">
+
+            <Button
+                android:id="@+id/p_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구매"
+                android:layout_weight="0.5"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/h_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내역"
+                android:layout_weight="0.5"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="737dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@+id/store_button">
+
+            <fragment
+                android:id="@+id/fragment"
+                android:name="com.example.swp1sec.Purchase"
+                android:layout_width="match_parent"
+                android:layout_height="738dp" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="?attr/colorPrimary"
+        android:gravity="bottom"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/ibtn_calendar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:background="@color/colorTransparent"
+            app:srcCompat="@drawable/icon_calendar" />
+
+        <ImageButton
+            android:id="@+id/ibtn_calendarlist"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/icon_calendarlist" />
+
+        <ImageButton
+            android:id="@+id/ibtn_calendarplus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:paddingBottom="5dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/icon_calendarplus" />
+
+        <ImageButton
+            android:id="@+id/ibtn_tracker"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/icon_tracker" />
+
+        <ImageButton
+            android:id="@+id/ibtn_store"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:padding="10dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/icon_store" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

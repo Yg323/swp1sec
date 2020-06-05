@@ -100,13 +100,13 @@ public class CalendarListImActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*ibtn_store.setOnClickListener(new View.OnClickListener() {
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(DayTrackerActivity.this, StoreActivity.class);
+                intent=new Intent(CalendarListImActivity.this, Store_main.class);
                 startActivity(intent);
             }
-        });*/
+        });
         btn_callist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -48,5 +48,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, Store_main.class);
+                startActivity(intent);
+            }
+        });
     }
 }
