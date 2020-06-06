@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/titleTV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="운동,과목카테고리 수정"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <EditText
+            android:id="@+id/up_category_title_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="운동,과목 이름을 작성해주세요"
+            android:inputType="text"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/up_cate_exsb_id"
+            android:enabled="false"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/up_cate_exsb_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="up_cate_exsb_Cancle"
+
+            android:text="취소"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/up_cate_exsb_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="up_cate_exsb_Ok"
+            android:text="확인" />
+    </LinearLayout>
+
+
+</LinearLayout>
