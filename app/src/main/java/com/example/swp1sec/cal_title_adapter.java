@@ -15,12 +15,15 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
 
     private ArrayList<cal_title_data> mList = null;
     private Activity context = null;
+
+
+
     public interface OnItemClickListener {
         void onItemClick(View v, int position);
     }
-    private category_title_adapter.OnItemClickListener mListener = null;
+    private cal_title_adapter.OnItemClickListener mListener = null;
 
-    public void setOnItemClickListener (category_title_adapter.OnItemClickListener listener) {
+    public void setOnItemClickListener (cal_title_adapter.OnItemClickListener listener) {
         this.mListener = listener;
     }
 
