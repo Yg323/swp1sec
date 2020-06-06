@@ -9,7 +9,7 @@ public class category_title_data {
     private String class_start;
     private String class_ends;
     private String lectureroom;
-    private String division;
+    private int division;
     private String color;
     private String day1;
     private String class_start1;
@@ -19,7 +19,7 @@ public class category_title_data {
 
 
 
-    public category_title_data(String id,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,String division,String color,String day1,String class_start1,String class_ends1) {
+    public category_title_data(String id,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,int division,String color,String day1,String class_start1,String class_ends1) {
         this.cate_title = cate_title;
         this.id = id;
         this.pro_name = pro_name;
@@ -30,6 +30,9 @@ public class category_title_data {
         this.lectureroom = lectureroom;
         this.division = division;
         this.color = color;
+        this.day1 = day1;
+        this.class_start1 = class_start1;
+        this.class_ends1 = class_ends1;
 
 
     }
@@ -74,8 +77,8 @@ public class category_title_data {
         return lectureroom;
     }
 
-    public void setdivision(String division) { this.division = division; }
-    public String getdivision() {
+    public void setdivision(int division) { this.division = division; }
+    public int getdivision() {
         return division;
     }
 

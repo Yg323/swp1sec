@@ -334,12 +334,19 @@ public class CalendarView extends AppCompatActivity {
 
                                 break;
                             case 1:
-                                if(categoryArrayList.get(position).getdivision() == "0") {
+                                if(categoryArrayList.get(position).getdivision() == 0) {
 
                                     cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                     cateintent.putExtra("position", position);
                                     startActivity(cateintent);
                                 }
+                                else
+                                {
+                                    cateintent = new Intent(getApplicationContext(), update_cate_exsb_dialog.class);
+                                    cateintent.putExtra("position", position);
+                                    startActivity(cateintent);
+                                }
+
                                 /*cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                 cateintent.putExtra("position", position);
                                 startActivity(cateintent);*/
@@ -785,10 +792,10 @@ public class CalendarView extends AppCompatActivity {
                 String class_start1 = item.getString(TAG_class_start1);
                 String class_ends1 = item.getString(TAG_class_ends1);
 
+                int div=Integer.parseInt(division);
 
 
-
-                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,division,color,day1,class_start1,class_ends1);
+                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,div,color,day1,class_start1,class_ends1);
                 category_title_data.setid(id);
                 category_title_data.settitle(Title);
                 category_title_data.setpro_name(pro_name);
@@ -797,7 +804,7 @@ public class CalendarView extends AppCompatActivity {
                 category_title_data.setclass_start(class_start);
                 category_title_data.setclass_ends(class_ends);
                 category_title_data.setlectureroom(lectureroom);
-                category_title_data.setdivision(division);
+                category_title_data.setdivision(div);
                 category_title_data.setcolor(color);
                 category_title_data.setday1(day1);
                 category_title_data.setclass_start1(class_start1);
