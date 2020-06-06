@@ -15,6 +15,14 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
 
     private ArrayList<cal_title_data> mList = null;
     private Activity context = null;
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+    private category_title_adapter.OnItemClickListener mListener = null;
+
+    public void setOnItemClickListener (category_title_adapter.OnItemClickListener listener) {
+        this.mListener = listener;
+    }
 
 
     public cal_title_adapter(Activity context, ArrayList<cal_title_data> list) {
@@ -29,6 +37,15 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
         public CustomViewHolder(View view) {
             super(view);
             this.cal_title = (TextView) view.findViewById(R.id.cal_title);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) mListener.onItemClick(v, pos);
+                    }
+                }
+            });
 
         }
     }

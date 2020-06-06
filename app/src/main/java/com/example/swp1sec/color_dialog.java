@@ -43,7 +43,7 @@ public class color_dialog extends AppCompatActivity {
         ibtn_blue = findViewById(R.id.ibtn_blue);
         ibtn_puple = findViewById(R.id.ibtn_purple);
 
-        PreferenceManager.setString(color_dialog.this,"color","Null");
+        PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
 
         ibtn_red.setOnClickListener(new View.OnClickListener() {
             @Override

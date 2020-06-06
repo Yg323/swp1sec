@@ -30,9 +30,6 @@ public class category_title_data {
         this.lectureroom = lectureroom;
         this.division = division;
         this.color = color;
-        this.day1 = day1;
-        this.class_start1 = class_start1;
-        this.class_ends1 = class_ends1;
 
 
     }
@@ -86,7 +83,8 @@ public class category_title_data {
     public String getcolor() {
         return color;
     }
-    public void setday1(String day1) { this.day1 = day1; }
+
+    public void setday1(String day) { this.day1 = day1; }
     public String getday1() {
         return day1;
     }

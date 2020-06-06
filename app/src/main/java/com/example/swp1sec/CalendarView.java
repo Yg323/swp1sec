@@ -334,15 +334,15 @@ public class CalendarView extends AppCompatActivity {
 
                                 break;
                             case 1:
-                                /*if(categoryArrayList.get(position).getdivision() == "0") {
+                                if(categoryArrayList.get(position).getdivision() == "0") {
 
                                     cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                     cateintent.putExtra("position", position);
                                     startActivity(cateintent);
-                                }*/
-                                cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
+                                }
+                                /*cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                 cateintent.putExtra("position", position);
-                                startActivity(cateintent);
+                                startActivity(cateintent);*/
 
                                 break;
                             case 2:
