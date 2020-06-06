@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="300dp"
-    android:layout_height="350dp"
+    android:layout_height="380dp"
     android:background="#eeeeee">
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,12 +47,13 @@
                 android:layout_height="match_parent"
                 android:hint="요일"
                 android:layout_weight="1" />
-            <EditText
+            <TextView
                 android:id="@+id/et_class_start"
-
+                android:textSize="15sp"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="분"
+                android:hint="시작 시간"
                 android:layout_weight="1"
                 android:inputType="number"/>
             <ImageView
@@ -60,12 +61,49 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/remove"/>
-            <EditText
+            <TextView
                 android:id="@+id/et_class_ends"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="종료 시간"
+                android:layout_weight="1"
+                android:inputType="number"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_day1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="시"
+                android:hint="요일"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/et_class_start1"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="시작 시간"
+                android:layout_weight="1"
+                android:inputType="number"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/remove"/>
+            <TextView
+                android:id="@+id/et_class_ends1"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="종료 시간"
                 android:layout_weight="1"
                 android:inputType="number"/>
 

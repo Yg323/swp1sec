@@ -756,6 +756,9 @@ public class CalendarView extends AppCompatActivity {
         String TAG_lectureroom = "lectureroom";
         String TAG_division = "division";
         String TAG_color = "color";
+        String TAG_day1 = "day1";
+        String TAG_class_start1 = "class_start1";
+        String TAG_class_ends1 = "class_ends1";
 
 
 
@@ -778,11 +781,14 @@ public class CalendarView extends AppCompatActivity {
                 String lectureroom = item.getString(TAG_lectureroom);
                 String division = item.getString(TAG_division);
                 String color = item.getString(TAG_color);
+                String day1 = item.getString(TAG_day1);
+                String class_start1 = item.getString(TAG_class_start1);
+                String class_ends1 = item.getString(TAG_class_ends1);
 
 
 
 
-                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,division,color);
+                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,division,color,day1,class_start1,class_ends1);
                 category_title_data.setid(id);
                 category_title_data.settitle(Title);
                 category_title_data.setpro_name(pro_name);
@@ -793,6 +799,9 @@ public class CalendarView extends AppCompatActivity {
                 category_title_data.setlectureroom(lectureroom);
                 category_title_data.setdivision(division);
                 category_title_data.setcolor(color);
+                category_title_data.setday1(day1);
+                category_title_data.setclass_start1(class_start1);
+                category_title_data.setclass_ends1(class_ends1);
 
 
 

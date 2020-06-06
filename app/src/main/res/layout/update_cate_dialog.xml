@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="300dp"
-    android:layout_height="350dp"
+    android:layout_height="380dp"
     android:background="#eeeeee">
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,31 +46,64 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="요일"
-                android:layout_weight="1.2" />
-            <EditText
-                android:id="@+id/up_class_start"
 
+                android:layout_weight="1.2" />
+            <TextView
+                android:id="@+id/up_class_start"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="분"
+                android:hint="시작 시간"
                 android:layout_weight="1"
                 android:inputType="number"/>
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:visibility="invisible"
                 android:id="@+id/up_id"
                 android:enabled="false"
                 android:background="@drawable/remove"/>
-            <EditText
+            <TextView
                 android:id="@+id/up_class_ends"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="종료 시간"
+                android:layout_weight="1"
+                android:inputType="number"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/up_day1"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="시"
+                android:hint="요일"
+                android:layout_weight="1.2" />
+            <TextView
+                android:id="@+id/up_class_start1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="시작 시간"
+
                 android:layout_weight="1"
                 android:inputType="number"/>
+
+            <TextView
+                android:id="@+id/up_class_ends1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="종료 시간"
+                android:layout_weight="1"
+                android:inputType="number"/>
+
 
         </LinearLayout>
         <EditText

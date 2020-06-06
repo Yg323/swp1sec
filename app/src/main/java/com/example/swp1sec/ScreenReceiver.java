@@ -24,6 +24,7 @@ public class ScreenReceiver extends BroadcastReceiver {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }
+
     }
 
     public void reenableKeyguard() {
