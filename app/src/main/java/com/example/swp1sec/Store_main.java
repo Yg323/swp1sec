@@ -1,6 +1,7 @@
 package com.example.swp1sec;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,8 @@ public class Store_main extends AppCompatActivity {
         Button p_button = findViewById(R.id.p_button);
         Button h_button = findViewById(R.id.h_button);
         Coin = findViewById(R.id.coin);
+
+        Intent intent = getIntent();
 
         NetworkTask networkTask = new NetworkTask(url, null);
         try{

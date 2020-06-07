@@ -1,6 +1,7 @@
 package com.example.swp1sec;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -28,7 +33,11 @@ public class p_c_PopUpActivity extends AppCompatActivity {
     Button okBtn, cancelBtn;
     RadioGroup radioGroup;
     int mnum;
-    private static String IP_ADDRESS = "159.89.193.200/p_r_store.php";
+    String outPut;
+    int res;
+    Intent mintent;
+
+    private static String IP_ADDRESS = "159.89.193.200/p_c_store.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,21 @@ public class p_c_PopUpActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.c_popup_activity);
+
+        String url = "http://159.89.193.200/get_money.php";
+
+        NetworkTask networkTask = new NetworkTask(url, null);
+        try{
+            outPut = networkTask.execute().get();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //outPut = networkTask.getTv_outPut();
+        //String ex_title = tv_outPut;
+        Log.d(TAG,"outPut: "+ outPut);
+
+        money_doJSONParser(outPut);
+        Log.d(TAG, "money = " + res);
 
         okBtn = (Button)findViewById(R.id.ok);
         cancelBtn = (Button)findViewById(R.id.cancel);
@@ -63,15 +87,17 @@ public class p_c_PopUpActivity extends AppCompatActivity {
                         mnum = 0;
                         Toast.makeText(getApplicationContext(),"일반 색상팔레트 1을 획득했습니다!", Toast.LENGTH_SHORT).show();
                         task.execute("http://" + IP_ADDRESS, Integer.toString(mnum));
-                        finish();
                         break;
                     case R.id.radioButton4:
                         mnum = 1;
                         Toast.makeText(getApplicationContext(),"프리미엄 색상팔레트 1을 획득했습니다!", Toast.LENGTH_SHORT).show();
                         task.execute("http://" + IP_ADDRESS, Integer.toString(mnum));
-                        finish();
                         break;
                 }
+                mintent = new Intent(v.getContext(), Store_main.class);
+                v.getContext().startActivity(mintent);
+
+                finish();
             }
         });
 
@@ -81,6 +107,69 @@ public class p_c_PopUpActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        private String url;
+        private ContentValues values;
+        private String tv_outPut;
+        private static final String TAG = "networktask";
+
+        public NetworkTask(String url, ContentValues values) {
+
+            this.url = url;
+            this.values = values;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            Log.d(TAG, "url = " + url);
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            Log.d(TAG, "result = " + result);
+
+            return result;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            tv_outPut = new String();
+            //Log.d(TAG, "response = " + s);
+            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
+            //tv_outPut.setText(s);
+            //doJSONParser(s);
+            tv_outPut = s;
+            //Log.d(TAG, "tv_output = " + tv_outPut);
+        }
+    }
+
+    public void money_doJSONParser(String str){
+        try{
+            int result = 0;
+            JSONObject object = new JSONObject(str);
+            JSONArray index = object.getJSONArray("money");
+            //Log.d(TAG, "index = " + index);
+            for(int i = 0; i < index.length(); i++){
+                JSONObject tt = index.getJSONObject(i);
+                String money = tt.getString("money");
+
+                result = Integer.parseInt(money);
+                //Log.d(TAG, "result = " + result);
+            }
+
+            res = result;
+            //Log.d(TAG,"tv_OUTPUT = " + res);
+        }catch (JSONException e){
+            Log.d(TAG, "ex_doJSONParser = ", e);}
     }
 
     class InsertData extends AsyncTask<String, Void, String> {
@@ -108,9 +197,9 @@ public class p_c_PopUpActivity extends AppCompatActivity {
             String postParameters;
 
             if(mnum == 0)
-                postParameters = "normal=1";
+                postParameters = "normal=1" + "&money=" + res;
             else
-                postParameters = "premium=1";
+                postParameters = "premium=1" + "&money=" + res;
 
             //postParameters = "normal=" + Integer.toString(n_theme1) + "&premium=" + Integer.toString(p_theme1);
 
