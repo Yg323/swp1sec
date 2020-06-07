@@ -66,6 +66,7 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
         viewholder.cal_title.setText(mList.get(position).gettitle());
 
+
     }
 
 

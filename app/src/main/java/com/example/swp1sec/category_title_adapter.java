@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -22,7 +23,11 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
     public interface OnItemClickListener {
         void onItemClick(View v, int position);
     }
+    public interface OnItemClickListener1 {
+        void onItemClick(ImageButton imageButton, int position);
+    }
     private OnItemClickListener mListener = null;
+
 
     public void setOnItemClickListener (OnItemClickListener listener) {
         this.mListener = listener;
@@ -56,7 +61,7 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
         }
     }
 
-
+    @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.category_title_list_data, null);
@@ -66,12 +71,30 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder viewholder, int position) {
         viewholder.cate_title.setText(mList.get(position).gettitle());
+        /*viewholder.cate_color.setOnItemClickListener(new  ImageButton.OnItemClickListener1(){
+            @Override
+            public void onItemClick(View v) {
+                int position = viewholder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    if (mList.get(position).getperformance() == 1) {
+                        viewholder.cate_color.setColorFilter(Color.parseColor(mList.get(position).getcolor()), PorterDuff.Mode.SRC_IN);
+                        mList.get(position).setperformance(0);
+
+                    }
+                    else {
+                        viewholder.cate_color.setColorFilter(Color.parseColor("#E9E9E9"), PorterDuff.Mode.SRC_IN);
+                        mList.get(position).setperformance(1);
+                    }
+
+                }
+                if (mListener != null) mListener.onItemClick(viewholder.cate_color, position);
+            }
+        });*/
+        
         if(mList.get(position).getperformance() == 1) viewholder.cate_color.setColorFilter(Color.parseColor(mList.get(position).getcolor()), PorterDuff.Mode.SRC_IN);
         else viewholder.cate_color.setColorFilter(Color.parseColor("#E9E9E9"),PorterDuff.Mode.SRC_IN);
-
-
     }
 
 

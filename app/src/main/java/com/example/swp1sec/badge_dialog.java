@@ -65,7 +65,7 @@ public class badge_dialog extends AppCompatActivity {
         todo.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                createNotification(10);
+                createNotification(badge_todo_data.getbadge_todo());
                 finish();
             }
         });
@@ -91,13 +91,13 @@ public class badge_dialog extends AppCompatActivity {
 
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(this, badgeCount);
-
+        createNotificationChannel();
         Notification.Builder builder = new Notification.Builder(this)
                 .setContentTitle("알림 제목")
                 .setContentText("알림 내용")
                 .setNumber(badgeCount)
                 //statusBar 및 notification view에 표시되는 작은 아이콘
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.img_1sec)
                 //클릭 시 자동 cancel(삭제)
                 .setAutoCancel(true);
 
@@ -106,6 +106,7 @@ public class badge_dialog extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL);
             builder.setChannelId(notificationChannelId);
+
         }
 
         //클릭했을 때, 해당 Activity로 이동시키기 위해 추가
@@ -115,6 +116,7 @@ public class badge_dialog extends AppCompatActivity {
         builder.setContentIntent(contentIntent);
 
         Notification notification = builder.build();
+
         //폰 제조사가 Xiaomi일 경우만, 뭔가 별도 처리하는 듯. 일단 추가
         ShortcutBadger.applyNotification(this, notification, badgeCount);
         notificationManager.notify(notificationId, notification);
