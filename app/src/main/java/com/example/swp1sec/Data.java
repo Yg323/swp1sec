@@ -4,7 +4,9 @@ public class Data {
 
     private String title;
     private String content;
-    private int resId;
+    private String Coin;
+    private int m_resId;
+    private int c_resId;
     private int id;
 
     public int getId(){
@@ -28,10 +30,22 @@ public class Data {
         this.content = content;
     }
 
-    public int getResId() {
-        return resId;
+    public int getm_ResId() {
+        return m_resId;
     }
-    public void setResId(int resId) {
-        this.resId = resId;
+    public void setm_ResId(int m_resId) {
+        this.m_resId = m_resId;
     }
+
+    public int getc_ResId() {
+        return c_resId;
+    }
+    public void setc_ResId(int c_resId) {
+        this.c_resId = c_resId;
+    }
+
+    public String getCoin() {
+        return Coin;
+    }
+    public void setCoin(String Coin) { this.Coin = Coin; }
 }

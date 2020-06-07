@@ -111,8 +111,8 @@ public class History extends Fragment {
             Log.d(TAG, "listTitle= "+listTitle.get(i));
             data.setContent(listContent.get(i));
             Log.d(TAG, "listContent= "+listContent.get(i));
-            data.setResId(listResId.get(i));
-            Log.d(TAG, "data= "+data.getResId());
+            data.setm_ResId(listResId.get(i));
+            Log.d(TAG, "data= "+data.getm_ResId());
             // 각 값이 들어간 data를 adapter에 추가합니다.
             adapter.addItem(data);
         }

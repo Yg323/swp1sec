@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.swp1sec.R;
+
 import java.util.ArrayList;
 
 public class H_RecyclerAdapter extends RecyclerView.Adapter<H_RecyclerAdapter.ItemViewHolder> {
@@ -65,7 +67,7 @@ public class H_RecyclerAdapter extends RecyclerView.Adapter<H_RecyclerAdapter.It
         void onBind(Data data) {
             textView1.setText(data.getTitle());
             textView2.setText(data.getContent());
-            imageView.setImageResource(data.getResId());
+            imageView.setImageResource(data.getm_ResId());
         }
     }
 }
