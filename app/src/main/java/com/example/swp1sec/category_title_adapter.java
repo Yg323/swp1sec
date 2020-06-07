@@ -68,7 +68,9 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
         viewholder.cate_title.setText(mList.get(position).gettitle());
-        viewholder.cate_color.setColorFilter(Color.parseColor(mList.get(position).getcolor()), PorterDuff.Mode.SRC_IN);
+        if(mList.get(position).getperformance() == 1) viewholder.cate_color.setColorFilter(Color.parseColor(mList.get(position).getcolor()), PorterDuff.Mode.SRC_IN);
+        else viewholder.cate_color.setColorFilter(Color.parseColor("#E9E9E9"),PorterDuff.Mode.SRC_IN);
+
 
     }
 

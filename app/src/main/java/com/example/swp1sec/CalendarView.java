@@ -131,11 +131,11 @@ public class CalendarView extends AppCompatActivity {
 
         //뱃지
         badge=findViewById(R.id.badge);
-        badge.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(CalendarView.this, badge_dialog.class);
-                startActivity(intent);
+                badge.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(CalendarView.this, badge_dialog.class);
+                        startActivity(intent);
             }
         });
 
@@ -339,6 +339,17 @@ public class CalendarView extends AppCompatActivity {
         category_title_adapter.setOnItemClickListener(new category_title_adapter.OnItemClickListener(){
             @Override
             public  void onItemClick(View v, final int position){
+
+                if(categoryArrayList.get(position).getperformance()==0){//선택이 되어있지 않았음
+
+                    categoryArrayList.get(position).setperformance(1);
+                    category_title_adapter.notifyDataSetChanged();
+                }
+                else{
+
+                    categoryArrayList.get(position).setperformance(0);
+                    category_title_adapter.notifyDataSetChanged();
+                }
                 AlertDialog.Builder builder= new AlertDialog.Builder(cateRecyclerView.getContext());
                 ProgressDialog progressDialog = new ProgressDialog(cateRecyclerView.getContext());
 
@@ -403,9 +414,9 @@ public class CalendarView extends AppCompatActivity {
         });
 
 
-
         //Timepicker
         morningtime = findViewById(R.id.morning_time);
+
         nighttime = findViewById(R.id.night_time);
         //아침시간
         morningtime.setOnClickListener(new View.OnClickListener() {
@@ -789,6 +800,7 @@ public class CalendarView extends AppCompatActivity {
         String TAG_day1 = "day1";
         String TAG_class_start1 = "class_start1";
         String TAG_class_ends1 = "class_ends1";
+        String TAG_performance = "performance";
 
 
 
@@ -814,11 +826,13 @@ public class CalendarView extends AppCompatActivity {
                 String day1 = item.getString(TAG_day1);
                 String class_start1 = item.getString(TAG_class_start1);
                 String class_ends1 = item.getString(TAG_class_ends1);
+                String performance = item.getString(TAG_performance);
+
 
                 int div=Integer.parseInt(division);
+                int per = Integer.parseInt(performance);
 
-
-                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,div,color,day1,class_start1,class_ends1);
+                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,div,color,day1,class_start1,class_ends1,per);
                 category_title_data.setid(id);
                 category_title_data.settitle(Title);
                 category_title_data.setpro_name(pro_name);
@@ -832,6 +846,7 @@ public class CalendarView extends AppCompatActivity {
                 category_title_data.setday1(day1);
                 category_title_data.setclass_start1(class_start1);
                 category_title_data.setclass_ends1(class_ends1);
+                category_title_data.setperformance(per);
 
 
 

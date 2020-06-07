@@ -9,6 +9,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
+    tools:openDrawer="start"
 
     tools:context="com.example.swp1sec.CalendarView">
 
@@ -206,7 +207,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:hint="00 : 00"/>
+                android:text="07 : 00"/>
 
             <ImageView
                 android:id="@+id/moon"
@@ -222,7 +223,7 @@
                 android:layout_weight="1"
                 android:layout_height="30dp"
                 android:gravity="center"
-                android:hint="00 : 00"/>
+                android:hint="12 : 00"/>
         </LinearLayout>
 
         <androidx.cardview.widget.CardView

@@ -26,41 +26,41 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/circle_red"/>
+            android:background="@drawable/circle_red_stroke"/>
 
         <ImageButton
             android:id="@+id/ibtn_orange"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/circle_orange"/>
+            android:background="@drawable/circle_orange_stroke"/>
 
         <ImageButton
             android:id="@+id/ibtn_yellow"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/circle_yellow"/>
+            android:background="@drawable/circle_yellow_stroke"/>
 
         <ImageButton
             android:id="@+id/ibtn_green"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/circle_green"/>
+            android:background="@drawable/circle_green_stroke"/>
 
         <ImageButton
             android:id="@+id/ibtn_blue"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/circle_blue"/>
+            android:background="@drawable/circle_blue_stroke"/>
 
         <ImageButton
             android:id="@+id/ibtn_purple"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/circle_puple"/>
+            android:background="@drawable/circle_puple_stroke"/>
 
 
 

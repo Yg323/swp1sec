@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class badge_dialog extends AppCompatActivity {
     private String badge_todojsonString;
     private static String badge_todoURL = "http://159.89.193.200//badge_todo.php";
     private static String badge_todoTAG = "getbadge_todo";
+    Button todo;
 
 
 
@@ -55,8 +57,19 @@ public class badge_dialog extends AppCompatActivity {
 
         //badge 투두
         String email = "14dnfnfn@gmail.com";
-        badge_todo_Data caltask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
-        caltask.execute(badge_todoURL, email); //task 실행
+        badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
+        badge_todotask.execute(badge_todoURL, email); //task 실행
+
+
+        todo=findViewById(R.id.badge_todo_);
+        todo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                createNotification(10);
+                finish();
+            }
+        });
+
 
 
     }
@@ -70,7 +83,8 @@ public class badge_dialog extends AppCompatActivity {
         NotificationChannel notificationChannel =new NotificationChannel(notificationChannelId, "notificationName", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
-    public static int notificationId = badge_todo_data.getbadge_todo();
+
+    public static int notificationId = 123;
 
     public void createNotification(int badgeCount) {
         NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -83,9 +97,11 @@ public class badge_dialog extends AppCompatActivity {
                 .setContentText("알림 내용")
                 .setNumber(badgeCount)
                 //statusBar 및 notification view에 표시되는 작은 아이콘
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_launcher_background)
                 //클릭 시 자동 cancel(삭제)
                 .setAutoCancel(true);
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL);
@@ -100,8 +116,8 @@ public class badge_dialog extends AppCompatActivity {
 
         Notification notification = builder.build();
         //폰 제조사가 Xiaomi일 경우만, 뭔가 별도 처리하는 듯. 일단 추가
-        /*ShortcutBadger.applyNotification(context, notification, badgeCount);
-        notificationManager.notify(notificationId, notification);*/
+        ShortcutBadger.applyNotification(this, notification, badgeCount);
+        notificationManager.notify(notificationId, notification);
     }
     public void removeNotification() {
         NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);

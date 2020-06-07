@@ -48,37 +48,120 @@ public class color_dialog extends AppCompatActivity {
         ibtn_red.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(color_dialog.this,"color","#F44336");
+                String color = PreferenceManager.getString(color_dialog.this,"color");
+                if (color != "#F44336"){//선택이 꺼져있는 상태
+                    PreferenceManager.setString(color_dialog.this,"color","#F44336");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red));
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange_stroke));
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow_stroke));
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green_stroke));
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue_stroke));
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple_stroke));
+
+
+
+
+
+                }
+                else{
+                    PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red_stroke));
+                }
             }
         });
         ibtn_orange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(color_dialog.this,"color","#FF9800");
+                String color = PreferenceManager.getString(color_dialog.this,"color");
+                if (color != "#FF9800"){//선택이 꺼져있는 상태
+                    PreferenceManager.setString(color_dialog.this,"color","#FF9800");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red_stroke));
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange));
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow_stroke));
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green_stroke));
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue_stroke));
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple_stroke));
+                }
+                else{
+                    PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange_stroke));
+                }
             }
         });
         ibtn_yellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(color_dialog.this,"color","#F1D63D");
+                String color = PreferenceManager.getString(color_dialog.this,"color");
+                if (color != "#F1D63D"){//선택이 꺼져있는 상태
+                    PreferenceManager.setString(color_dialog.this,"color","#F1D63D");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red_stroke));
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange_stroke));
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow));
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green_stroke));
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue_stroke));
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple_stroke));
+                }
+                else{
+                    PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow_stroke));
+                }
             }
         });
         ibtn_green.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(color_dialog.this,"color","#66ED48");
+                String color = PreferenceManager.getString(color_dialog.this,"color");
+                if (color != "#66ED48"){//선택이 꺼져있는 상태
+                    PreferenceManager.setString(color_dialog.this,"color","#66ED48");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red_stroke));
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange_stroke));
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow_stroke));
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green));
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue_stroke));
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple_stroke));
+                }
+                else{
+                    PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green_stroke));
+                }
             }
         });
         ibtn_blue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(color_dialog.this,"color","#1141E1");
+                String color = PreferenceManager.getString(color_dialog.this,"color");
+                if (color != "#1141E1"){//선택이 꺼져있는 상태
+                    PreferenceManager.setString(color_dialog.this,"color","#1141E1");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red_stroke));
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange_stroke));
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow_stroke));
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green_stroke));
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue));
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple_stroke));
+                }
+                else{
+                    PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue_stroke));
+                }
             }
         });
         ibtn_puple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceManager.setString(color_dialog.this,"color","#B621DC");
+                String color = PreferenceManager.getString(color_dialog.this,"color");
+                if (color != "#B621DC"){//선택이 꺼져있는 상태
+                    PreferenceManager.setString(color_dialog.this,"color","#B621DC");
+                    ibtn_red.setBackground(getResources().getDrawable(R.drawable.circle_red_stroke));
+                    ibtn_orange.setBackground(getResources().getDrawable(R.drawable.circle_orange_stroke));
+                    ibtn_yellow.setBackground(getResources().getDrawable(R.drawable.circle_yellow_stroke));
+                    ibtn_green.setBackground(getResources().getDrawable(R.drawable.circle_green_stroke));
+                    ibtn_blue.setBackground(getResources().getDrawable(R.drawable.circle_blue_stroke));
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple));
+                }
+                else{
+                    PreferenceManager.setString(color_dialog.this,"color","#E9E9E9");
+                    ibtn_puple.setBackground(getResources().getDrawable(R.drawable.circle_puple_stroke));
+                }
             }
         });
         okButton.setOnClickListener(new View.OnClickListener() {

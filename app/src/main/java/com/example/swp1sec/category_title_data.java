@@ -14,12 +14,13 @@ public class category_title_data {
     private String day1;
     private String class_start1;
     private String class_ends1;
+    private int performance;
 
 
 
 
 
-    public category_title_data(String id,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,int division,String color,String day1,String class_start1,String class_ends1) {
+    public category_title_data(String id,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,int division,String color,String day1,String class_start1,String class_ends1,int performance) {
         this.cate_title = cate_title;
         this.id = id;
         this.pro_name = pro_name;
@@ -33,6 +34,8 @@ public class category_title_data {
         this.day1 = day1;
         this.class_start1 = class_start1;
         this.class_ends1 = class_ends1;
+        this.performance = performance;
+
 
 
     }
@@ -100,5 +103,10 @@ public class category_title_data {
     public void setclass_ends1(String class_ends1) { this.class_ends1 = class_ends1; }
     public String getclass_ends1() {
         return class_ends1;
+    }
+
+    public void setperformance(int performance) { this.performance = performance; }
+    public int getperformance() {
+        return performance;
     }
 }
