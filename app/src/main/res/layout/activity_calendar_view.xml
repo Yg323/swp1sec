@@ -9,7 +9,6 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:openDrawer="end"
 
     tools:context="com.example.swp1sec.CalendarView">
 
@@ -43,7 +42,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#FFFFFF"
+        android:background="@color/white"
         android:gravity="center"
         app:buttonGravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="#FFFFFF"
+            android:background="@color/white"
             android:foregroundGravity="center"
             app:srcCompat="@drawable/icon_expand_more"
             tools:layout_editor_absoluteX="16dp"
@@ -366,7 +365,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textSize="20sp"
-                        android:text="기본"
+                        android:text="테마"
 
                         android:gravity="center"
                         android:fontFamily="@font/nanumsquare_acr"/>

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,7 +95,8 @@ public class CalendarView extends AppCompatActivity {
     private static String CALURL = "http://159.89.193.200//caltitle.php";
     private static String CALTAG = "getcal";
 
-
+    private String email;
+    private String calendar_title;
 
 
     public static Intent makeIntent(Context context) {
@@ -116,8 +118,16 @@ public class CalendarView extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setting_theme = findViewById(R.id.setting_theme);
         setting_start_day=findViewById(R.id.setting_start_day);
+        setting_theme.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CalendarView.this, color_theme_dialog.class);
+                startActivity(intent);
+            }
+        });
 
-
+        email =  PreferenceManager.getString(this,"email");
+        calendar_title = PreferenceManager.getString(CalendarView.this,"cal_title");
 
         //뱃지
         badge=findViewById(R.id.badge);
@@ -292,10 +302,9 @@ public class CalendarView extends AppCompatActivity {
         category_title_adapter = new category_title_adapter(this, categoryArrayList);
         cateRecyclerView.setAdapter(category_title_adapter);
         categoryArrayList.clear();
-        String email = "14dnfnfn@gmail.com"; //임시
         category_title_adapter.notifyDataSetChanged();
         cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
-        catetask.execute(CATEURL, email); //task 실행
+        catetask.execute(CATEURL, email, calendar_title); //task 실행
 
         //캘린더
         calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
@@ -312,6 +321,19 @@ public class CalendarView extends AppCompatActivity {
 
         calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
         caltask.execute(CALURL, email); //task 실행
+        //캘린더 데이터
+        cal_title_adapter.setOnItemClickListener(new cal_title_adapter.OnItemClickListener(){
+            @Override
+            public void onItemClick(View v,int position){
+                final String cal_title = calArrayList.get(position).gettitle();
+                PreferenceManager.setString(CalendarView.this,"cal_title",cal_title);
+                Toast.makeText(CalendarView.this,PreferenceManager.getString(CalendarView.this,"cal_title"),Toast.LENGTH_SHORT).show();
+                categoryArrayList.clear();
+                category_title_adapter.notifyDataSetChanged();
+                cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+                catetask.execute(CATEURL, email, cal_title); //task 실행
+            }
+        });
 
         //데이터 수정 및 삭제
         category_title_adapter.setOnItemClickListener(new category_title_adapter.OnItemClickListener(){
@@ -334,15 +356,22 @@ public class CalendarView extends AppCompatActivity {
 
                                 break;
                             case 1:
-                                /*if(categoryArrayList.get(position).getdivision() == "0") {
+                                if(categoryArrayList.get(position).getdivision() == 0) {
 
                                     cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                     cateintent.putExtra("position", position);
                                     startActivity(cateintent);
-                                }*/
-                                cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
+                                }
+                                else
+                                {
+                                    cateintent = new Intent(getApplicationContext(), update_cate_exsb_dialog.class);
+                                    cateintent.putExtra("position", position);
+                                    startActivity(cateintent);
+                                }
+
+                                /*cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                 cateintent.putExtra("position", position);
-                                startActivity(cateintent);
+                                startActivity(cateintent);*/
 
                                 break;
                             case 2:
@@ -689,8 +718,9 @@ public class CalendarView extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
+            String cal_title = (String)params[2]; //캘린더 타이틀
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email +"&" +"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
@@ -756,6 +786,9 @@ public class CalendarView extends AppCompatActivity {
         String TAG_lectureroom = "lectureroom";
         String TAG_division = "division";
         String TAG_color = "color";
+        String TAG_day1 = "day1";
+        String TAG_class_start1 = "class_start1";
+        String TAG_class_ends1 = "class_ends1";
 
 
 
@@ -778,11 +811,14 @@ public class CalendarView extends AppCompatActivity {
                 String lectureroom = item.getString(TAG_lectureroom);
                 String division = item.getString(TAG_division);
                 String color = item.getString(TAG_color);
+                String day1 = item.getString(TAG_day1);
+                String class_start1 = item.getString(TAG_class_start1);
+                String class_ends1 = item.getString(TAG_class_ends1);
+
+                int div=Integer.parseInt(division);
 
 
-
-
-                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,division,color);
+                category_title_data category_title_data = new category_title_data(id,Title,pro_name,pro_email,day,class_start,class_ends,lectureroom,div,color,day1,class_start1,class_ends1);
                 category_title_data.setid(id);
                 category_title_data.settitle(Title);
                 category_title_data.setpro_name(pro_name);
@@ -791,8 +827,11 @@ public class CalendarView extends AppCompatActivity {
                 category_title_data.setclass_start(class_start);
                 category_title_data.setclass_ends(class_ends);
                 category_title_data.setlectureroom(lectureroom);
-                category_title_data.setdivision(division);
+                category_title_data.setdivision(div);
                 category_title_data.setcolor(color);
+                category_title_data.setday1(day1);
+                category_title_data.setclass_start1(class_start1);
+                category_title_data.setclass_ends1(class_ends1);
 
 
 

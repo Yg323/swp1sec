@@ -1,5 +1,6 @@
 package com.example.swp1sec;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +22,11 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class sb_dialog extends AppCompatActivity {
-    private EditText et_category_title,et_pro_name,et_pro_email,et_day,et_class_start,et_class_ends,et_lectureroom;
+import java.util.Calendar;
 
+public class sb_dialog extends AppCompatActivity {
+    private EditText et_category_title,et_pro_name,et_pro_email,et_day,et_lectureroom,et_day1;
+    private TextView et_class_start,et_class_ends,et_class_start1,et_class_ends1;
     Button okButton,cancleButton;
 
     @Override
@@ -39,10 +44,119 @@ public class sb_dialog extends AppCompatActivity {
         et_class_start = findViewById(R.id.et_class_start);
         et_class_ends = findViewById(R.id.et_class_ends);
         et_lectureroom = findViewById(R.id.et_lectureroom);
+        et_class_start1 = findViewById(R.id.et_class_start1);
+        et_class_ends1 = findViewById(R.id.et_class_ends1);
+        et_day1 = findViewById(R.id.et_day1);
+
+
 
 
         okButton = (Button)findViewById(R.id.sb_OK);
         cancleButton = (Button)findViewById(R.id.sb_Cancle);
+        et_class_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(sb_dialog.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //String state = "AM";
+                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
+                        /*if (hourOfDay > 12) {
+                            hourOfDay -= 12;
+                            state = "PM";
+                        }*/
+                        // EditText에 출력할 형식 지정
+                        et_class_start.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+        et_class_ends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(sb_dialog.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //String state = "AM";
+                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
+                        /*if (hourOfDay > 12) {
+                            hourOfDay -= 12;
+                            state = "PM";
+                        }*/
+                        // EditText에 출력할 형식 지정
+                        et_class_ends.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+        et_class_start1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(sb_dialog.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //String state = "AM";
+                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
+                        /*if (hourOfDay > 12) {
+                            hourOfDay -= 12;
+                            state = "PM";
+                        }*/
+                        // EditText에 출력할 형식 지정
+                        et_class_start1.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+        et_class_ends1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(sb_dialog.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //String state = "AM";
+                        // 선택한 시간이 12를 넘을경우 "PM"으로 변경 및 -12시간하여 출력 (ex : PM 6시 30분)
+                        /*if (hourOfDay > 12) {
+                            hourOfDay -= 12;
+                            state = "PM";
+                        }*/
+                        // EditText에 출력할 형식 지정
+                        et_class_ends1.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, false); // true의 경우 24시간 형식의 TimePicker 출현
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+
+
+
 
 
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +171,10 @@ public class sb_dialog extends AppCompatActivity {
                 String class_start = et_class_start.getText().toString();
                 String class_ends = et_class_ends.getText().toString();
                 String lectureroom = et_lectureroom.getText().toString();
+                String class_start1 = et_class_start1.getText().toString();
+                String class_ends1 = et_class_ends1.getText().toString();
+                String day1 = et_day1.getText().toString();
+
 
 
 
@@ -86,7 +204,7 @@ public class sb_dialog extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CategoryRequesttitle categoryRequesttitle=new CategoryRequesttitle(email,cate_title,pro_name,pro_email,day,class_start,class_ends,lectureroom,responseListener);
+                CategoryRequesttitle categoryRequesttitle=new CategoryRequesttitle(email,cate_title,pro_name,pro_email,day,class_start,class_ends,lectureroom,class_start1,class_ends1,day1,responseListener);
                 RequestQueue queue= Volley.newRequestQueue(sb_dialog.this);
                 queue.add(categoryRequesttitle);
             }

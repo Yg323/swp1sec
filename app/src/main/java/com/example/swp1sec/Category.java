@@ -32,16 +32,15 @@ public class Category extends AppCompatActivity {
     private String catejsonString;
     private static String URL = "http://159.89.193.200//getcategory.php";
     private static String TAG = "getcategory";
-
+    private String email, cal_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        //String email = PreferenceManager.getString(Category.this, "email");
-        String email = "14dnfnfn@gmail.com";//임시
-
-        // 카테고리 목록 출력
+        email = PreferenceManager.getString(Category.this, "email");
+        cal_title = PreferenceManager.getString(Category.this,"cal_title");
+                // 카테고리 목록 출력
         recy_category = (RecyclerView) findViewById(R.id.recy_category);
         LinearLayoutManager LayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recy_category.setLayoutManager(LayoutManager);
@@ -54,7 +53,7 @@ public class Category extends AppCompatActivity {
         categoryAdapterS.notifyDataSetChanged();
 
         GetData habittask = new GetData(); //밑에 만들었던 클래스 만들고
-        habittask.execute(URL, email); //task 실행
+        habittask.execute(URL, email,cal_title); //task 실행
 
         categoryAdapterS.setOnItemClickListener(new CategoryAdapterS.OnItemClickListener() {
             @Override
@@ -120,8 +119,9 @@ public class Category extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
+            String cal_title = (String)params[2]; //캘린더 이름
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email +"&" +"cal_title="+cal_title;; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
