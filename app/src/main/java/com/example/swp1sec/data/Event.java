@@ -21,14 +21,35 @@ public class Event implements Parcelable {
     private  boolean mDay;
     private RatingBar mStar;
 
+    public Event(){ }
+
     public Event(String id, String title, Calendar date, int color, boolean isCompleted) {
         mID = id;
         mTitle = title;
         mDate = date;
         mColor = color;
         this.isCompleted = isCompleted;
-        //추가
 
+    }
+
+    public void setmID(String mID) {
+        this.mID = mID;
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+    public void setmDate(Calendar mDate) {
+        this.mDate = mDate;
+    }
+
+    public void setmColor(int mColor) {
+        this.mColor = mColor;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     public String getID() {

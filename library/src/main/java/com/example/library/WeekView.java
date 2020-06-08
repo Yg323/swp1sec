@@ -1904,7 +1904,7 @@ public class WeekView extends View {
 
         if (nearestOrigin != 0) {
             // Stop current animation.
-            mScroller.forceFinished(true);
+            mScroller.forceFinished(true);//수정 true를 false로
             // Snap to date.
             mScroller.startScroll((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, -nearestOrigin, 0, (int) (Math.abs(nearestOrigin) / mWidthPerDay * mScrollDuration));
             ViewCompat.postInvalidateOnAnimation(WeekView.this);
@@ -1967,7 +1967,7 @@ public class WeekView extends View {
      * @param date The date to show.
      */
     public void goToDate(Calendar date) {
-        mScroller.forceFinished(true);
+        mScroller.forceFinished(true);//수정
         mCurrentScrollDirection = mCurrentFlingDirection = Direction.NONE;
 
         date.set(Calendar.HOUR_OF_DAY, 0);

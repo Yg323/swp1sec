@@ -21,7 +21,7 @@
         tools:enable="true"
         tools:text="14" />
 
-    <com.example.mylibrary.helpers.MultipleTriangleView
+    <!--<com.example.mylibrary.helpers.MultipleTriangleView
         android:id="@+id/v_notes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,6 +30,13 @@
         app:mtr_separator_width="2dp"
         app:mtr_number_of_items="4"
         app:mtr_view_direction="vertical"
-        />
+        />-->
+
+        <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/v_notes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </com.example.mylibrary.helpers.FrameLinearLayout>
