@@ -979,4 +979,36 @@ public class CalendarView extends AppCompatActivity {
         }
     }
 
+    void start_day_show()
+    {
+
+        final List<String> ListItems = new ArrayList<>();
+        ListItems.add("월요일");
+        ListItems.add("일요일");
+
+        final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("주 시작 요일");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int pos) {
+                switch (pos){
+                    case 0:
+                        setting_start_day.setText("월요일");
+
+
+                        break;
+                    case 1:
+                        setting_start_day.setText("일요일");
+
+                        break;
+
+                }
+                String selectedText = items[pos].toString();
+                Toast.makeText(CalendarView.this, selectedText, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
+    }
+
 }
