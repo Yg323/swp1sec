@@ -1149,15 +1149,24 @@ public class CalendarView extends AppCompatActivity {
 
 
                 Event event = new Event();
+                mCalendar = Calendar.getInstance();
 
                 int year = Integer.parseInt(Date.substring(0,4));
                 int month = Integer.parseInt(Date.substring(5,7))-1;
                 int date = Integer.parseInt(Date.substring(8,10));
+                int hour = 0;
+                int minute = 0;
+                if(Time != "null"){
+                    hour = Integer.parseInt(Time.substring(0,2));
+                    minute = Integer.parseInt(Time.substring(3,5));
+                }else{
+                    hour = 0;
+                    minute = 0;
+                }
+                //int hour = Integer.parseInt(Time.substring(0,2));
+                //int minute = Integer.parseInt(Time.substring(3,5));
 
-                int hour = Integer.parseInt(Time.substring(0,2));
-                int minute = Integer.parseInt(Time.substring(3,5));
 
-                mCalendar = Calendar.getInstance();
                 mCalendar.set(Calendar.HOUR_OF_DAY, hour);
                 mCalendar.set(Calendar.MINUTE, minute);
                 mCalendar.set(Calendar.SECOND, 0);
