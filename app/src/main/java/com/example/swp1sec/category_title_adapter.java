@@ -7,11 +7,12 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 
@@ -20,16 +21,14 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
     private ArrayList<category_title_data> mList = null;
     private Activity context = null;
 
-    public interface OnItemClickListener {
-        void onItemClick(View v, int position);
+    public interface OnClickListener {
+        void onClick(View v, int view, int position);
     }
-    public interface OnItemClickListener1 {
-        void onItemClick(ImageButton imageButton, int position);
-    }
-    private OnItemClickListener mListener = null;
+
+    private OnClickListener mListener = null;
 
 
-    public void setOnItemClickListener (OnItemClickListener listener) {
+    public void setOnClickListener (OnClickListener listener) {
         this.mListener = listener;
     }
 
@@ -48,16 +47,6 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
             super(view);
             this.cate_title = (TextView) view.findViewById(R.id.cate_title);
             this.cate_color =(ImageView)view.findViewById(R.id.cate_color);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        if (mListener != null) mListener.onItemClick(v, pos);
-                    }
-                }
-            });
         }
     }
 
@@ -73,28 +62,23 @@ public class category_title_adapter extends RecyclerView.Adapter<category_title_
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder viewholder, int position) {
         viewholder.cate_title.setText(mList.get(position).gettitle());
-        /*viewholder.cate_color.setOnItemClickListener(new  ImageButton.OnItemClickListener1(){
-            @Override
-            public void onItemClick(View v) {
-                int position = viewholder.getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    if (mList.get(position).getperformance() == 1) {
-                        viewholder.cate_color.setColorFilter(Color.parseColor(mList.get(position).getcolor()), PorterDuff.Mode.SRC_IN);
-                        mList.get(position).setperformance(0);
 
-                    }
-                    else {
-                        viewholder.cate_color.setColorFilter(Color.parseColor("#E9E9E9"), PorterDuff.Mode.SRC_IN);
-                        mList.get(position).setperformance(1);
-                    }
-
-                }
-                if (mListener != null) mListener.onItemClick(viewholder.cate_color, position);
-            }
-        });*/
-        
         if(mList.get(position).getperformance() == 1) viewholder.cate_color.setColorFilter(Color.parseColor(mList.get(position).getcolor()), PorterDuff.Mode.SRC_IN);
-        else viewholder.cate_color.setColorFilter(Color.parseColor("#E9E9E9"),PorterDuff.Mode.SRC_IN);
+        else viewholder.cate_color.setColorFilter(Color.parseColor("#ffffff"),PorterDuff.Mode.SRC_IN);
+
+        viewholder.cate_color.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) mListener.onClick(viewholder.cate_color, 0, viewholder.getAdapterPosition());
+            }
+        });
+        viewholder.cate_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) mListener.onClick(viewholder.cate_title,1, viewholder.getAdapterPosition());
+            }
+        });
+
     }
 
 

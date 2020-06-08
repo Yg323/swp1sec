@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -343,64 +344,87 @@ public class CalendarView extends AppCompatActivity {
         });
 
         //데이터 수정 및 삭제
-        category_title_adapter.setOnItemClickListener(new category_title_adapter.OnItemClickListener(){
+        category_title_adapter.setOnClickListener(new category_title_adapter.OnClickListener(){
             @Override
-            public  void onItemClick(View v, final int position){
-
-                if(categoryArrayList.get(position).getperformance()==0){//선택이 되어있지 않았음
-
-                    categoryArrayList.get(position).setperformance(1);
-                    category_title_adapter.notifyDataSetChanged();
+            public void onClick(View v, int vi, final int position){
+                String cal_title = PreferenceManager.getString(CalendarView.this, "cal_title");
+                String cate_title = categoryArrayList.get(position).gettitle();
+                if(vi == 0){ //이미지 뷰 클릭이란 말
+                    if(categoryArrayList.get(position).getperformance()==0){//선택이 되어있지 않았음
+                        categoryArrayList.get(position).setperformance(1);
+                        category_title_adapter.notifyDataSetChanged();
+                    }
+                    else{
+                        categoryArrayList.get(position).setperformance(0);
+                        category_title_adapter.notifyDataSetChanged();
+                    }
+                    Response.Listener<String> responseListener=new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jasonObject=new JSONObject(response);
+                                boolean success=jasonObject.getBoolean("success");
+                                if (!success) {
+                                    Toast toast = Toast.makeText(getApplicationContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                                    toast.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                    Cate_check_request cate_check_request=new Cate_check_request(email,cal_title,cate_title,Integer.toString(categoryArrayList.get(position).getperformance()),responseListener);
+                    RequestQueue queue= Volley.newRequestQueue(CalendarView.this);
+                    queue.add(cate_check_request);
                 }
                 else{
+                    AlertDialog.Builder builder= new AlertDialog.Builder(cateRecyclerView.getContext());
+                    ProgressDialog progressDialog = new ProgressDialog(cateRecyclerView.getContext());
 
-                    categoryArrayList.get(position).setperformance(0);
-                    category_title_adapter.notifyDataSetChanged();
-                }
-                AlertDialog.Builder builder= new AlertDialog.Builder(cateRecyclerView.getContext());
-                ProgressDialog progressDialog = new ProgressDialog(cateRecyclerView.getContext());
-
-                CharSequence[] dialogItem ={"view data","edit data","delete data"};
-                builder.setTitle(categoryArrayList.get(position).gettitle());
-                builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        switch (i){
-                            case 0:
-                                cateintent = new Intent(getApplicationContext(),cate_dataview.class);
-                                cateintent.putExtra("position",position);
-                                startActivity(cateintent);
-
-
-                                break;
-                            case 1:
-                                if(categoryArrayList.get(position).getdivision() == 0) {
-
-                                    cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
-                                    cateintent.putExtra("position", position);
+                    CharSequence[] dialogItem ={"view data","edit data","delete data"};
+                    builder.setTitle(categoryArrayList.get(position).gettitle());
+                    builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            switch (i){
+                                case 0:
+                                    cateintent = new Intent(getApplicationContext(),cate_dataview.class);
+                                    cateintent.putExtra("position",position);
                                     startActivity(cateintent);
-                                }
-                                else
-                                {
-                                    cateintent = new Intent(getApplicationContext(), update_cate_exsb_dialog.class);
-                                    cateintent.putExtra("position", position);
-                                    startActivity(cateintent);
-                                }
+
+
+                                    break;
+                                case 1:
+                                    if(categoryArrayList.get(position).getdivision() == 0) {
+
+                                        cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
+                                        cateintent.putExtra("position", position);
+                                        startActivity(cateintent);
+                                    }
+                                    else
+                                    {
+                                        cateintent = new Intent(getApplicationContext(), update_cate_exsb_dialog.class);
+                                        cateintent.putExtra("position", position);
+                                        startActivity(cateintent);
+                                    }
 
                                 /*cateintent = new Intent(getApplicationContext(), update_cate_dialog.class);
                                 cateintent.putExtra("position", position);
                                 startActivity(cateintent);*/
 
-                                break;
-                            case 2:
-                                deleteData(categoryArrayList.get(position).getid());
+                                    break;
+                                case 2:
+                                    deleteData(categoryArrayList.get(position).getid());
 
-                                break;
+                                    break;
+                            }
+
                         }
+                    });
+                    builder.create().show();
+                }
 
-                    }
-                });
-                builder.create().show();
             }
         });
 
