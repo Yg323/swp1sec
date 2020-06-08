@@ -11,12 +11,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -40,7 +43,8 @@ public class badge_dialog extends AppCompatActivity {
     private String badge_todojsonString;
     private static String badge_todoURL = "http://159.89.193.200//badge_todo.php";
     private static String badge_todoTAG = "getbadge_todo";
-    Button todo;
+    Button todo,habit;
+    Thread thread;
 
 
 
@@ -60,19 +64,51 @@ public class badge_dialog extends AppCompatActivity {
         badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
         badge_todotask.execute(badge_todoURL, email); //task 실행
 
-
         todo=findViewById(R.id.badge_todo_);
-        todo.setOnClickListener(new View.OnClickListener(){
+        habit =findViewById(R.id.badge_habit);
+
+        habit.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                createNotification(badge_todo_data.getbadge_todo());
-                finish();
+            public void onClick(View v){
+                removeNotification();
             }
         });
 
 
+        int count =0;
+        todo.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                thread = new Thread(){
+                    public void run(){
+                        while (true){
+                            try {
+                                sleep(10000);
+                            }catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            handler.sendEmptyMessage(0);
+                        }
+                    }
+                } ;
+                thread.start();
+                finish();
+            }
+        });
 
     }
+    private Handler handler = new Handler(){
+        @Override
+        public void dispatchMessage(@NonNull Message msg)
+        {
+
+            createNotification(badge_todo_data.getbadge_todo());
+        }
+    };
+
+
+
 
 
     public static final String notificationChannelId = "nofiticationChannelId";
