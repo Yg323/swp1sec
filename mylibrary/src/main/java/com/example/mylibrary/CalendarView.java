@@ -21,6 +21,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
@@ -185,9 +186,9 @@ public class CalendarView extends FrameLayout {
                 a.getColor(R.styleable.CalendarView_selected_day_border_color, colorPrimary));
 
         mAttributes.put(Attr.dayOffset,
-                a.getInt(R.styleable.CalendarView_offset_day, Calendar.SUNDAY)); //일주일의 끝
+                a.getInt(R.styleable.CalendarView_offset_day, Calendar.SUNDAY)); // Sunday 아래 요일 빨간색 표시
         mAttributes.put(Attr.startingWeekDay,
-                a.getInt(R.styleable.CalendarView_starting_weekday, Calendar.MONDAY)); // 일주일의 시작, 근데 문제점은 색상은 토요일에 빨간색으로 표시된다는점
+                a.getInt(R.styleable.CalendarView_starting_weekday, Calendar.MONDAY)); // 일주일의 시작 요일 설정
 
         a.recycle();
     }
@@ -560,20 +561,28 @@ public class CalendarView extends FrameLayout {
 
             FrameLinearLayout container = (FrameLinearLayout) view;
             SelectedTextView tvDay = view.findViewById(R.id.tv_calendar_day); //일표시(동그라미 안에 숫자)
-            MultipleTriangleView vNotes = view.findViewById(R.id.v_notes); //일 아래 내용 표시
+            //MultipleTriangleView vNotes = view.findViewById(R.id.v_notes); //일 아래 내용 표시
+            LinearLayout vNotes = view.findViewById(R.id.v_notes);//추가
+            if (vNotes.getChildCount() > 0) vNotes.removeAllViews();//추가
+
 
             // Set
-            vNotes.setTitle("ok");
-            vNotes.setColor(Color.TRANSPARENT);
-            vNotes.setTriangleBackgroundColor(Color.TRANSPARENT);
-            int i = 0;
-            for (CalendarObject c : calendarObjectList) {
-                vNotes.setColor(i, c.getSecondaryColor());
-                vNotes.setTriangleBackgroundColor(i, c.getPrimaryColor());
+            // 수정한 곳 일정에 타이틀 추가
 
-                i++;
-                if (i == vNotes.getNumberOfItems())
-                    break;
+            //vNotes.setTitle("ok");
+            //vNotes.setColor(Color.TRANSPARENT);
+            //vNotes.setTriangleBackgroundColor(Color.TRANSPARENT);
+            //int i = 0;
+            for (CalendarObject c : calendarObjectList) {
+                //vNotes.setColor(i, c.getSecondaryColor());
+                //vNotes.setTriangleBackgroundColor(i, c.getPrimaryColor());
+                TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.xml_textview,null);
+                textView.setBackgroundColor(c.getBgColor());
+                textView.setText(c.getText());
+                vNotes.addView(textView);
+                //i++;
+                //if (i == vNotes.getNumberOfItems())
+                    //break;
             }
 
             // Set day TextView (default)
@@ -890,17 +899,27 @@ public class CalendarView extends FrameLayout {
     }
 
     public static class CalendarObject {
-
+        //수정
         private String mID;
         private Calendar mDatetime;
-        private int mPrimaryColor;
-        private int mSecondaryColor;
+        //private int mPrimaryColor;
+        //private int mSecondaryColor;
+        private String text;//추가
+        private int bgColor;//추가
 
-        public CalendarObject(String id, Calendar datetime, int primaryColor, int secondaryColor) {
+        /*public CalendarObject(String id, Calendar datetime, int primaryColor, int secondaryColor) {
             mID = id;
             mDatetime = datetime;
             mPrimaryColor = primaryColor;
             mSecondaryColor = secondaryColor;
+        }*/
+
+        //추가
+        public CalendarObject(String mID, Calendar mDatetime, String text, int bgColor) {
+            this.mID = mID;
+            this.mDatetime = mDatetime;
+            this.text = text;
+            this.bgColor = bgColor;
         }
 
         public String getID() {
@@ -911,12 +930,20 @@ public class CalendarView extends FrameLayout {
             return mDatetime;
         }
 
-        public int getPrimaryColor() {
+        /*public int getPrimaryColor() {
             return mPrimaryColor;
         }
 
         public int getSecondaryColor() {
             return mSecondaryColor;
+        }*/
+
+        public String getText() {
+            return text;
+        }
+
+        public int getBgColor() {
+            return bgColor;
         }
     }
 

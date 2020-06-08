@@ -56,8 +56,6 @@ public class WeekCalendar extends BaseActivity {
     private List<WeekViewEvent> mNewEvents;
     private List<WeekViewEvent> myEvents;
     private long mEeventId;
-    private Event mEvent;
-    private List<Event> mEvents;
 
     //OBJECTS
     private ArrayList<WeekCalendarSub> eventList;

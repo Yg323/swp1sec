@@ -174,7 +174,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
 
 
-        mWeekView.setWeekViewLoader(new WeekViewLoader() {
+        /*mWeekView.setWeekViewLoader(new WeekViewLoader() {
 
             int i = 1;
             @Override
@@ -187,9 +187,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
                 if(i == 3){
                     i = 1;
-
+                    List event = getEventTitle()
                     //List events = getEventListWeek(getActivity(), student.getCOMPANY_ID_VALUE());
-                    return events;
+                    return eventt;
 
                 }
                 else {
@@ -200,10 +200,12 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
                 }
             }
-        });
+        });*/
 
 
 
+//event.getEndTime().getTimeInMillis() > startTime.getTimeInMillis() &&
+//                    event.getStartTime().getTimeInMillis() < endTime.getTimeInMillis()
 
 
         mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {

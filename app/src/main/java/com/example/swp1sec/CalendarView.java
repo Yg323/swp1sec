@@ -70,7 +70,7 @@ public class CalendarView extends AppCompatActivity {
     private com.example.mylibrary.CalendarView mCalendarView;
     private CalendarDialog mCalendarDialog;
     private Intent intent;
-    private List<Event> mEventList = new ArrayList<>();
+
     //setting
     RecyclerView cateRecyclerView, calRecyclerView;
     private Intent cateintent;
@@ -81,6 +81,14 @@ public class CalendarView extends AppCompatActivity {
     TextView morningtime, nighttime,setting_theme,setting_start_day,badge;
     int mHour, mMinute, nHour, nMinute;
     private TextView txt_logout;
+
+    //월간 일정 표시
+    public static ArrayList<category_title_data> monthArrayList;
+    private String monthjsonString;
+    private static String MONTHURL = "http://159.89.193.200//get_month.php";
+    private static String MONTHTAG = "getmonth";
+    private List<Event> mEventList = new ArrayList<>();
+    private Calendar mCalendar;
 
     //카테고리
     private category_title_adapter category_title_adapter;
@@ -183,6 +191,8 @@ public class CalendarView extends AppCompatActivity {
         });
 
 
+
+
         //상단 액션바와 연관 움직일때x 초기화면을 말함
         if (getSupportActionBar() != null) {
             // int day = mCalendarView.getCurrentDate().get(Calendar.DATE);
@@ -283,6 +293,11 @@ public class CalendarView extends AppCompatActivity {
                 mCalendarView.setSelectedDate(Calendar.getInstance());
             }
         });
+
+        //월간
+        monthArrayList = new ArrayList<>();
+        monthGetData monthtask = new monthGetData(); //밑에 만들었던 클래스 만들고
+        monthtask.execute(MONTHURL, email); //task 실행
 
         //setting
 
@@ -1010,5 +1025,170 @@ public class CalendarView extends AppCompatActivity {
         });
         builder.show();
     }
+
+
+    //월간 일정 표시
+
+    private class monthGetData extends AsyncTask<String, Void, String> { //php읽어서 디비에서 데이터 가져오는 전체 프로세스를 클래스로 생성
+        //모든일은 background 에서 AsyncTask로 발생
+        //결과만 눈에 보임 -> 리사이클러뷰에 값출력
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(CalendarView.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) { //이게 onCreate에서 task.execute(PHPURL, email) 할때 발생하는 일
+            super.onPostExecute(result);
+
+
+            progressDialog.dismiss();
+            //mTextViewResult.setText(result);
+            Log.d(MONTHTAG, "response - " + result);
+
+            if (result == null){
+                //mTextViewResult.setText(errorString);
+            }
+            else {
+                monthjsonString = result; //크롬으로 확인했던 문자열 받아오고
+                MonthResult(); //밑에 ShowResult함수 실행
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
+
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
+
+            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(MONTHTAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(MONTHTAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+    }
+
+    private void MonthResult() { //이부분 잘봐
+
+        String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
+        String TAG_TITLE = "title";
+        String TAG_DATE = "date";
+        String TAG_TIME = "time";
+        // TAG_ENDDATE = "enddate";
+        //String TAG_ENDTIME = "endtime";
+        String TAG_DIVISION = "division";
+        String TAG_ID = "id";
+
+        try {
+            JSONObject jsonObject = new JSONObject(monthjsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
+
+            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
+                JSONObject item = jsonArray.getJSONObject(i);
+
+
+                //반복문인점 주의!
+                String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                String Date = item.getString(TAG_DATE);
+                String Time = item.getString(TAG_TIME);
+                //String EndDate = item.getString(TAG_ENDDATE);
+                //String EndTime = item.getString(TAG_ENDTIME);
+                int ID = item.getInt(TAG_ID);
+                //int division = item.getInt(TAG_DIVISION);
+
+
+                Event event = new Event();
+
+                int year = Integer.parseInt(Date.substring(0,4));
+                int month = Integer.parseInt(Date.substring(5,7))-1;
+                int date = Integer.parseInt(Date.substring(8,10));
+
+                int hour = Integer.parseInt(Time.substring(0,2));
+                int minute = Integer.parseInt(Time.substring(3,5));
+
+                mCalendar = Calendar.getInstance();
+                mCalendar.set(Calendar.HOUR_OF_DAY, hour);
+                mCalendar.set(Calendar.MINUTE, minute);
+                mCalendar.set(Calendar.SECOND, 0);
+                mCalendar.set(Calendar.MILLISECOND, 0);
+
+                mCalendar.set(Calendar.YEAR, year);
+                mCalendar.set(Calendar.MONTH, month);
+                mCalendar.set(Calendar.DAY_OF_MONTH, date);
+
+                event.setmID(String.valueOf(ID));
+                event.setmTitle(Title);
+                event.setmColor(R.color.colorPrimary);
+                //event.setmDate(Calendar.getInstance());
+                event.setmDate(mCalendar);
+                //event.setmDate(Calendar.MINUTE, );
+                event.setCompleted(false);
+                mEventList.add(event); // 일간 다이얼로그에 값 넣어줌
+                //월간 캘린더 표시에 값 넣어줌
+                mCalendarView.addCalendarObject(new com.example.mylibrary.CalendarView.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
+
+
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.d(MONTHTAG, "showResult : ", e);
+        }
+
+
+    }
+
 
 }

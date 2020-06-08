@@ -27,10 +27,12 @@ public class MultipleTriangleView extends View {
 
         private Direction mDirection;
 
+        //private String mTitle;
         private int mColor;
         private int mBackgroundColor;
     }
 
+    //private static final String DEFAULT_STRING = " ";
     private static final Direction DEFAULT_DIRECTION = Direction.TOP_LEFT;
     private static final int DEFAULT_COLOR = Color.TRANSPARENT;
     private static final int DEFAULT_BACKGROUND_COLOR = Color.TRANSPARENT;
@@ -55,6 +57,7 @@ public class MultipleTriangleView extends View {
 
     private void init(AttributeSet attrs) {
         Direction mDirection;
+        //String mTitle;
         int mColor;
         int mBackgroundColor;
         int mNumberOfItems;
@@ -85,6 +88,7 @@ public class MultipleTriangleView extends View {
                 default:
                     mViewDirection = ViewDirection.VERTICAL;
             }
+            //mTitle = a.getString(R.styleable.MultipleTriangleView, DEFAULT_STRING)
             mColor = a.getColor(R.styleable.MultipleTriangleView_mtr_color, DEFAULT_COLOR);
             mBackgroundColor = a.getColor(R.styleable.MultipleTriangleView_mtr_background_color, DEFAULT_BACKGROUND_COLOR);
 
@@ -95,6 +99,7 @@ public class MultipleTriangleView extends View {
             mDirection = DEFAULT_DIRECTION;
             mViewDirection = ViewDirection.VERTICAL;
 
+            //mTitle = DEFAULT_STRING;
             mColor = DEFAULT_COLOR;
             mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
 
@@ -106,6 +111,7 @@ public class MultipleTriangleView extends View {
         for (int i = 0 ; i < mNumberOfItems ; i++) {
             TriangleAttr t = new TriangleAttr();
 
+            //t.mTitle = mTitle;
             t.mDirection = mDirection;
             t.mBackgroundColor = mBackgroundColor;
             t.mColor = mColor;
@@ -171,10 +177,44 @@ public class MultipleTriangleView extends View {
         return mTriangleAttr.size();
     }
 
-    public void setTitle(String title){
 
 
+    //
+
+    /*public void setTitle(String title) {
+        boolean somethingHasChanged = false;
+        for (TriangleAttr t : mTriangleAttr) {
+            somethingHasChanged = somethingHasChanged || setTitle(t, title);
+        }
+
+        if (somethingHasChanged)
+            invalidate();
     }
+
+    public boolean setTitle(int i, String title) {
+        if (i >= mTriangleAttr.size())
+            return false;
+
+        boolean somethingHasChanged = setTitle(mTriangleAttr.get(i), title);
+
+        if (somethingHasChanged)
+            invalidate();
+
+        return true;
+    }
+
+    private boolean setTitle(TriangleAttr t, String title) {
+        if (t.mTitle != title) {
+            t.mTitle = title;
+            /*if (t.mPaint != null) {
+                t.mPaint.setTitle(title);
+            }
+            t.mTrianglePath = null;
+            return true;
+        }
+        return false;
+    }*/
+
 
     /**
      * Set the color of the triangle.
