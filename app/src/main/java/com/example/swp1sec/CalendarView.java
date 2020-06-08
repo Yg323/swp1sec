@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -251,13 +250,6 @@ public class CalendarView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*ibtn_calenderplus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent=new Intent(DayTrackerActivity.this, CalendarPlusActivity.class);
-                startActivity(intent);
-            }
-        });*/
         ibtn_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,13 +257,13 @@ public class CalendarView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*ibtn_store.setOnClickListener(new View.OnClickListener() {
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(DayTrackerActivity.this, StoreActivity.class);
+                intent=new Intent(CalendarView.this, Store_main.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
         //상단 액션바와 연관 움직일때x 초기화면을 말함
         if (getSupportActionBar() != null) {

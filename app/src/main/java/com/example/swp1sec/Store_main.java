@@ -1,12 +1,15 @@
 package com.example.swp1sec;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +24,8 @@ import org.json.JSONObject;
 public class Store_main extends AppCompatActivity {
 
     String TAG = "MainActivity";
-
+    private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
+    private Intent intent1;
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
     Purchase perchase;
@@ -50,7 +54,13 @@ public class Store_main extends AppCompatActivity {
         Button h_button = findViewById(R.id.h_button);
         Coin = findViewById(R.id.coin);
 
-        Intent intent = getIntent();
+        ibtn_calender = findViewById(R.id.ibtn_calendar);
+        ibtn_calenderlist = findViewById(R.id.ibtn_calendarlist);
+        ibtn_calenderplus = findViewById(R.id.ibtn_calendarplus);
+        ibtn_tracker = findViewById(R.id.ibtn_tracker);
+        ibtn_store = findViewById(R.id.ibtn_store);
+
+        final Intent intent = getIntent();
 
         NetworkTask networkTask = new NetworkTask(url, null);
         try{
@@ -78,6 +88,40 @@ public class Store_main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, history).commit();
+            }
+        });
+        ibtn_calender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent1 = new Intent(Store_main.this, CalendarView.class);
+                startActivity(intent1);
+            }
+        });
+        ibtn_calenderlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent1 = new Intent(Store_main.this, CalendarListActivity.class);
+                startActivity(intent1);
+            }
+        });
+        ibtn_calenderplus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calclick();
+            }
+        });
+        ibtn_tracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent1 = new Intent(Store_main.this, DayTrackerActivity.class);
+                startActivity(intent1);
+            }
+        });
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent1=new Intent(Store_main.this, Store_main.class);
+                startActivity(intent1);
             }
         });
     }
@@ -166,5 +210,33 @@ public class Store_main extends AppCompatActivity {
         }else if(index == 1){
             getSupportFragmentManager().beginTransaction().replace(R.id.container, history).commit();
         }
+    }
+    public void calclick(){
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(Store_main.this);
+        dlg.setTitle("일정-습관 선택"); //제목
+        //dlg.setMessage("안녕하세요 계발에서 개발까지 입니다."); // 메시지
+        //dlg.setIcon(R.drawable.deum); // 아이콘 설정
+//                버튼 클릭시 동작
+        dlg.setItems(R.array.LAN, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int pos)
+            {
+                switch (pos) {
+                    case 0:{
+                        Intent intent = new Intent(getApplicationContext(), Category.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 1:{
+                        Intent intent = new Intent(getApplicationContext(), CreateHabit.class);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+            }
+        });
+        dlg.show();
     }
 }
