@@ -1,5 +1,6 @@
 package com.example.swp1sec;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -27,9 +28,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +43,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.swp1sec.data.Event;
 import com.example.swp1sec.uihelpers.CalendarDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONArray;
@@ -89,6 +93,8 @@ public class CalendarView extends AppCompatActivity {
     private static String MONTHTAG = "getmonth";
     private List<Event> mEventList = new ArrayList<>();
     private Calendar mCalendar;
+    //새로고침
+    SwipeRefreshLayout mSwipe;
 
     //카테고리
     private category_title_adapter category_title_adapter;
@@ -111,6 +117,7 @@ public class CalendarView extends AppCompatActivity {
         return new Intent(context, CalendarView.class);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -547,7 +554,20 @@ public class CalendarView extends AppCompatActivity {
         });
 
 
-
+        //새로고침
+        mSwipe = (SwipeRefreshLayout)findViewById(R.id.refresh_calendar);
+        mSwipe.setColorSchemeColors(R.color.event_color_01);
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_right);
+                mSwipe.setRefreshing(false);
+            }
+        });
+        //mSwipe.setRefreshing(false);
 
     }
 
@@ -1145,6 +1165,7 @@ public class CalendarView extends AppCompatActivity {
         //String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division";
         String TAG_ID = "id";
+        String TAG_COLOR = "color";
 
         try {
             JSONObject jsonObject = new JSONObject(monthjsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
@@ -1162,7 +1183,7 @@ public class CalendarView extends AppCompatActivity {
                 //String EndTime = item.getString(TAG_ENDTIME);
                 int ID = item.getInt(TAG_ID);
                 //int division = item.getInt(TAG_DIVISION);
-
+                String Color = item.getString(TAG_COLOR);
 
                 Event event = new Event();
                 mCalendar = Calendar.getInstance();
@@ -1192,9 +1213,10 @@ public class CalendarView extends AppCompatActivity {
                 mCalendar.set(Calendar.MONTH, month);
                 mCalendar.set(Calendar.DAY_OF_MONTH, date);
 
+                //android.graphics.Color.parseColor(Color);
                 event.setmID(String.valueOf(ID));
                 event.setmTitle(Title);
-                event.setmColor(R.color.colorPrimary);
+                event.setmColor(android.graphics.Color.parseColor(Color));
                 //event.setmDate(Calendar.getInstance());
                 event.setmDate(mCalendar);
                 //event.setmDate(Calendar.MINUTE, );
@@ -1202,8 +1224,6 @@ public class CalendarView extends AppCompatActivity {
                 mEventList.add(event); // 일간 다이얼로그에 값 넣어줌
                 //월간 캘린더 표시에 값 넣어줌
                 mCalendarView.addCalendarObject(new com.example.mylibrary.CalendarView.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
-
-
 
             }
 
@@ -1214,6 +1234,7 @@ public class CalendarView extends AppCompatActivity {
 
 
     }
+
 
 
 }
