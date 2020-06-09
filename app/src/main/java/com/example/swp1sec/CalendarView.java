@@ -28,7 +28,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +42,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.swp1sec.data.Event;
 import com.example.swp1sec.uihelpers.CalendarDialog;
-import com.google.android.material.snackbar.Snackbar;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONArray;
@@ -340,14 +338,11 @@ public class CalendarView extends AppCompatActivity {
 
         cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
             @Override
-            public  void onCheckedChanged(CompoundButton compoundButton,boolean isChecked,int pos){
-
-
-                String cal_title = calArrayList.get(pos).gettitle();
-
-
-                Toast.makeText(CalendarView.this,PreferenceManager.getString(CalendarView.this,"cal_title"),Toast.LENGTH_SHORT).show();
-                PreferenceManager.setString(CalendarView.this,"cal_title",cal_title);
+            public void onCheckedChanged(CompoundButton compoundButton, int pos){
+                //String cal_title = calArrayList.get(pos).gettitle();
+                String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+                int cal_pos = PreferenceManager.getInt(getApplicationContext(),"cal_pos");
+                //Toast.makeText(CalendarView.this, cal_title +Integer.toString(calArrayList.get(cal_pos).getperformance()), Toast.LENGTH_SHORT).show();
                 categoryArrayList.clear();
                 category_title_adapter.notifyDataSetChanged();
                 cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
@@ -358,24 +353,26 @@ public class CalendarView extends AppCompatActivity {
                         try {
                             JSONObject jasonObject=new JSONObject(response);
                             boolean success=jasonObject.getBoolean("success");
-                            if (!success) {
+                            if (success) {
+
+                            }
+                            else{
                                 Toast toast = Toast.makeText(getApplicationContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
                                 toast.show();
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 };
-                cal_check_request cal_check_request =new cal_check_request(email,cal_title,Integer.toString(calArrayList.get(pos).getperformance()),responseListener);
+                cal_check_request cal_check_request =new cal_check_request(email,cal_title,Integer.toString(calArrayList.get(cal_pos).getperformance()),responseListener);
                 RequestQueue queue=Volley.newRequestQueue(CalendarView.this);
                 queue.add(cal_check_request);
 
-                calArrayList.clear();
-
-                cal_title_adapter.notifyDataSetChanged();
             }
+
 
         });
 
@@ -1071,7 +1068,10 @@ public class CalendarView extends AppCompatActivity {
                 //반복문인점 주의!
                 String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
                 int performnace = item.getInt(TAg_Performance);
-
+                if(performnace == 1){
+                    PreferenceManager.setString(CalendarView.this,"cal_title",Title);
+                    PreferenceManager.setInt(CalendarView.this,"cal_pos",i);
+                }
                 cal_title_data cal_title_data = new cal_title_data(Title);
                 cal_title_data.settitle(Title);
                 cal_title_data.setperformance(performnace);

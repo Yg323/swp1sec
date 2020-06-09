@@ -21,7 +21,7 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     //checkbox listener
 
     public interface OnCheckedChangeListener {
-        void onCheckedChanged (CompoundButton compoundButton, boolean isChecked, int position);
+        void onCheckedChanged (CompoundButton compoundButton, int position);
     }
     private cal_title_adapter.OnCheckedChangeListener mListener = null;
 
@@ -78,34 +78,50 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CustomViewHolder viewholder,final int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder viewholder, final int position) {
         viewholder.cal_title.setText(mList.get(position).gettitle());
         if(mList.get(position).getperformance()==1)viewholder.cal_check.setChecked(true);
-        else
-            viewholder.cal_check.setChecked(false);
+        else if ((mList.get(position).getperformance()==0)) viewholder.cal_check.setChecked(false);
+
         viewholder.cal_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 int pos =viewholder.getAdapterPosition();
+                int posi = PreferenceManager.getInt(context,"cal_pos");
+
 
                 if(pos != RecyclerView.NO_POSITION){
-
                     if(isChecked){
                         mList.get(position).setperformance(1);
+                        if(pos != posi) {
+                            mList.get(posi).setperformance(0);
+                            try {
+                                notifyItemChanged(posi);
+                            } catch (Exception e) {
+
+                            }
+                        }
+                        PreferenceManager.setString(context,"cal_title",mList.get(pos).gettitle());
+                        PreferenceManager.setInt(context,"cal_pos",pos);
+                        try {
+                            notifyItemChanged(pos);
+                        } catch (Exception e) {
+
+                        }
                     }
-                    else
+                    else {
                         mList.get(position).setperformance(0);
+                        try {
+                            notifyItemChanged(position);
+                        } catch (Exception e) {
+
+                        }
+                    }
                 }
-                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,isChecked,pos);
+                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,position);
             }
         });
-
-
-
     }
-
-
-
     @Override
     public int getItemCount() {
         return (null != mList ? mList.size() : 0);
