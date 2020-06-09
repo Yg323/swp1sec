@@ -5,6 +5,7 @@ public class Data {
     private String title;
     private String content;
     private String Coin;
+    private String spent;
     private int m_resId;
     private int c_resId;
     private int id;
@@ -28,6 +29,13 @@ public class Data {
     }
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getspent() {
+        return spent;
+    }
+    public void setspent(String spent) {
+        this.spent = spent;
     }
 
     public int getm_ResId() {
