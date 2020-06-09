@@ -302,10 +302,10 @@ public class CreateSubject extends AppCompatActivity {
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
 
-                                onBackPressed();
-                                //Intent intent = new Intent(CreateSubject.this, CalendarView.class);
-                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                //startActivity(intent);
+                                //onBackPressed();
+                                Intent intent = new Intent(CreateSubject.this, CalendarView.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
                             } else {//저장 실패한 경우
                                 Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
