@@ -278,6 +278,7 @@ public class CreateSubject extends AppCompatActivity {
                 String time = start_time.getText().toString();
                 String enddate = end_date.getText().toString();
                 String endtime = end_time.getText().toString();
+                int getcateid = getIntent().getIntExtra("cateid", 1);
                 String am_pm;
 
                 int importance = (int) sub_star.getRating();
@@ -304,7 +305,7 @@ public class CreateSubject extends AppCompatActivity {
 
                                 //onBackPressed();
                                 Intent intent = new Intent(CreateSubject.this, CalendarView.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(intent);
                             } else {//저장 실패한 경우
                                 Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
@@ -318,7 +319,7 @@ public class CreateSubject extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, alarm, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, alarm, getcateid, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
 

@@ -186,6 +186,7 @@ public class CreateNormal extends AppCompatActivity {
                 String endtime = end_time.getText().toString();
 
                 int importance = (int) nor_star.getRating();
+                int getcateid = getIntent().getIntExtra("cateid", 1);
 
                 if (title.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateNormal.this);
@@ -219,7 +220,7 @@ public class CreateNormal extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateNormalRequest createNormalRequest = new CreateNormalRequest(email, title, memo, date, time, enddate, endtime, importance, responseListener);
+                CreateNormalRequest createNormalRequest = new CreateNormalRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateNormal.this);
                 queue.add(createNormalRequest);
             }

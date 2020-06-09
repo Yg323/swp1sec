@@ -4,6 +4,9 @@ public class CategoryItem {
     private String title;
     private int division;
     private String color;
+    private int id;
+
+
 
     public CategoryItem(String title) {
         this.title = title;
@@ -12,6 +15,13 @@ public class CategoryItem {
     public CategoryItem() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getTitle() {
         return title;
     }

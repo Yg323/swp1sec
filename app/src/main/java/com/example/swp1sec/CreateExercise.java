@@ -185,6 +185,7 @@ public class CreateExercise extends AppCompatActivity {
                 String time = start_time.getText().toString();
                 String enddate = end_date.getText().toString();
                 String endtime = end_time.getText().toString();
+                int getcateid = getIntent().getIntExtra("cateid", 1);
 
                 int importance = (int) ex_star.getRating();
 
@@ -207,7 +208,10 @@ public class CreateExercise extends AppCompatActivity {
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
                                 Intent intent = new Intent(CreateExercise.this, CalendarView.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                                 startActivity(intent);
+                                CreateExercise.this.finish();
+
                             } else {//저장 실패한 경우
                                 Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
@@ -220,7 +224,7 @@ public class CreateExercise extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateExerciseRequest createExerciseRequest = new CreateExerciseRequest(email, title, memo, date, time, enddate, endtime, importance, responseListener);
+                CreateExerciseRequest createExerciseRequest = new CreateExerciseRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateExercise.this);
                 queue.add(createExerciseRequest);
             }

@@ -60,19 +60,23 @@ public class Category extends AppCompatActivity {
             public void onItemClick(View v, int position) {
                 CategoryItem categoryItem = categoryArrayList.get(position);
                 int division = categoryItem.getDivision();
+                int cateid = categoryItem.getId();
                 switch (division) {
                     case 0:
                         Intent intent = new Intent(v.getContext(), CreateSubject.class);
+                        intent.putExtra("cateid", cateid);
                         v.getContext().startActivity(intent);
                         break;
 
                     case 1:
                         Intent intent2 = new Intent(v.getContext(), CreateExercise.class);
+                        intent2.putExtra("cateid", cateid);
                         v.getContext().startActivity(intent2);
                         break;
 
                     case 2:
                         Intent intent3 = new Intent(v.getContext(), CreateNormal.class);
+                        intent3.putExtra("cateid", cateid);
                         v.getContext().startActivity(intent3);
                         break;
                 }
@@ -179,6 +183,7 @@ public class Category extends AppCompatActivity {
         String TAG_TITLE = "cate_title";
         String TAG_COLOR = "color";
         String TAG_DIVISION = "division";
+        String TAG_ID = "id";
 
         try {
             JSONObject jsonObject = new JSONObject(catejsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
@@ -190,10 +195,13 @@ public class Category extends AppCompatActivity {
                 String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
                 String color = item.getString(TAG_COLOR);
                 int division = item.getInt(TAG_DIVISION);
+                int cateid = item.getInt(TAG_ID);
+
                 CategoryItem categoryItem = new CategoryItem(Title);
                 categoryItem.setTitle(Title);
                 categoryItem.setColor(color);
                 categoryItem.setDivision(division);
+                categoryItem.setId(cateid);
 
                 categoryArrayList.add(categoryItem); //받아온값이들어있는 dayHabit 객체들을 ArrayList<DayHabit>에 차례로 집어넣고
                 categoryAdapterS.notifyDataSetChanged(); //집어넣었으니까 어댑터한테 값 새로 들어갔다고 알려줌 -> 리사이클러뷰 새로고침
