@@ -3,6 +3,7 @@ package com.example.swp1sec;
 public class cal_title_data {
     private String cal_title;
     private String usr_email;
+    private  int performance;
 
 
 
@@ -24,5 +25,13 @@ public class cal_title_data {
 
     public String getusr_email() {
         return usr_email;
+    }
+
+    public void setperformance(int performance) {
+        this.performance = performance;
+    }
+
+    public  int getperformance() {
+        return performance;
     }
 }

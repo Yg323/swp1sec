@@ -337,9 +337,54 @@ public class CalendarView extends AppCompatActivity {
         calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
         caltask.execute(CALURL, email); //task 실행
         //캘린더 데이터
-        cal_title_adapter.setOnItemClickListener(new cal_title_adapter.OnItemClickListener(){
+
+        cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
             @Override
-            public void onItemClick(View v,int position){
+            public  void onCheckedChanged(CompoundButton compoundButton,boolean isChecked,int pos){
+
+
+                String cal_title = calArrayList.get(pos).gettitle();
+
+
+                Toast.makeText(CalendarView.this,PreferenceManager.getString(CalendarView.this,"cal_title"),Toast.LENGTH_SHORT).show();
+                PreferenceManager.setString(CalendarView.this,"cal_title",cal_title);
+                categoryArrayList.clear();
+                category_title_adapter.notifyDataSetChanged();
+                cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+                catetask.execute(CATEURL, email, cal_title);
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jasonObject=new JSONObject(response);
+                            boolean success=jasonObject.getBoolean("success");
+                            if (!success) {
+                                Toast toast = Toast.makeText(getApplicationContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                                toast.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                cal_check_request cal_check_request =new cal_check_request(email,cal_title,Integer.toString(calArrayList.get(pos).getperformance()),responseListener);
+                RequestQueue queue=Volley.newRequestQueue(CalendarView.this);
+                queue.add(cal_check_request);
+
+                calArrayList.clear();
+
+                cal_title_adapter.notifyDataSetChanged();
+            }
+
+        });
+
+
+
+
+        /*cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(View v,int position){
                 final String cal_title = calArrayList.get(position).gettitle();
                 PreferenceManager.setString(CalendarView.this,"cal_title",cal_title);
                 Toast.makeText(CalendarView.this,PreferenceManager.getString(CalendarView.this,"cal_title"),Toast.LENGTH_SHORT).show();
@@ -348,7 +393,7 @@ public class CalendarView extends AppCompatActivity {
                 cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
                 catetask.execute(CATEURL, email, cal_title); //task 실행
             }
-        });
+        });*/
 
         //데이터 수정 및 삭제
         category_title_adapter.setOnClickListener(new category_title_adapter.OnClickListener(){
@@ -1014,6 +1059,7 @@ public class CalendarView extends AppCompatActivity {
 
         String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
         String TAG_TITLE = "cal_title";
+        String TAg_Performance ="performance";
 
 
         try {
@@ -1024,9 +1070,11 @@ public class CalendarView extends AppCompatActivity {
                 JSONObject item = jsonArray.getJSONObject(i);
                 //반복문인점 주의!
                 String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                int performnace = item.getInt(TAg_Performance);
 
                 cal_title_data cal_title_data = new cal_title_data(Title);
                 cal_title_data.settitle(Title);
+                cal_title_data.setperformance(performnace);
 
 
                 calArrayList.add(cal_title_data); //받아온값이들어있는 dayHabit 객체들을 ArrayList<DayHabit>에 차례로 집어넣고
