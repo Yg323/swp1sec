@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,16 +18,26 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     private ArrayList<cal_title_data> mList = null;
     private Activity context = null;
 
+    //checkbox listener
 
+    public interface OnCheckedChangeListener {
+        void onCheckedChanged (CompoundButton compoundButton, boolean isChecked, int position);
+    }
+    private cal_title_adapter.OnCheckedChangeListener mListener = null;
 
-    public interface OnItemClickListener {
+    public void setOnCheckedChangeListener (cal_title_adapter.OnCheckedChangeListener listener) {
+        this.mListener = listener;
+    }
+    //
+
+    /*public interface OnItemClickListener {
         void onItemClick(View v, int position);
     }
     private cal_title_adapter.OnItemClickListener mListener = null;
 
     public void setOnItemClickListener (cal_title_adapter.OnItemClickListener listener) {
         this.mListener = listener;
-    }
+    }*/
 
 
     public cal_title_adapter(Activity context, ArrayList<cal_title_data> list) {
@@ -35,12 +47,15 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
         private TextView cal_title;
+        private CheckBox cal_check;
 
 
         public CustomViewHolder(View view) {
             super(view);
+
             this.cal_title = (TextView) view.findViewById(R.id.cal_title);
-            view.setOnClickListener(new View.OnClickListener() {
+            this.cal_check = (CheckBox)view.findViewById(R.id.cal_check);
+           /* view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
@@ -48,7 +63,7 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
                         if (mListener != null) mListener.onItemClick(v, pos);
                     }
                 }
-            });
+            });*/
 
         }
     }
@@ -63,8 +78,28 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull final CustomViewHolder viewholder,final int position) {
         viewholder.cal_title.setText(mList.get(position).gettitle());
+        if(mList.get(position).getperformance()==1)viewholder.cal_check.setChecked(true);
+        else
+            viewholder.cal_check.setChecked(false);
+        viewholder.cal_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int pos =viewholder.getAdapterPosition();
+
+                if(pos != RecyclerView.NO_POSITION){
+
+                    if(isChecked){
+                        mList.get(position).setperformance(1);
+                    }
+                    else
+                        mList.get(position).setperformance(0);
+                }
+                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,isChecked,pos);
+            }
+        });
+
 
 
     }
