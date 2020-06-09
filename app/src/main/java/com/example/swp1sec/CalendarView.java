@@ -396,9 +396,17 @@ public class CalendarView extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int i) {
                             switch (i){
                                 case 0:
+                                    if(categoryArrayList.get(position).getdivision() == 0){
                                     cateintent = new Intent(getApplicationContext(),cate_dataview.class);
                                     cateintent.putExtra("position",position);
-                                    startActivity(cateintent);
+                                    startActivity(cateintent);}
+                                    else
+                                    {
+                                        cateintent = new Intent(getApplicationContext(),cate_dataview_exnm.class);
+                                        cateintent.putExtra("position",position);
+                                        startActivity(cateintent);
+                                    }
+
 
 
                                     break;

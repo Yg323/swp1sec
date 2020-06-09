@@ -139,7 +139,7 @@ public class badge_dialog extends AppCompatActivity {
                     public void run() {
                         while (true) {
                             try {
-                                sleep(10000);
+                                sleep(5000);
 
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
@@ -148,10 +148,9 @@ public class badge_dialog extends AppCompatActivity {
                         }
                     }
                 };
-
                 thread.start();
-                finish();
                 thread.interrupt();
+                finish();
 
             }
         });
