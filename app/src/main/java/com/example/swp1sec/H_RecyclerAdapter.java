@@ -54,6 +54,7 @@ public class H_RecyclerAdapter extends RecyclerView.Adapter<H_RecyclerAdapter.It
 
         private TextView textView1;
         private TextView textView2;
+        private TextView textView3;
         private ImageView imageView;
 
         ItemViewHolder(View itemView) {
@@ -61,12 +62,14 @@ public class H_RecyclerAdapter extends RecyclerView.Adapter<H_RecyclerAdapter.It
 
             textView1 = itemView.findViewById(R.id.textView1);
             textView2 = itemView.findViewById(R.id.textView2);
+            textView3 = itemView.findViewById(R.id.textView3);
             imageView = itemView.findViewById(R.id.imageView);
         }
 
         void onBind(Data data) {
             textView1.setText(data.getTitle());
             textView2.setText(data.getContent());
+            textView3.setText(data.getspent());
             imageView.setImageResource(data.getm_ResId());
         }
     }
