@@ -38,7 +38,8 @@
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="parent"
+                android:fontFamily="@font/nanumsquare_acr"/>
 
             <ImageView
                 android:id="@+id/coin_logo"
@@ -48,7 +49,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="parent"
-                app:srcCompat="@drawable/coin" />
+                app:srcCompat="@drawable/coin_clock" />
             <TextView
                 android:id="@+id/coin"
                 android:layout_width="wrap_content"
@@ -60,7 +61,8 @@
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="parent"
+                android:fontFamily="@font/nanumsquare_acr"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +81,8 @@
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="parent"
+                android:fontFamily="@font/nanumsquare_acr"/>
 
             <Button
                 android:id="@+id/h_button"
@@ -90,7 +93,8 @@
                 app:layout_constraintBottom_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="parent"
+                android:fontFamily="@font/nanumsquare_acr"/>
         </LinearLayout>
 
         <FrameLayout

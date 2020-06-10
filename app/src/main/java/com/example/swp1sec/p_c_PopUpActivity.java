@@ -45,7 +45,7 @@ public class p_c_PopUpActivity extends AppCompatActivity {
         //타이틀바 없애기
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.c_popup_activity);
+        setContentView(R.layout.p_c_popup_activity);
 
         String url = "http://159.89.193.200/get_money.php";
 
@@ -62,12 +62,12 @@ public class p_c_PopUpActivity extends AppCompatActivity {
         money_doJSONParser(outPut);
         Log.d(TAG, "money = " + res);
 
-        okBtn = (Button)findViewById(R.id.ok);
-        cancelBtn = (Button)findViewById(R.id.cancel);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        okBtn = (Button)findViewById(R.id.p_ok);
+        cancelBtn = (Button)findViewById(R.id.p_cancel);
+        radioGroup = (RadioGroup) findViewById(R.id.p_radioGroup);
 
         //UI 객체생성
-        txtText = (TextView)findViewById(R.id.txtText);
+        txtText = (TextView)findViewById(R.id.p_txtText);
 
         //데이터 가져오기
         Intent intent = getIntent();
@@ -79,16 +79,16 @@ public class p_c_PopUpActivity extends AppCompatActivity {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int rb = ((RadioGroup)radioGroup.findViewById(R.id.radioGroup)).getCheckedRadioButtonId();
+                int rb = ((RadioGroup)radioGroup.findViewById(R.id.p_radioGroup)).getCheckedRadioButtonId();
                 InsertData task = new InsertData();
 
                 switch (rb){
-                    case R.id.radioButton3:
+                    case R.id.p_radioButton3:
                         mnum = 0;
                         Toast.makeText(getApplicationContext(),"일반 색상팔레트 1을 획득했습니다!", Toast.LENGTH_SHORT).show();
                         task.execute("http://" + IP_ADDRESS, Integer.toString(mnum));
                         break;
-                    case R.id.radioButton4:
+                    case R.id.p_radioButton4:
                         mnum = 1;
                         Toast.makeText(getApplicationContext(),"프리미엄 색상팔레트 1을 획득했습니다!", Toast.LENGTH_SHORT).show();
                         task.execute("http://" + IP_ADDRESS, Integer.toString(mnum));

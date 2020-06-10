@@ -13,6 +13,7 @@
         android:text="Text3"
         android:textAlignment="center"
         android:gravity="center_horizontal"
-        android:textSize = "25dp"/>
+        android:textSize = "25dp"
+        android:fontFamily="@font/nanumsquare_acr"/>
 
 </LinearLayout>

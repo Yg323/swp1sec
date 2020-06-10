@@ -68,9 +68,9 @@ public class LockScreenActivity extends  AppCompatActivity{
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
 
         NetworkTask date_networkTask = new NetworkTask(date_url, null);
-        try{
+        try {
             outPut = date_networkTask.execute().get();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //outPut = networkTask.getTv_outPut();
@@ -94,8 +94,6 @@ public class LockScreenActivity extends  AppCompatActivity{
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
 
-
-
         // 부모 리스트
         ArrayList<HashMap<String, String>> groupData = new ArrayList<>();
         // 자식 리스트
@@ -115,9 +113,9 @@ public class LockScreenActivity extends  AppCompatActivity{
 
         // 자식 리스트에 요소를 추가한다. (1)
         NetworkTask nm_networkTask = new NetworkTask(nm_url, null);
-        try{
+        try {
             outPut = nm_networkTask.execute().get();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //outPut = networkTask.getTv_outPut();
@@ -127,23 +125,45 @@ public class LockScreenActivity extends  AppCompatActivity{
         nm_doJSONParser(outPut);
 
         ArrayList<HashMap<String, String>> childListA = new ArrayList<>();
+        if (res1.size() == 0) {
+            System.out.print("설정된 할일이 없습니다.");
+        } else if (res1.size() == 1) {
+            HashMap<String, String> childAA = new HashMap<>();
+            childAA.put("group", "할 일");
+            childAA.put("name", res1.get(0).toString());
+            childListA.add(childAA);
 
-        HashMap<String, String> childAA = new HashMap<>();
-        childAA.put("group", "할 일");
-        childAA.put("name", res1.get(0).toString());
-        childListA.add(childAA);
+            childData.add(childListA);
+        } else if (res1.size() == 2) {
+            HashMap<String, String> childAA = new HashMap<>();
+            childAA.put("group", "할 일");
+            childAA.put("name", res1.get(0).toString());
+            childListA.add(childAA);
 
-        HashMap<String, String> childAB = new HashMap<>();
-        childAB.put("group", "할 일");
-        childAB.put("name", res1.get(0).toString());
-        childListA.add(childAB);
+            HashMap<String, String> childAB = new HashMap<>();
+            childAB.put("group", "할 일");
+            childAB.put("name", res1.get(1).toString());
+            childListA.add(childAB);
 
-        HashMap<String, String> childAC = new HashMap<>();
-        childAC.put("group", "할 일");
-        childAC.put("name", res1.get(0).toString());
-        childListA.add(childAC);
+            childData.add(childListA);
+        }else {
+            HashMap<String, String> childAA = new HashMap<>();
+            childAA.put("group", "할 일");
+            childAA.put("name", res1.get(0).toString());
+            childListA.add(childAA);
 
-        childData.add(childListA);
+            HashMap<String, String> childAB = new HashMap<>();
+            childAB.put("group", "할 일");
+            childAB.put("name", res1.get(1).toString());
+            childListA.add(childAB);
+
+            HashMap<String, String> childAC = new HashMap<>();
+            childAC.put("group", "할 일");
+            childAC.put("name", res1.get(2).toString());
+            childListA.add(childAC);
+
+            childData.add(childListA);
+        }
 
         // 자식 리스트에 요소를 추가한다. (2)
         NetworkTask ex_networkTask = new NetworkTask(ex_url, null);
@@ -161,23 +181,45 @@ public class LockScreenActivity extends  AppCompatActivity{
 
         ArrayList<HashMap<String, String>> childListB = new ArrayList<>();
 
-        HashMap<String, String> childBA = new HashMap<>();
-        childBA.put("group", "주요 일정");
-        childBA.put("name", res1.get(0).toString());
-        childListB.add(childBA);
+        if(res1.size() == 0){
+            System.out.print("설정된 주요 일정이 없습니다.");
+        }else if(res1.size() == 1) {
+            HashMap<String, String> childBA = new HashMap<>();
+            childBA.put("group", "주요 일정");
+            childBA.put("name", res1.get(0).toString());
+            childListB.add(childBA);
 
-        HashMap<String, String> childBB = new HashMap<>();
-        childBB.put("group", "주요 일정");
-        childBB.put("name", res1.get(0).toString());
-        childListB.add(childBB);
+            childData.add(childListB);
+        }else if(res1.size() == 2) {
+            HashMap<String, String> childBA = new HashMap<>();
+            childBA.put("group", "주요 일정");
+            childBA.put("name", res1.get(0).toString());
+            childListB.add(childBA);
 
-        HashMap<String, String> childBC = new HashMap<>();
-        childBC.put("group", "주요 일정");
-        childBC.put("name", res1.get(0).toString());
-        childListB.add(childBC);
+            HashMap<String, String> childBB = new HashMap<>();
+            childBB.put("group", "주요 일정");
+            childBB.put("name", res1.get(1).toString());
+            childListB.add(childBB);
 
-        childData.add(childListB);
+            childData.add(childListB);
+        }else {
+            HashMap<String, String> childBA = new HashMap<>();
+            childBA.put("group", "주요 일정");
+            childBA.put("name", res1.get(0).toString());
+            childListB.add(childBA);
 
+            HashMap<String, String> childBB = new HashMap<>();
+            childBB.put("group", "주요 일정");
+            childBB.put("name", res1.get(1).toString());
+            childListB.add(childBB);
+
+            HashMap<String, String> childBC = new HashMap<>();
+            childBC.put("group", "주요 일정");
+            childBC.put("name", res1.get(2).toString());
+            childListB.add(childBC);
+
+            childData.add(childListB);
+        }
         // 자식 리스트에 요소를 추가한다. (3)
         NetworkTask hb_networkTask = new NetworkTask(hb_url, null);
         try{
@@ -194,23 +236,45 @@ public class LockScreenActivity extends  AppCompatActivity{
 
         ArrayList<HashMap<String, String>> childListC = new ArrayList<>();
 
-        HashMap<String, String> childCA = new HashMap<>();
-        childCA.put("group", "습관");
-        childCA.put("name", res1.get(0).toString());
-        childListC.add(childCA);
+        if(res1.size() == 0){
+            System.out.print("설정된 습관이 없습니다.");
+        }else if(res1.size() == 1) {
+            HashMap<String, String> childCA = new HashMap<>();
+            childCA.put("group", "습관");
+            childCA.put("name", res1.get(0).toString());
+            childListC.add(childCA);
 
-        HashMap<String, String> childCB = new HashMap<>();
-        childCB.put("group", "습관");
-        childCB.put("name", res1.get(0).toString());
-        childListC.add(childCB);
+            childData.add(childListC);
+        }else if(res1.size() == 2) {
+            HashMap<String, String> childCA = new HashMap<>();
+            childCA.put("group", "습관");
+            childCA.put("name", res1.get(0).toString());
+            childListC.add(childCA);
 
-        HashMap<String, String> childCC = new HashMap<>();
-        childCC.put("group", "습관");
-        childCC.put("name", res1.get(0).toString());
-        childListC.add(childCC);
+            HashMap<String, String> childCB = new HashMap<>();
+            childCB.put("group", "습관");
+            childCB.put("name", res1.get(1).toString());
+            childListC.add(childCB);
 
-        childData.add(childListC);
+            childData.add(childListC);
+        }else{
+            HashMap<String, String> childCA = new HashMap<>();
+            childCA.put("group", "습관");
+            childCA.put("name", res1.get(0).toString());
+            childListC.add(childCA);
 
+            HashMap<String, String> childCB = new HashMap<>();
+            childCB.put("group", "습관");
+            childCB.put("name", res1.get(1).toString());
+            childListC.add(childCB);
+
+            HashMap<String, String> childCC = new HashMap<>();
+            childCC.put("group", "습관");
+            childCC.put("name", res1.get(2).toString());
+            childListC.add(childCC);
+
+            childData.add(childListC);
+        }
         // 부모 리스트와 자식 리스트를 포함한 Adapter를 생성
         SimpleExpandableListAdapter adapter = new SimpleExpandableListAdapter(
                 this, groupData,

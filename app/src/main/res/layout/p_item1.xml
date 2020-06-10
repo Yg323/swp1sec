@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
         android:layout_weight="0.05"
-        android:text="" />
+        android:text=""
+        android:fontFamily="@font/nanumsquare_acr"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -49,7 +50,8 @@
                 android:layout_width="47dp"
                 android:layout_height="wrap_content"
                 android:text="Coin"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:fontFamily="@font/nanumsquare_acr"/>
 
 
         </LinearLayout>
@@ -69,7 +71,8 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:text=" "
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:fontFamily="@font/nanumsquare_acr"/>
 
         <TextView
             android:id="@+id/textView1"
@@ -79,7 +82,8 @@
             android:text="TITLE"
             android:textColor="@android:color/black"
             android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumsquare_acr"/>
 
         <TextView
             android:id="@+id/textView2"
@@ -89,7 +93,8 @@
             android:includeFontPadding="false"
             android:text="content"
             android:textColor="@android:color/darker_gray"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:fontFamily="@font/nanumsquare_acr"/>
     </LinearLayout>
 
     <TextView
@@ -104,7 +109,8 @@
         android:layout_width="wrap_content"
         android:layout_height="125dp"
         android:layout_weight="0.05"
-        android:text="구입" />
+        android:text="구입"
+        android:fontFamily="@font/nanumsquare_acr"/>
 
 
 </LinearLayout>

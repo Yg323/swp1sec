@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
         android:layout_weight="0.05"
-        android:text="" />
+        android:text=""
+        android:fontFamily="@font/nanumsquare_acr"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -40,7 +41,8 @@
             android:text="TITLE"
             android:textColor="@android:color/black"
             android:textSize="30dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:fontFamily="@font/nanumsquare_acr"/>
 
         <TextView
             android:id="@+id/textView2"
@@ -49,7 +51,8 @@
             android:includeFontPadding="false"
             android:text="content"
             android:textColor="@android:color/darker_gray"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:fontFamily="@font/nanumsquare_acr"/>
 
     </LinearLayout>
 
@@ -68,7 +71,8 @@
             android:layout_height="wrap_content"
             android:text="- 30 min"
             android:textSize="30dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:fontFamily="@font/nanumsquare_acr"/>
     </LinearLayout>
 
 
