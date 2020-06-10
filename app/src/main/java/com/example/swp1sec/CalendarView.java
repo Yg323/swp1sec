@@ -1,21 +1,18 @@
 package com.example.swp1sec;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -1275,8 +1272,8 @@ public class CalendarView extends AppCompatActivity {
                 JSONObject item = jsonArray.getJSONObject(i);
 
 
-                //반복문인점 주의!
-                String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                //DB에서 받아오기
+                String Title = item.getString(TAG_TITLE);
                 String Date = item.getString(TAG_DATE);
                 String Time = item.getString(TAG_TIME);
                 //String EndDate = item.getString(TAG_ENDDATE);
@@ -1285,9 +1282,9 @@ public class CalendarView extends AppCompatActivity {
                 //int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
 
+                //캘린더에 일정 저장하는 부분
                 Event event = new Event();
                 mCalendar = Calendar.getInstance();
-
                 int year = Integer.parseInt(Date.substring(0,4));
                 int month = Integer.parseInt(Date.substring(5,7))-1;
                 int date = Integer.parseInt(Date.substring(8,10));
@@ -1302,8 +1299,6 @@ public class CalendarView extends AppCompatActivity {
                 }
                 //int hour = Integer.parseInt(Time.substring(0,2));
                 //int minute = Integer.parseInt(Time.substring(3,5));
-
-
                 mCalendar.set(Calendar.HOUR_OF_DAY, hour);
                 mCalendar.set(Calendar.MINUTE, minute);
                 mCalendar.set(Calendar.SECOND, 0);
