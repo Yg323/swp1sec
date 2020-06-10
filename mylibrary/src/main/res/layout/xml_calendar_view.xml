@@ -7,7 +7,7 @@
 
     <view
         android:id="@+id/view_pager"
-        class="com.example.mylibrary.CalendarView$CalendarViewPager"
+        class="com.example.mylibrary.CalendarViewM$CalendarViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 

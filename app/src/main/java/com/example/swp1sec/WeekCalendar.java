@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.library.MonthLoader;
 import com.example.library.WeekView;
 import com.example.library.WeekViewEvent;
-import com.example.library.WeekViewUtil;
 
 
 import org.json.JSONArray;
@@ -30,14 +29,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 public class WeekCalendar extends BaseActivity {
@@ -67,7 +62,7 @@ public class WeekCalendar extends BaseActivity {
     //int month, date, hour, minute;
 
 
-    private com.example.mylibrary.CalendarView mCalendarView;
+    private com.example.mylibrary.CalendarViewM mCalendarView;
 
 
 

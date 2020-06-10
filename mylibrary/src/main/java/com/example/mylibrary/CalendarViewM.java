@@ -1,5 +1,6 @@
 package com.example.mylibrary;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -32,7 +33,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.mylibrary.helpers.FrameLinearLayout;
-import com.example.mylibrary.helpers.MultipleTriangleView;
 import com.example.mylibrary.helpers.SelectedTextView;
 import com.example.mylibrary.helpers.YMDCalendar;
 
@@ -52,9 +52,9 @@ import java.util.Locale;
 //import android.support.v4.view.ViewPager;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public class CalendarView extends FrameLayout {
+public class CalendarViewM extends FrameLayout {
 
-    private static final String TAG = CalendarView.class.getSimpleName();
+    private static final String TAG = CalendarViewM.class.getSimpleName();
 
     private static final String DEFAULT_MIN_DATE = "01/01/1992";
     private static final String DEFAULT_MAX_DATE = "01/01/2100";
@@ -104,14 +104,14 @@ public class CalendarView extends FrameLayout {
     /**
      * Constructor
      */
-    public CalendarView(Context context) {
+    public CalendarViewM(Context context) {
         this(context, null);
     }
 
     /**
      * Constructor
      */
-    public CalendarView(Context context, AttributeSet attrs) {
+    public CalendarViewM(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         readAttributes(context, attrs);
@@ -119,76 +119,93 @@ public class CalendarView extends FrameLayout {
         initChildViews(context);
     }
 
+
     private void readAttributes(Context context, AttributeSet attrs) {
 
         int colorPrimary = getThemeColor(context, R.attr.colorPrimary);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CalendarView, 0, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CalendarViewM, 0, 0);
 
         mAttributes.put(Attr.contentBackgroundColor,
-                a.getColor(R.styleable.CalendarView_content_background_color, Color.TRANSPARENT));
+                a.getColor(R.styleable.CalendarViewM_content_background_color, Color.TRANSPARENT));
 
         // Month
         mAttributes.put(Attr.monthHeaderTextColor,
-                a.getColor(R.styleable.CalendarView_month_header_text_color, colorPrimary));
+                a.getColor(R.styleable.CalendarViewM_month_header_text_color, colorPrimary));
         mAttributes.put(Attr.monthHeaderBackgroundColor,
-                a.getColor(R.styleable.CalendarView_month_header_background_color, Color.TRANSPARENT));
+                a.getColor(R.styleable.CalendarViewM_month_header_background_color, Color.TRANSPARENT));
         mAttributes.put(Attr.monthHeaderArrowsColor,
-                a.getColor(R.styleable.CalendarView_month_header_arrows_color, colorPrimary));
+                a.getColor(R.styleable.CalendarViewM_month_header_arrows_color, colorPrimary));
         mAttributes.put(Attr.monthHeaderShow,
-                a.getBoolean(R.styleable.CalendarView_month_header_show, true)? 1 : 0);
+                a.getBoolean(R.styleable.CalendarViewM_month_header_show, true)? 1 : 0);
 
         // WeekHeader
         mAttributes.put(Attr.weekHeaderTextColor,
-                a.getColor(R.styleable.CalendarView_week_header_text_color, Color.WHITE));
+                a.getColor(R.styleable.CalendarViewM_week_header_text_color, Color.WHITE));
         mAttributes.put(Attr.weekHeaderBackgroundColor,
-                a.getColor(R.styleable.CalendarView_week_header_background_color, colorPrimary));
+                a.getColor(R.styleable.CalendarViewM_week_header_background_color, colorPrimary));
         mAttributes.put(Attr.weekHeaderOffsetDayTextColor,
-                a.getColor(R.styleable.CalendarView_week_header_offset_day_text_color, Color.RED)); //일요일은 red로(위쪽 sunday를 말함)
+                a.getColor(R.styleable.CalendarViewM_week_header_offset_day_text_color, Color.RED)); //일요일은 red로(위쪽 sunday를 말함)
         mAttributes.put(Attr.weekHeaderOffsetDayBackgroundColor,
-                a.getColor(R.styleable.CalendarView_week_header_offset_day_background_color,
+                a.getColor(R.styleable.CalendarViewM_week_header_offset_day_background_color,
                         mAttributes.get(Attr.weekHeaderBackgroundColor)));
         mAttributes.put(Attr.weekHeaderMovable,
-                a.getBoolean(R.styleable.CalendarView_week_header_movable, true)? 1 : 0);
+                a.getBoolean(R.styleable.CalendarViewM_week_header_movable, true)? 1 : 0);
 
         // Day Item
         mAttributes.put(Attr.dayTextColor,
-                a.getColor(R.styleable.CalendarView_day_text_color, colorPrimary));
+                a.getColor(R.styleable.CalendarViewM_day_text_color, colorPrimary));
         mAttributes.put(Attr.dayBackgroundColor,
-                a.getColor(R.styleable.CalendarView_day_background_color, Color.TRANSPARENT));
+                a.getColor(R.styleable.CalendarViewM_day_background_color, Color.TRANSPARENT));
 
         // OffsetDay
         mAttributes.put(Attr.offsetDayTextColor,
-                a.getColor(R.styleable.CalendarView_offset_day_text_color, Color.RED)); // 일요일인 날짜를 red로
+                a.getColor(R.styleable.CalendarViewM_offset_day_text_color, Color.RED)); // 일요일인 날짜를 red로
         mAttributes.put(Attr.offsetDayBackgroundColor,
-                a.getColor(R.styleable.CalendarView_offset_day_background_color,
+                a.getColor(R.styleable.CalendarViewM_offset_day_background_color,
                         mAttributes.get(Attr.dayBackgroundColor)));
 
         // Current Day
         mAttributes.put(Attr.currentDayTextColor,
-                a.getColor(R.styleable.CalendarView_current_day_text_color, colorPrimary));
+                a.getColor(R.styleable.CalendarViewM_current_day_text_color, colorPrimary));
         mAttributes.put(Attr.currentDayBackgroundColor,
-                a.getColor(R.styleable.CalendarView_current_day_background_color, Color.TRANSPARENT));
+                a.getColor(R.styleable.CalendarViewM_current_day_background_color, Color.TRANSPARENT));
         mAttributes.put(Attr.currentDayTextStyle,
-                a.getInt(R.styleable.CalendarView_current_day_text_style, Typeface.BOLD));  // BOLD 캘린더 텍스트 볼드체
+                a.getInt(R.styleable.CalendarViewM_current_day_text_style, Typeface.BOLD));  // BOLD 캘린더 텍스트 볼드체
         mAttributes.put(Attr.currentDayCircleEnable,
-                a.getBoolean(R.styleable.CalendarView_current_day_circle_enable, false)? 1 : 0);
+                a.getBoolean(R.styleable.CalendarViewM_current_day_circle_enable, false)? 1 : 0);
         mAttributes.put(Attr.currentDayCircleColor,
-                a.getColor(R.styleable.CalendarView_current_day_circle_color,
+                a.getColor(R.styleable.CalendarViewM_current_day_circle_color,
                         mAttributes.get(Attr.currentDayTextColor)));
+
+
+
+
+
+        int s = ((Activity)getContext()).getIntent().getIntExtra("mon",2);
+        int sd = ((Activity)getContext()).getIntent().getIntExtra("sun",1);
+        int c = 0;
+        if(s == 1){
+            c = Calendar.MONDAY;
+        }else if(s == 2){
+            c = Calendar.SUNDAY;
+        }
 
         // Selected Day
         mAttributes.put(Attr.selectedDayTextColor,
-                a.getColor(R.styleable.CalendarView_selected_day_text_color, mAttributes.get(Attr.dayTextColor)));
+                a.getColor(R.styleable.CalendarViewM_selected_day_text_color, mAttributes.get(Attr.dayTextColor)));
         mAttributes.put(Attr.selectedDayBackgroundColor,
-                a.getColor(R.styleable.CalendarView_selected_day_background_color, Color.TRANSPARENT));
+                a.getColor(R.styleable.CalendarViewM_selected_day_background_color, Color.TRANSPARENT));
         mAttributes.put(Attr.selectedDayBorderColor,
-                a.getColor(R.styleable.CalendarView_selected_day_border_color, colorPrimary));
+                a.getColor(R.styleable.CalendarViewM_selected_day_border_color, colorPrimary));
 
         mAttributes.put(Attr.dayOffset,
-                a.getInt(R.styleable.CalendarView_offset_day, Calendar.SUNDAY)); // Sunday 아래 요일 빨간색 표시
+                a.getInt(R.styleable.CalendarViewM_offset_day, Calendar.SUNDAY)); // Sunday 아래 요일 빨간색 표시
+
         mAttributes.put(Attr.startingWeekDay,
-                a.getInt(R.styleable.CalendarView_starting_weekday, Calendar.MONDAY)); // 일주일의 시작 요일 설정
+                a.getInt(R.styleable.CalendarViewM_starting_weekday, c)); // 일주일의 시작 요일 설정 Calendar.MONDAY
+
+
 
         a.recycle();
     }
@@ -1118,8 +1135,8 @@ public class CalendarView extends FrameLayout {
             return this;
         }
 
-        public CalendarView create() {
-            CalendarView calendarView = new CalendarView(P.mContext);
+        public CalendarViewM create() {
+            CalendarViewM calendarView = new CalendarViewM(P.mContext);
 
             P.apply(calendarView.mAttributes);
 

@@ -1,17 +1,21 @@
 package com.example.swp1sec;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +29,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -63,15 +68,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CalendarView extends AppCompatActivity {
 
     private final static int CREATE_EVENT_REQUEST_CODE = 100;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private String[] mShortMonths;
-    private com.example.mylibrary.CalendarView mCalendarView;
+    private com.example.swp1sec.CalendarViewM mCalendarView;
     private CalendarDialog mCalendarDialog;
     private Intent intent;
+
 
     //setting
     RecyclerView cateRecyclerView, calRecyclerView;
@@ -138,6 +145,14 @@ public class CalendarView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        setting_start_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start_day_show();
+            }
+        });
+        String text = PreferenceManager.getString(CalendarView.this,"start_week_title");
+        setting_start_day.setText(text);
 
         email =  PreferenceManager.getString(this,"email");
         calendar_title = PreferenceManager.getString(CalendarView.this,"cal_title");
@@ -168,7 +183,7 @@ public class CalendarView extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mCalendarView = findViewById(R.id.calendarView);
         //상단 툴바에 뜨는 달(Title)이랑 년도(subtitle) 설정 움직일때 변경되는 것
-        mCalendarView.setOnMonthChangedListener(new com.example.mylibrary.CalendarView.OnMonthChangedListener() {
+        mCalendarView.setOnMonthChangedListener(new com.example.swp1sec.CalendarViewM.OnMonthChangedListener() {
             @Override // 여기에 int day 추가했음
             public void onMonthChanged(int month, int year) {
 
@@ -180,9 +195,9 @@ public class CalendarView extends AppCompatActivity {
         });
 
         //캘린더를 선택했을 때 size가 제로가 아니다 즉, 일정이 있으면 다이얼로그를 표시하고 없으면 바로 일정 추가창을 띄운다.
-        mCalendarView.setOnItemClickedListener(new com.example.mylibrary.CalendarView.OnItemClickListener() {
+        mCalendarView.setOnItemClickedListener(new com.example.swp1sec.CalendarViewM.OnItemClickListener() {
             @Override
-            public void onItemClicked(List<com.example.mylibrary.CalendarView.CalendarObject> calendarObjects,
+            public void onItemClicked(List<com.example.swp1sec.CalendarViewM.CalendarObject> calendarObjects,
                                       Calendar previousDate,
                                       Calendar selectedDate) {
                 if (calendarObjects.size() != 0) {
@@ -211,11 +226,13 @@ public class CalendarView extends AppCompatActivity {
         mCalendarDialog = CalendarDialog.Builder.instance(this)
                 .setEventList(mEventList)
                 .setOnItemClickListener(new CalendarDialog.OnCalendarDialogListener() {
+                    //다이얼로그에서 각 이벤트 클릭시 이벤트 발생
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onEventClick(Event event) {
                         onEventSelected(event);
                     }
-
+                    //다이얼로그 우측 하단의 플러스 버튼 누를시 일정 생성 이벤트 발생
                     @Override
                     public void onCreateEvent(Calendar calendar) {
                         createEvent(calendar);
@@ -626,9 +643,28 @@ public class CalendarView extends AppCompatActivity {
 
 
     //일간 캘린더 다이얼로그에서 이벤트를 클릭시 일정 추가 즉, 이벤트 생성창이 올라온다.
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void onEventSelected(Event event) {
 
-        calclick();
+
+        Event oldEvent = null;
+        for (Event e : mEventList) {
+            if (Objects.equals(event.getID(), e.getID())) {
+                oldEvent = e;
+                break;
+            }
+        }
+        if (oldEvent != null) {
+            mEventList.remove(oldEvent);
+            mEventList.add(event);
+
+            //mCalendarView.removeCalendarObjectByID(parseCalendarObject(oldEvent));
+            //mCalendarView.addCalendarObject(parseCalendarObject(event));
+            //mCalendarDialog.setEventList(mEventList);
+        }
+
+
+        //calclick();
         /*Activity context = CalendarView.this;
         Intent intent = CreateHabit.makeIntent(context, event);
 
@@ -1101,13 +1137,21 @@ public class CalendarView extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int pos) {
                 switch (pos){
                     case 0:
+                        PreferenceManager.setInt(CalendarView.this,"start_week", 1);
+                        PreferenceManager.setString(CalendarView.this, "start_week_title", "월요일");
+                        //String text = PreferenceManager.getString(CalendarView.this,"start_week_title");
+                        //setting_start_day.setText(text);
                         setting_start_day.setText("월요일");
+
 
 
                         break;
                     case 1:
+                        PreferenceManager.setInt(CalendarView.this,"start_week", 2);
+                        PreferenceManager.setString(CalendarView.this, "start_week_title", "일요일");
+                        //String text2 = PreferenceManager.getString(CalendarView.this,"start_week_title2");
+                        //setting_start_day.setText(text2);
                         setting_start_day.setText("일요일");
-
                         break;
 
                 }
@@ -1279,7 +1323,7 @@ public class CalendarView extends AppCompatActivity {
                 event.setCompleted(false);
                 mEventList.add(event); // 일간 다이얼로그에 값 넣어줌
                 //월간 캘린더 표시에 값 넣어줌
-                mCalendarView.addCalendarObject(new com.example.mylibrary.CalendarView.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
+                mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
 
             }
 

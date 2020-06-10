@@ -37,7 +37,7 @@
         <attr name="frame_width_start" format="dimension"/>
     </declare-styleable>
 
-    <declare-styleable name="CalendarView">
+    <declare-styleable name="CalendarViewM">
         <attr name="content_background_color" format="color" />
         <attr name="month_header_background_color" format="color"/>
         <attr name="month_header_text_color" format="color"/>

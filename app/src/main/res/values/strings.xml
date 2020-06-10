@@ -39,4 +39,16 @@
     <string name="title_activity_asynchronous">Asynchronous Events</string>
     <string name="async_error">Could not download events from the internet</string>
 
+    //월간 캘린더 라이브러리 테스트
+    <string name="not_available">not available</string>
+    <string name="previous_month">previous month</string>
+    <string name="next_month">next month</string>
+    <string name="Sunday">일요일</string>
+    <string name="Monday">월요일</string>
+    <string name="Tuesday">화요일</string>
+    <string name="Wednesday">수요일</string>
+    <string name="Thursday">목요일</string>
+    <string name="Friday">금요일</string>
+    <string name="Saturday">토요일</string>
+
 </resources>
