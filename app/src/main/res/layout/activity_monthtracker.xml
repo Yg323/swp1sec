@@ -9,42 +9,37 @@
     android:background="@color/white"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content">
 
 
         <Button
             android:id="@+id/btn_daytracker"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
+            android:padding="20dp"
+
             android:background="@color/colorTransparent"
             android:fontFamily="@font/nanumsquare_acr"
             android:text="하루평가"
             android:textColor="#000000"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="25dp" />
 
         <Button
             android:id="@+id/btn_monthtracker"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
+            android:padding="20dp"
             android:background="@color/colorTransparent"
             android:fontFamily="@font/nanumsquare_acr"
             android:text="월간평가"
             android:textColor="#000000"
-            android:textSize="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textSize="25dp" />
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/todolayout"
         android:layout_width="match_parent"
@@ -379,7 +374,7 @@
             android:layout_margin="5dp"
             android:fontFamily="@font/nanumsquare_acr"
             android:padding="10dp"
-            android:text=" 일중 일 완료했습니다."
+            android:text="등록된 습관이 없습니다."
             android:textSize="20dp" />
 
 
@@ -390,6 +385,7 @@
         android:id="@+id/Layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal|center_vertical">
 
         <TextView
@@ -398,7 +394,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nanumsquare_acr"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:text="칭찬의 말!"
+            android:text="습관을 먼저 등록해주세요!"
             android:textSize="17dp" />
     </LinearLayout>
 

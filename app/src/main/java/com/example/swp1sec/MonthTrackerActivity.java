@@ -188,7 +188,7 @@ public class MonthTrackerActivity extends AppCompatActivity{
         }
         monthHabitNameArrayList =  new ArrayList<>();
         grouptrackercheck = new ArrayList<ArrayList<String>>();
-        txt_monthfeedback.setText(Integer.toString(startday));
+
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,monthHabitNameArrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_habit.setAdapter(adapter);
