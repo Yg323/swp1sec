@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.swp1sec.CategoryAdapterS;
 import com.example.swp1sec.R;
 import com.example.swp1sec.data.Event;
 
@@ -309,24 +311,85 @@ public class CalendarDialog {
 
     }
 
-    private class CalendarEventAdapter extends RecyclerView.Adapter<CalendarEventAdapter.ViewHolder>{
+    //CalendarEventAdapter.
+
+
+
+
+
+
+    private static class CalendarEventAdapter extends RecyclerView.Adapter<CalendarEventAdapter.ViewHolder>{
 
         private final List<Event> mCalendarEvents;
 
+        ///////
+        private OnItemClickListener mListener = null;
+        public interface OnItemClickListener{
+            void onItemClick(View v, int position);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener listener){
+            this.mListener = listener;
+
+        }
+
         CalendarEventAdapter(List<Event> events) {
             mCalendarEvents = events;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            View rclEventIcon;
+            TextView tvEventName;
+            TextView tvEventStatus;
+
+            ViewHolder(View view) {
+                super(view);
+                rclEventIcon = view.findViewById(R.id.rcl_calendar_event_icon);
+                tvEventName = view.findViewById(R.id.tv_calendar_event_name);
+                tvEventStatus = view.findViewById(R.id.tv_calendar_event_status);
+                //view.setOnClickListener(this);
+                /*view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int pos = getAdapterPosition() ;
+                        if (pos != RecyclerView.NO_POSITION) {
+                            // TODO : use pos.
+                        }
+                        Log.d("뷰홀더 클릭 테스트", String.valueOf(pos));
+
+
+                        Event s = mEventList.get(pos);
+                        String k = s.getTitle();
+                        Log.d("뷰홀더 타이틀 테스트", k);
+                    }
+                });*/
+            }
+
+            @Override
+            public void onClick(View v) {
+                /*if (mListener != null)
+                    mListener.onEventClick(mEventList.get(getAdapterPosition()));
+                Event a = mEventList.get(getAdapterPosition());
+                Log.d("다이얼로그 포지션", String.valueOf(a));*/
+
+            }
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater vi = LayoutInflater.from(parent.getContext());
             View v = vi.inflate(R.layout.list_item_calendar_event, parent, false);
-            return new ViewHolder(v);
+            //return new ViewHolder(v);
+            ViewHolder vv = new ViewHolder(v);
+            return vv;
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             Event event = mCalendarEvents.get(position);
+            String a = event.getTitle();
+            Log.d("뷰홀더 타이틀", a);
 
             String defaultTitle = holder.itemView.getContext().getString(R.string.event_default_title);
             String title = event.getTitle() == null ? defaultTitle : event.getTitle();
@@ -341,25 +404,7 @@ public class CalendarDialog {
             return mCalendarEvents.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            View rclEventIcon;
-            TextView tvEventName;
-            TextView tvEventStatus;
 
-            ViewHolder(View view) {
-                super(view);
-                rclEventIcon = view.findViewById(R.id.rcl_calendar_event_icon);
-                tvEventName = view.findViewById(R.id.tv_calendar_event_name);
-                tvEventStatus = view.findViewById(R.id.tv_calendar_event_status);
-                view.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                if (mListener != null)
-                    mListener.onEventClick(mEventList.get(getAdapterPosition()));
-            }
-        }
     }
 
     public interface OnCalendarDialogListener {

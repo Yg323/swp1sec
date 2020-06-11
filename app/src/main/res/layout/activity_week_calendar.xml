@@ -20,14 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/imgleft2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="false"
-            android:layout_marginStart="25dp"
-            android:background="@drawable/icon_personsetting"
-            android:scaleType="center" />
 
         <androidx.appcompat.widget.Toolbar
 
@@ -52,14 +44,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <ImageButton
-            android:id="@+id/imgRight2"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_alignParentRight="false"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="25dp"
-            android:background="@drawable/icon_setting" />
 
     </LinearLayout>
 
@@ -81,13 +65,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:noOfVisibleDays="5"
+        app:noOfVisibleDays="7"
         app:nowLineColor="@color/accent"
         app:nowLineThickness="2dp"
         app:showNowLine="true"
         app:textSize="12sp"
         app:todayBackgroundColor="#18585A5C"
-        app:todayHeaderTextColor="@color/accent" />
+        app:todayHeaderTextColor="@color/accent"
+        app:xScrollingSpeed="0.0"/>
 
 
     <LinearLayout

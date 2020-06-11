@@ -55,10 +55,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (mon != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"mon","True");
                     btn_mon.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_mon.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"mon","False");
                     btn_mon.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_mon.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
@@ -69,10 +71,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (tue != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"tue","True");
                     btn_tue.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_tue.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"tue","False");
                     btn_tue.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_tue.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
@@ -83,10 +87,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (wed != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"wed","True");
                     btn_wed.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_wed.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"wed","False");
                     btn_wed.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_wed.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
@@ -97,10 +103,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (thu != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"thu","True");
                     btn_thu.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_thu.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"thu","False");
                     btn_thu.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_thu.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
@@ -111,10 +119,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (fri != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"fri","True");
                     btn_fri.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_fri.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"fri","False");
                     btn_fri.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_fri.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
@@ -125,10 +135,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (sat != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"sat","True");
                     btn_sat.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_sat.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"sat","False");
                     btn_sat.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_sat.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
@@ -139,10 +151,12 @@ public class CreateHabit extends AppCompatActivity {
                 if (sun != "True"){//선택이 꺼져있는 상태
                     PreferenceManager.setString(CreateHabit.this,"sun","True");
                     btn_sun.setBackground(getResources().getDrawable(R.drawable.habit_button_press));
+                    btn_sun.setTextColor(getResources().getColor(R.color.white));
                 }
                 else{
                     PreferenceManager.setString(CreateHabit.this,"sun","False");
                     btn_sun.setBackground(getResources().getDrawable(R.drawable.habit_button_normal));
+                    btn_sun.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });

@@ -36,4 +36,11 @@ public class WeekViewUtil {
         today.set(Calendar.MILLISECOND, 0);
         return today;
     }
+    public static boolean isSameDayAndHour(Calendar dayOne, Calendar dayTwo) {
+
+        if (dayTwo != null) {
+            return dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR) && dayOne.get(Calendar.DAY_OF_YEAR) == dayTwo.get(Calendar.DAY_OF_YEAR) && dayOne.get(Calendar.HOUR_OF_DAY) == dayTwo.get(Calendar.HOUR_OF_DAY);
+        }
+        return false;
+    }
 }
