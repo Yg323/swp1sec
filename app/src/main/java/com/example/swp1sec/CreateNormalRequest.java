@@ -14,7 +14,7 @@ public class CreateNormalRequest extends StringRequest {
 
     //private Map<String, String>parameters;
 
-    public CreateNormalRequest(String email, String title, String memo, String date, String time, String enddate, String endtime, int importance, int cateid, Response.Listener<String> listener) {
+    public CreateNormalRequest(String email, String title, String memo, String date, String time, String enddate, String endtime, int importance, int cateid, int division, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null); // 위 url에 post방식으로 값을 전송
 
         map = new HashMap<>();
@@ -29,6 +29,8 @@ public class CreateNormalRequest extends StringRequest {
         map.put("endtime", endtime);
         //카데고리 id 받아오는것
         map.put("category_id", String.valueOf(cateid));
+        //디비전 값 일정 또는 할일 입력
+        map.put("division", String.valueOf(division));
     }
 
     @Override

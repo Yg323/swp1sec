@@ -1,10 +1,10 @@
 package com.example.swp1sec;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+
+import androidx.fragment.app.Fragment;
 
 public class Tutorial3 extends Fragment {
     // Store instance variables
@@ -35,8 +35,6 @@ public class Tutorial3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tutorial3, container, false);
-        EditText tvLabel = (EditText) view.findViewById(R.id.editText);
-        tvLabel.setText(page + " -- " + title);
         return view;
     }
 }

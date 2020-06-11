@@ -30,10 +30,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     String outPut;
     String res;
 
-    String url = "159.89.193.200/get_alm.php";
+    String url = "http://159.89.193.200/get_alm.php";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "msg= " + "fucklkkkkk");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, MainActivity.class);
 
@@ -48,17 +49,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
-        //Log.d(TAG,"outPut: "+ outPut);
+        Log.d(TAG,"outPut: "+ outPut);
 
         alm_doJSONParser(outPut);
-        //Log.d(TAG, "money = " + res);
+        // Log.d(TAG, "JSONReult = " + res);
 
         PendingIntent pendingI = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
-
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
 
+        Log.d("TAG", "Noti = " + builder.toString());
 
         //OREO API 26 이상에서는 채널 필요
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -90,7 +91,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 
-        /*if (notificationManager != null) {
+        if (notificationManager != null) {
 
             // 노티피케이션 동작시킴
             notificationManager.notify(1234, builder.build());
@@ -108,7 +109,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             Date currentDateTime = nextNotifyTime.getTime();
             String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
             Toast.makeText(context.getApplicationContext(),"다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
@@ -128,9 +129,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         protected String doInBackground(Void... params) {
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            //Log.d(TAG, "url = " + url);
+            Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            //Log.d(TAG, "result = " + result);
+            Log.d(TAG, "result = " + result);
 
             return result;
         }
@@ -158,14 +159,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         try{
             String result = "";
             JSONObject object = new JSONObject(str);
-            JSONArray index = object.getJSONArray("alm");
+            JSONArray index = object.getJSONArray("alm_title");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject tt = index.getJSONObject(i);
                 String title = tt.getString("title");
 
                 result = title;
-                //Log.d(TAG, "result = " + result);
+                // Log.d(TAG, "result = " + result);
             }
 
             res = result;

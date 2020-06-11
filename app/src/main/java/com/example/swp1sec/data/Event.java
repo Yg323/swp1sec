@@ -21,6 +21,8 @@ public class Event implements Parcelable {
     private  boolean mDay;
     private RatingBar mStar;
 
+    private int mdivision;
+
     public Event(){ }
 
     public Event(String id, String title, Calendar date, int color, boolean isCompleted) {
@@ -30,6 +32,15 @@ public class Event implements Parcelable {
         mColor = color;
         this.isCompleted = isCompleted;
 
+
+    }
+
+    public int getMdivision() {
+        return mdivision;
+    }
+
+    public void setMdivision(int mdivision) {
+        this.mdivision = mdivision;
     }
 
     public void setmID(String mID) {

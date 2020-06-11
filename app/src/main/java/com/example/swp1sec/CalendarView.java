@@ -66,6 +66,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 public class CalendarView extends AppCompatActivity {
 
@@ -75,7 +76,7 @@ public class CalendarView extends AppCompatActivity {
     private com.example.swp1sec.CalendarViewM mCalendarView;
     private CalendarDialog mCalendarDialog;
     private Intent intent;
-
+    private CalendarDialog.OnCalendarDialogListener mListener;
 
     //setting
     RecyclerView cateRecyclerView, calRecyclerView;
@@ -227,7 +228,40 @@ public class CalendarView extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onEventClick(Event event) {
-                        onEventSelected(event);
+                        //onEventSelected(event);
+
+
+                        //event = mEventList.get()
+                        //mListener.onEventClick(mEventList.get(getAdapterPosition());
+                        Log.d("이벤트 : ", String.valueOf(event.getMdivision()));
+                        Log.d("타이틀", String.valueOf(event.getTitle()));
+                        if(event.getMdivision() == 0){
+
+                            Intent intent = new Intent(getApplicationContext(),CreateSubject.class);
+                            intent.putExtra("eventsub", event);
+                            startActivity(intent);
+                            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+                        }
+                        else if(event.getMdivision() == 1){
+
+                            Intent intent = new Intent(getApplicationContext(),CreateExercise.class);
+                            intent.putExtra("eventex", event);
+                            startActivity(intent);
+                            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+                        }
+                        else {
+
+                            Intent intent = new Intent(getApplicationContext(),CreateNormal.class);
+                            intent.putExtra("eventnor", event);
+                            startActivity(intent);
+                            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+                        }
+
+
+
                     }
                     //다이얼로그 우측 하단의 플러스 버튼 누를시 일정 생성 이벤트 발생
                     @Override
@@ -651,22 +685,59 @@ public class CalendarView extends AppCompatActivity {
                 break;
             }
         }
-        if (oldEvent != null) {
+
+        if(event.getMdivision() == 0){
+
+            Intent intent = new Intent(getApplicationContext(),CreateSubject.class);
+            intent.putExtra("eventsub", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+        else if(event.getMdivision() == 1){
+
+            Intent intent = new Intent(getApplicationContext(),CreateExercise.class);
+            intent.putExtra("eventex", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+        else {
+
+            Intent intent = new Intent(getApplicationContext(),CreateNormal.class);
+            intent.putExtra("eventnor", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+
+
+        //여기아래는 필요 없을 듯.
+        /*if (oldEvent != null) {
             mEventList.remove(oldEvent);
             mEventList.add(event);
 
-            //mCalendarView.removeCalendarObjectByID(parseCalendarObject(oldEvent));
-            //mCalendarView.addCalendarObject(parseCalendarObject(event));
-            //mCalendarDialog.setEventList(mEventList);
-        }
+            mCalendarView.removeCalendarObjectByID(parseCalendarObject(oldEvent));
+            mCalendarView.addCalendarObject(parseCalendarObject(event));
+            mCalendarDialog.setEventList(mEventList);
+        }*/
 
 
         //calclick();
         /*Activity context = CalendarView.this;
-        Intent intent = CreateHabit.makeIntent(context, event);
+        Intent intent = CreateSubject.makeIntent(context, event);
 
         startActivityForResult(intent, CREATE_EVENT_REQUEST_CODE);
         overridePendingTransition( R.anim.slide_in_up, R.anim.stay );*/
+    }
+
+    //실험
+    private static CalendarViewM.CalendarObject parseCalendarObject(Event event) {
+        return new CalendarViewM.CalendarObject(
+                event.getID(),
+                event.getDate(),
+                event.getTitle(),
+                event.getColor());
     }
 
     //이벤트 생성 transition을 통해 애니메이션 기법 사용, 아래에서 위로 올라온다.
@@ -1260,7 +1331,7 @@ public class CalendarView extends AppCompatActivity {
         String TAG_TIME = "time";
         // TAG_ENDDATE = "enddate";
         //String TAG_ENDTIME = "endtime";
-        String TAG_DIVISION = "division";
+        String TAG_DIVISION = "division"; //디비전으로 일정 다이얼로그에 해당 일정 창에 맞게 뜨도록 유도.
         String TAG_ID = "id";
         String TAG_COLOR = "color";
 
@@ -1279,8 +1350,12 @@ public class CalendarView extends AppCompatActivity {
                 //String EndDate = item.getString(TAG_ENDDATE);
                 //String EndTime = item.getString(TAG_ENDTIME);
                 int ID = item.getInt(TAG_ID);
-                //int division = item.getInt(TAG_DIVISION);
+                int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
+
+                //캘린더 id 랜덤으로
+                Random rndId = new Random();
+                int Id = rndId.nextInt(3000);
 
                 //캘린더에 일정 저장하는 부분
                 Event event = new Event();
@@ -1308,8 +1383,10 @@ public class CalendarView extends AppCompatActivity {
                 mCalendar.set(Calendar.MONTH, month);
                 mCalendar.set(Calendar.DAY_OF_MONTH, date);
 
+
+                event.setMdivision(division); // 디비전 값 저장
                 //android.graphics.Color.parseColor(Color);
-                event.setmID(String.valueOf(ID));
+                event.setmID(String.valueOf(Id));
                 event.setmTitle(Title);
                 event.setmColor(android.graphics.Color.parseColor(Color));
                 //event.setmDate(Calendar.getInstance());

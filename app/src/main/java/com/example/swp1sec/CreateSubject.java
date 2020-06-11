@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +33,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.library.WeekView;
+import com.example.swp1sec.data.Event;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,6 +74,13 @@ public class CreateSubject extends AppCompatActivity {
     //private static String alm_url = "http://159.89.193.200/alarm_insert.php";
     private static String TAG = "setsubject";
     private TimePicker Alarm;
+
+
+    private static final String INTENT_EXTRA_EVENT = "intent_extra_event";
+
+    public static Intent makeIntent(Context context, @NonNull Event event) {
+        return new Intent(context, CreateSubject.class).putExtra(INTENT_EXTRA_EVENT, event);
+    }
 
     Calendar myCalendar = Calendar.getInstance();
 

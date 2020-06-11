@@ -69,6 +69,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     private ArrayList mNewEvents;
     WeekViewEvent eventt;
 
+    //이메일
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,8 +109,10 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         ibtn_tracker = findViewById(R.id.ibtn_tracker);
         ibtn_store = findViewById(R.id.ibtn_store);
 
+
+        email =  PreferenceManager.getString(this,"email");
         //String email = PreferenceManager.getString(Category.this, "email");
-        String email = "14dnfnfn@gmail.com";//임시
+        //String email = "14dnfnfn@gmail.com";//임시
         WeekCalendarF.GetData weektask = new WeekCalendarF.GetData(); //밑에 만들었던 클래스 만들고
         weektask.execute(WEEKURL, email); //task 실행
 
@@ -257,7 +262,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -484,6 +489,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division";
         String TAG_ID = "id";
+        String TAG_COLOR = "color";
 
         try {
             JSONObject jsonObject = new JSONObject(catejsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
@@ -501,6 +507,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 String EndTime = item.getString(TAG_ENDTIME);
                 //int ID = item.getInt(TAG_ID);
                 //int division = item.getInt(TAG_DIVISION);
+                String Color = item.getString(TAG_COLOR);
 
 
                 //DB 저장
@@ -511,6 +518,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 we.setTime(Time);
                 we.setEnddate(EndDate);
                 we.setEndtime(EndTime);
+                we.setColor(Color);
 
                 eventList.add(we);
                 mWeekView.notifyDatasetChanged();
@@ -536,24 +544,49 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             String StartTime = eventList.get(i).getTime();
             String EndDate = eventList.get(i).getEnddate();
             String EndTime = eventList.get(i).getEndtime();
+            String Color = eventList.get(i).getColor();
 
-            int Id = eventList.get(i).getId();
 
-            int shour = Integer.parseInt(StartTime.substring(0,2));
-            int sminute = Integer.parseInt(StartTime.substring(3,5));
+            Random rndId = new Random();
+            int Id = rndId.nextInt(3000);
+
+            //int Id = eventList.get(i).getId();
+
+            int shour = 0;
+            int sminute = 0;
             syear = Integer.parseInt(StartDate.substring(0,4));
             smonth = Integer.parseInt(StartDate.substring(5,7))-1;
             int sdate = Integer.parseInt(StartDate.substring(8,10));
 
 
-            int ehour = Integer.parseInt(EndTime.substring(0,2));
-            int eminute = Integer.parseInt(EndTime.substring(3,5));
-            int eyear = Integer.parseInt(EndDate.substring(0,4));
-            int emonth = Integer.parseInt(EndDate.substring(5,7))-1;
-            int edate = Integer.parseInt(EndDate.substring(8,10));
+            int ehour = 0;
+            int eminute = 0;
+            //int eyear = Integer.parseInt(EndDate.substring(0,4));
+            //int emonth = Integer.parseInt(EndDate.substring(5,7))-1;
+            //int edate = Integer.parseInt(EndDate.substring(8,10));
 
 
-            String Name = eventList.get(i).getTitle();
+            if(StartTime != "null"){
+                shour = Integer.parseInt(StartTime.substring(0,2));
+                sminute = Integer.parseInt(StartTime.substring(3,5));
+            }else{
+                shour = 8;
+                sminute = 0;
+            }
+
+            if(EndTime != "null"){
+                ehour = Integer.parseInt(EndTime.substring(0,2));
+                eminute = Integer.parseInt(EndTime.substring(3,5));
+
+            }else{
+                ehour = shour + 1;
+                eminute = sminute;
+            }
+
+            if(ehour <= shour){
+                ehour = shour + 1;
+            }
+            /*String Name = eventList.get(i).getTitle();
             //Rand Colors for Events
             Random rand = new Random();
             int r = rand.nextInt(255);
@@ -562,7 +595,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             int randomColor = Color.rgb(r,g,b);
             if(Color.rgb(r,g,b) == getResources().getColor(R.color.event_color_01)){
                 randomColor = getResources().getColor(R.color.event_color_02);
-            }
+            }*/
+
             //Set StarTime
             Calendar startTime = Calendar.getInstance();
             startTime.set(Calendar.HOUR_OF_DAY, shour);
@@ -573,11 +607,11 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             Calendar endTime = (Calendar) startTime.clone();
             endTime.set(Calendar.HOUR_OF_DAY, ehour);
             endTime.set(Calendar.MINUTE, eminute);
-            endTime.set(Calendar.YEAR, eyear);
-            endTime.set(Calendar.MONTH, emonth);
-            endTime.set(Calendar.DAY_OF_MONTH, edate);
-            WeekViewEvent weekViewEvent = new WeekViewEvent(Id, Name, startTime, endTime);
-            weekViewEvent.setColor(randomColor);
+            //endTime.set(Calendar.YEAR, eyear);
+            //endTime.set(Calendar.MONTH, emonth);
+            //endTime.set(Calendar.DAY_OF_MONTH, edate);
+            WeekViewEvent weekViewEvent = new WeekViewEvent(Id, Title, startTime, endTime);
+            weekViewEvent.setColor(android.graphics.Color.parseColor(Color));
             myEvents.add(weekViewEvent);
 
             //mWeekView.notifyDatasetChanged();
