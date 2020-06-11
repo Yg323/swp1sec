@@ -179,9 +179,27 @@ public class sb_dialog extends AppCompatActivity {
                 String class_ends1 = et_class_ends1.getText().toString();
                 String day1 = et_day1.getText().toString();
 
-                if(cate_title.equals("")||pro_name.equals("")||pro_email.equals("")||day.equals("")||class_start.equals("")||class_ends.equals("")||lectureroom.equals("")){
+                if(cate_title.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
-                    Toast toast = Toast.makeText(getApplicationContext(), "값을 모두 입력해주세요 ", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력해주세요 ", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+                if(pro_name.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
+                    Toast toast = Toast.makeText(getApplicationContext(), "교수님 성함을 입력해주세요 ", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+                if(pro_email.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
+                    Toast toast = Toast.makeText(getApplicationContext(), "교수님 이메일을 입력해주세요 ", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
+                if(day.equals("")||class_start.equals("")||class_ends.equals("")||lectureroom.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
+                    Toast toast = Toast.makeText(getApplicationContext(), "강의 정보를 입력해주세요 ", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
