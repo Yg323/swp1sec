@@ -9,8 +9,9 @@ public  class Badge_Alarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent){
 
+        badge_dialog badge = new badge_dialog();
 
-        //badge_dialog.todocreateNotification(badge_todo_data.getbadge_todo());
+        badge.todocreateNotification(badge_todo_data.getbadge_todo());
         Toast.makeText(context,"알람",Toast.LENGTH_SHORT).show();
     }
 
