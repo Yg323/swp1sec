@@ -179,7 +179,7 @@ public class sb_dialog extends AppCompatActivity {
                 String class_ends1 = et_class_ends1.getText().toString();
                 String day1 = et_day1.getText().toString();
 
-                if(cate_title.equals("")||pro_name.equals("")||pro_email.equals("")||day.equals("")||class_start.equals("")||class_ends.equals("")||lectureroom.equals("")||class_start1.equals("")||class_ends1.equals("")||day1.equals("")){
+                if(cate_title.equals("")||pro_name.equals("")||pro_email.equals("")||day.equals("")||class_start.equals("")||class_ends.equals("")||lectureroom.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
                     Toast toast = Toast.makeText(getApplicationContext(), "값을 모두 입력해주세요 ", Toast.LENGTH_SHORT);
                     toast.show();
