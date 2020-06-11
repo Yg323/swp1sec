@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -23,14 +22,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.content.Context.MODE_PRIVATE;
-
-public class AlarmReceiver extends BroadcastReceiver {
+public class Sbj_AlarmReceiver extends BroadcastReceiver {
     String TAG = "AlarmReceiver";
     String outPut;
     String res;
 
-    String url = "http://159.89.193.200/get_alm.php";
+    String url = "http://159.89.193.200/sbj_get_alm.php";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -87,7 +84,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                 .setTicker("{Time to watch some cool stuff!}")
                 .setContentTitle(res)
-                .setContentText("상태바 드래그시 보이는 서브타이틀")
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 

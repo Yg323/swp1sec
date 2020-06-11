@@ -8,7 +8,6 @@ import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -40,7 +39,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,7 +53,6 @@ public class CreateExercise extends AppCompatActivity {
     private AlertDialog dialog;
     TimePicker t_picker;
     DatePicker d_picker;
-    long triggertime;
     AlarmManager alarmManager;
 
     private static String IP_ADDRESS = "159.89.193.200/set_alm.php";
@@ -322,7 +319,7 @@ public class CreateExercise extends AppCompatActivity {
     void diaryNotification(Calendar calendar) {
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        Intent alarmIntent = new Intent(this, Ex_AlarmReceiver.class);
         // alarmIntent.setAction(AlarmReceiver);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
