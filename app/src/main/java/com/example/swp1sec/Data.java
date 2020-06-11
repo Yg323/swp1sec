@@ -1,5 +1,7 @@
 package com.example.swp1sec;
 
+import android.graphics.drawable.Drawable;
+
 public class Data {
 
     private String title;
@@ -8,6 +10,8 @@ public class Data {
     private String spent;
     private int m_resId;
     private int c_resId;
+    private Drawable s_resId;
+    private Drawable l_resId;
     private int id;
 
     public int getId(){
@@ -50,6 +54,20 @@ public class Data {
     }
     public void setc_ResId(int c_resId) {
         this.c_resId = c_resId;
+    }
+
+    public Drawable get_s_ResId() {
+        return s_resId;
+    }
+    public void set_s_ResId(Drawable s_resId) {
+        this.s_resId = s_resId;
+    }
+
+    public Drawable get_l_ResId() {
+        return l_resId;
+    }
+    public void set_l_ResId(Drawable l_resId) {
+        this.l_resId = l_resId;
     }
 
     public String getCoin() {

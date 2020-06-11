@@ -40,8 +40,6 @@
         <activity android:name=".DDayListActivity" />
         <activity android:name=".DDayListPActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".WeekRemind" />
-        <activity android:name=".DayRemind" />
 
         <activity android:name=".CalendarView"/>
         <activity android:name=".CreateExercise" />
@@ -83,7 +81,10 @@
         <activity android:name="com.example.swp1sec.color_theme_dialog"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
-
+        <activity android:name="com.example.swp1sec.DayRemind"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor"
+            />
 
         <!--상점-->
         <activity android:name=".Store_main"

@@ -7,11 +7,31 @@
     android:orientation="vertical"
     tools:context=".DayRemind">
 
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center">
     <TextView
-        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="오늘 주요 일정"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:fontFamily="@font/nanumsquare_acr"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="dayremind" />
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/day_recyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_redayclose"
