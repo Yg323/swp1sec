@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
-public class CalendarDialog {
+public class CalendarDialog extends AppCompatActivity {
 
     @SuppressWarnings("unused")
     private static final String TAG = CalendarDialog.class.getSimpleName();
@@ -68,6 +70,34 @@ public class CalendarDialog {
     private ViewPagerAdapter mViewPagerAdapter;
 
     private Handler mHandler;
+
+    private CalendarEventAdapter calendarEventAdapter;
+    private ArrayList<Event> diArrayList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        diArrayList = new ArrayList<>();
+
+        //calendarEventAdapter = new CalendarEventAdapter(this, diArrayList);
+        //recy_category.setAdapter(calendarEventAdapter);
+
+        diArrayList.clear();
+        calendarEventAdapter.notifyDataSetChanged();
+
+        calendarEventAdapter.setOnItemClickListener(new CalendarEventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Event event = diArrayList.get(position);
+                String title = event.getTitle();
+                Log.d("어댑터에서 타이틀", title);
+
+
+            }
+        });
+
+    }
 
     CalendarDialog(Context context) {
         mContext = context;
@@ -121,7 +151,6 @@ public class CalendarDialog {
         mViewPagerAdapter = new ViewPagerAdapter(mSelectedDate, mEventList);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.setCurrentItem(mViewPagerAdapter.initialPageAndDay.first);
-
         mView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -218,6 +247,7 @@ public class CalendarDialog {
 
             List<Event> eventList = getCalendarEventsOfDay(day);
 
+
             if (diffYMD(day, sToday) == -1) {
                 fabCreate.setVisibility(View.INVISIBLE);
                 fabCreate.setOnClickListener(null);
@@ -229,9 +259,11 @@ public class CalendarDialog {
                     public void onClick(View v) {
                         if (mListener != null)
                             mListener.onCreateEvent(day);
+
                     }
                 });
             }
+
 
             tvDay.setText(new SimpleDateFormat("d", Locale.getDefault()).format(day.getTime()));
             tvDayOfWeek.setText(new SimpleDateFormat("EEEE", Locale.getDefault()).format(day.getTime()));
@@ -239,6 +271,7 @@ public class CalendarDialog {
             rvDay.setLayoutManager(new LinearLayoutManager(collection.getContext(), LinearLayoutManager.VERTICAL, false));
             rvDay.setAdapter(new CalendarEventAdapter(eventList));
             rvDay.setVisibility(eventList.size() == 0? View.GONE : View.VISIBLE);
+
 
             rlNoAlerts.setVisibility(eventList.size() == 0? View.VISIBLE : View.GONE);
 
@@ -311,9 +344,6 @@ public class CalendarDialog {
 
     }
 
-    //CalendarEventAdapter.
-
-
 
 
 
@@ -323,13 +353,13 @@ public class CalendarDialog {
         private final List<Event> mCalendarEvents;
 
         ///////
-        private OnItemClickListener mListener = null;
+        private OnItemClickListener mmListener = null;
         public interface OnItemClickListener{
             void onItemClick(View v, int position);
         }
 
         public void setOnItemClickListener(OnItemClickListener listener){
-            this.mListener = listener;
+            this.mmListener = listener;
 
         }
 
@@ -348,22 +378,19 @@ public class CalendarDialog {
                 tvEventName = view.findViewById(R.id.tv_calendar_event_name);
                 tvEventStatus = view.findViewById(R.id.tv_calendar_event_status);
                 //view.setOnClickListener(this);
-                /*view.setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        int pos = getAdapterPosition() ;
-                        if (pos != RecyclerView.NO_POSITION) {
-                            // TODO : use pos.
+                        int position = getAdapterPosition() ;
+                        if(position != RecyclerView.NO_POSITION){
+                            if(mmListener != null){
+                                mmListener.onItemClick(v, position);
+                            }
                         }
-                        Log.d("뷰홀더 클릭 테스트", String.valueOf(pos));
 
-
-                        Event s = mEventList.get(pos);
-                        String k = s.getTitle();
-                        Log.d("뷰홀더 타이틀 테스트", k);
                     }
-                });*/
+                });
             }
 
             @Override

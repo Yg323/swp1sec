@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -168,13 +169,13 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 startActivity(intent);
             }
         });
-        /*ibtn_store.setOnClickListener(new View.OnClickListener() {
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(DayTrackerActivity.this, StoreActivity.class);
+                intent=new Intent(WeekCalendarF.this, Store_main.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
 
 
@@ -353,7 +354,35 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     //이벤트 클릭시
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clicked " + event.getmDivision(), Toast.LENGTH_SHORT).show();
+
+        if(event.getmDivision() == 0){
+
+            Intent intent = new Intent(getApplicationContext(),CreateSubjectEdit.class);
+            intent.putExtra("eventsub", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+        else if(event.getmDivision() == 1){
+
+            Intent intent = new Intent(getApplicationContext(),CreateExercise.class);
+            intent.putExtra("eventex", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+        else {
+
+            Intent intent = new Intent(getApplicationContext(),CreateNormal.class);
+            intent.putExtra("eventnor", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+
+
+
     }
     //이벤트 롱클릭
     @Override
@@ -506,7 +535,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 String EndDate = item.getString(TAG_ENDDATE);
                 String EndTime = item.getString(TAG_ENDTIME);
                 //int ID = item.getInt(TAG_ID);
-                //int division = item.getInt(TAG_DIVISION);
+                int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
 
 
@@ -519,6 +548,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 we.setEnddate(EndDate);
                 we.setEndtime(EndTime);
                 we.setColor(Color);
+                we.setDivision(division);
 
                 eventList.add(we);
                 mWeekView.notifyDatasetChanged();
@@ -545,12 +575,15 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             String EndDate = eventList.get(i).getEnddate();
             String EndTime = eventList.get(i).getEndtime();
             String Color = eventList.get(i).getColor();
+            int Division = eventList.get(i).getDivision();
+            int Star = eventList.get(i).getStar();
+            String Memo = eventList.get(i).getMemo();
 
 
             Random rndId = new Random();
             int Id = rndId.nextInt(3000);
 
-            //int Id = eventList.get(i).getId();
+            int ID = eventList.get(i).getId();
 
             int shour = 0;
             int sminute = 0;
@@ -610,8 +643,16 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             //endTime.set(Calendar.YEAR, eyear);
             //endTime.set(Calendar.MONTH, emonth);
             //endTime.set(Calendar.DAY_OF_MONTH, edate);
-            WeekViewEvent weekViewEvent = new WeekViewEvent(Id, Title, startTime, endTime);
+            WeekViewEvent weekViewEvent = new WeekViewEvent(Id, Title, startTime, endTime, Memo);
             weekViewEvent.setColor(android.graphics.Color.parseColor(Color));
+            weekViewEvent.setmDivision(Division);
+            weekViewEvent.setmMemo(Memo);
+            weekViewEvent.setmStar(Star);
+            weekViewEvent.setmStartDate(StartDate);
+            weekViewEvent.setStartTime(StartTime);
+            weekViewEvent.setmEndDate(EndDate);
+            weekViewEvent.setEndTime(EndTime);
+            weekViewEvent.setID(ID);
             myEvents.add(weekViewEvent);
 
             //mWeekView.notifyDatasetChanged();

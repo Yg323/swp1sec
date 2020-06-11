@@ -1,5 +1,8 @@
 package com.example.library;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -11,7 +14,7 @@ import static com.example.library.WeekViewUtil.*;
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
  * Website: http://april-shower.com
  */
-public class WeekViewEvent {
+public class WeekViewEvent implements Parcelable {
     private long mId;
     private Calendar mStartTime;
     private Calendar mEndTime;
@@ -19,6 +22,17 @@ public class WeekViewEvent {
     private String mLocation;
     private int mColor;
     private boolean mAllDay;
+
+    //추가
+
+    private String mStartDate;
+    private String StartTime;
+    private String mEndDate;
+    private String EndTime;
+    private String mMemo;
+    private int mStar;
+    private int mDivision;
+    private int ID;
 
     public WeekViewEvent(){
 
@@ -100,6 +114,95 @@ public class WeekViewEvent {
         this(id, name, null, startTime, endTime);
     }
 
+    public WeekViewEvent(long id, String name, Calendar startTime, Calendar endTime, String mMemo) {
+        this.mId = id;
+        this.mName = name;
+        this.mStartTime = startTime;
+        this.mEndTime = endTime;
+        this.mMemo = mMemo;
+    }
+
+
+    protected WeekViewEvent(Parcel in) {
+        mId = in.readLong();
+        mName = in.readString();
+        mLocation = in.readString();
+        mColor = in.readInt();
+        mAllDay = in.readByte() != 0;
+        mStartDate = in.readString();
+        mEndDate = in.readString();
+        mMemo = in.readString();
+        mStar = in.readInt();
+        mDivision = in.readInt();
+    }
+
+    public static final Creator<WeekViewEvent> CREATOR = new Creator<WeekViewEvent>() {
+        @Override
+        public WeekViewEvent createFromParcel(Parcel in) {
+            return new WeekViewEvent(in);
+        }
+
+        @Override
+        public WeekViewEvent[] newArray(int size) {
+            return new WeekViewEvent[size];
+        }
+    };
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setStartTime(String startTime) {
+        StartTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        EndTime = endTime;
+    }
+
+    public String getmStartDate() {
+        return mStartDate;
+    }
+
+    public void setmStartDate(String mStartDate) {
+        this.mStartDate = mStartDate;
+    }
+
+    public String getmEndDate() {
+        return mEndDate;
+    }
+
+    public void setmEndDate(String mEndDate) {
+        this.mEndDate = mEndDate;
+    }
+
+    public String getmMemo() {
+        return mMemo;
+    }
+
+    public void setmMemo(String mMemo) {
+        this.mMemo = mMemo;
+    }
+
+    public int getmStar() {
+        return mStar;
+    }
+
+    public void setmStar(int mStar) {
+        this.mStar = mStar;
+    }
+
+    public int getmDivision() {
+        return mDivision;
+    }
+
+    public void setmDivision(int mDivision) {
+        this.mDivision = mDivision;
+    }
 
     public Calendar getStartTime() {
         return mStartTime;
@@ -218,5 +321,24 @@ public class WeekViewEvent {
         }
 
         return events;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(mId);
+        dest.writeString(mName);
+        dest.writeString(mLocation);
+        dest.writeInt(mColor);
+        dest.writeByte((byte) (mAllDay ? 1 : 0));
+        dest.writeString(mStartDate);
+        dest.writeString(mEndDate);
+        dest.writeString(mMemo);
+        dest.writeInt(mStar);
+        dest.writeInt(mDivision);
     }
 }
