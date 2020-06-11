@@ -147,8 +147,10 @@ public class badge_dialog extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                todocreateNotification(badge_todo_data.getbadge_todo());
+                finish();
 
-                thread = new Thread() {
+                /*thread = new Thread() {
                     public void run() {
                         while (true) {
                             try {
@@ -163,7 +165,7 @@ public class badge_dialog extends AppCompatActivity {
                 };
                 thread.start();
                 thread.interrupt();
-                finish();
+                finish();*/
 
             }
         });
@@ -329,10 +331,10 @@ public class badge_dialog extends AppCompatActivity {
 
     public void todocreateNotification(int badgeCount) {
         NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        todocreateNotificationChannel();
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(badge_dialog.this, badgeCount);
-        todocreateNotificationChannel();
+
         Notification.Builder builder = new Notification.Builder(this)
                 .setContentTitle("할 일")
                 .setContentText("")
@@ -605,7 +607,7 @@ public class badge_dialog extends AppCompatActivity {
     }
 
     public void regist(View view) {
-        Intent intent = new Intent(this, badge_dialog.class);
+        Intent intent = new Intent(this, Badge_Alarm.class);
         PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             badgehour = timepicker.getHour();

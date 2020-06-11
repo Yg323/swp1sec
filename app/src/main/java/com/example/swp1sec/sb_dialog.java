@@ -165,6 +165,8 @@ public class sb_dialog extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = PreferenceManager.getString(sb_dialog.this, "email");
+                String cal_title = PreferenceManager.getString(sb_dialog.this,"cal_title");
+
                 /*String email = "14dnfnfn@gmail.com"; //임시*/
                 String cate_title = et_category_title.getText().toString();
                 String pro_name = et_pro_name.getText().toString();
@@ -177,9 +179,9 @@ public class sb_dialog extends AppCompatActivity {
                 String class_ends1 = et_class_ends1.getText().toString();
                 String day1 = et_day1.getText().toString();
 
-                if(cate_title.equals("")){
+                if(cate_title.equals("")||pro_name.equals("")||pro_email.equals("")||day.equals("")||class_start.equals("")||class_ends.equals("")||lectureroom.equals("")||class_start1.equals("")||class_ends1.equals("")||day1.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
-                    Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "값을 모두 입력해주세요 ", Toast.LENGTH_SHORT);
                     toast.show();
                     return;
                 }
@@ -213,7 +215,7 @@ public class sb_dialog extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CategoryRequesttitle categoryRequesttitle=new CategoryRequesttitle(email,cate_title,pro_name,pro_email,day,class_start,class_ends,lectureroom,class_start1,class_ends1,day1,responseListener);
+                CategoryRequesttitle categoryRequesttitle=new CategoryRequesttitle(email,cal_title,cate_title,pro_name,pro_email,day,class_start,class_ends,lectureroom,class_start1,class_ends1,day1,responseListener);
                 RequestQueue queue= Volley.newRequestQueue(sb_dialog.this);
                 queue.add(categoryRequesttitle);
             }

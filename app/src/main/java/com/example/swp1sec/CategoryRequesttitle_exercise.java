@@ -12,11 +12,13 @@ public class CategoryRequesttitle_exercise extends StringRequest{
     private Map<String, String> map;
     //private Map<String, String>parameters;
 
-    public CategoryRequesttitle_exercise(String email,String cate_title, Response.Listener<String> listener) {
+    public CategoryRequesttitle_exercise(String email,String cate_title,String cal_title, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null); // 위 url에 post방식으로 값을 전송
         map = new HashMap<>();
         map.put("email",email);
         map.put("cate_title",cate_title);
+        map.put("cal_title",cal_title);
+
 
 
     }
