@@ -517,8 +517,11 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         String TAG_ENDDATE = "enddate";
         String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division";
+
         String TAG_ID = "id";
         String TAG_COLOR = "color";
+        String TAG_MEMO = "memo";
+        String TAG_IMPORTANCE = "importance";
 
         try {
             JSONObject jsonObject = new JSONObject(catejsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
@@ -534,9 +537,12 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 String Time = item.getString(TAG_TIME);
                 String EndDate = item.getString(TAG_ENDDATE);
                 String EndTime = item.getString(TAG_ENDTIME);
-                //int ID = item.getInt(TAG_ID);
+                int ID = item.getInt(TAG_ID);
                 int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
+
+                String Memo = item.getString(TAG_MEMO);
+                int Importance = item.getInt(TAG_IMPORTANCE);
 
 
                 //DB 저장
@@ -549,6 +555,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 we.setEndtime(EndTime);
                 we.setColor(Color);
                 we.setDivision(division);
+                we.setId(ID);
+                we.setMemo(Memo);
+                we.setStar(Importance);
 
                 eventList.add(we);
                 mWeekView.notifyDatasetChanged();
@@ -575,15 +584,17 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             String EndDate = eventList.get(i).getEnddate();
             String EndTime = eventList.get(i).getEndtime();
             String Color = eventList.get(i).getColor();
+
             int Division = eventList.get(i).getDivision();
             int Star = eventList.get(i).getStar();
             String Memo = eventList.get(i).getMemo();
+            int ID = eventList.get(i).getId();
 
 
             Random rndId = new Random();
             int Id = rndId.nextInt(3000);
 
-            int ID = eventList.get(i).getId();
+
 
             int shour = 0;
             int sminute = 0;
@@ -649,9 +660,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             weekViewEvent.setmMemo(Memo);
             weekViewEvent.setmStar(Star);
             weekViewEvent.setmStartDate(StartDate);
-            weekViewEvent.setStartTime(StartTime);
+            weekViewEvent.setsTime(StartTime);
             weekViewEvent.setmEndDate(EndDate);
-            weekViewEvent.setEndTime(EndTime);
+            weekViewEvent.seteTime(EndTime);
             weekViewEvent.setID(ID);
             myEvents.add(weekViewEvent);
 

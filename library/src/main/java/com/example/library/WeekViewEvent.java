@@ -26,9 +26,9 @@ public class WeekViewEvent implements Parcelable {
     //추가
 
     private String mStartDate;
-    private String StartTime;
+    private String sTime;
     private String mEndDate;
-    private String EndTime;
+    private String eTime;
     private String mMemo;
     private int mStar;
     private int mDivision;
@@ -134,6 +134,9 @@ public class WeekViewEvent implements Parcelable {
         mMemo = in.readString();
         mStar = in.readInt();
         mDivision = in.readInt();
+        sTime = in.readString();
+        eTime = in.readString();
+        ID = in.readInt();
     }
 
     public static final Creator<WeekViewEvent> CREATOR = new Creator<WeekViewEvent>() {
@@ -148,6 +151,23 @@ public class WeekViewEvent implements Parcelable {
         }
     };
 
+
+    public String getsTime() {
+        return sTime;
+    }
+
+    public void setsTime(String sTime) {
+        this.sTime = sTime;
+    }
+
+    public String geteTime() {
+        return eTime;
+    }
+
+    public void seteTime(String eTime) {
+        this.eTime = eTime;
+    }
+
     public int getID() {
         return ID;
     }
@@ -156,13 +176,6 @@ public class WeekViewEvent implements Parcelable {
         this.ID = ID;
     }
 
-    public void setStartTime(String startTime) {
-        StartTime = startTime;
-    }
-
-    public void setEndTime(String endTime) {
-        EndTime = endTime;
-    }
 
     public String getmStartDate() {
         return mStartDate;
@@ -340,5 +353,8 @@ public class WeekViewEvent implements Parcelable {
         dest.writeString(mMemo);
         dest.writeInt(mStar);
         dest.writeInt(mDivision);
+        dest.writeString(sTime);
+        dest.writeString(eTime);
+        dest.writeInt(ID);
     }
 }

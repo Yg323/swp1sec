@@ -169,15 +169,18 @@ public class CreateSubjectEdit extends AppCompatActivity {
 
         sub_star = findViewById(R.id.sub_ratingBar);
 
+
+
+
         //저장된 값으로 설정되어 창에 뜨게끔.
         //event = getIntent().getParcelableExtra()
         event = (WeekViewEvent)getIntent().getParcelableExtra("eventsub");
         et_subject_title.setText(event.getName());
         et_subject_memo.setText(event.getmMemo());
         start_date.setText(event.getmStartDate());
-        start_time.setText((CharSequence) event.getStartTime());
+        start_time.setText(event.getsTime().substring(0, 5));
         end_date.setText(event.getmEndDate());
-        end_time.setText((CharSequence) event.getEndTime());
+        end_time.setText(event.geteTime().substring(0, 5));
         sub_star.setRating(Float.valueOf(event.getmStar()));
 
         //final TimePicker t_picker=(TimePicker)findViewById(R.id.timePicker);
@@ -292,20 +295,25 @@ public class CreateSubjectEdit extends AppCompatActivity {
             public void onClick(View v) {
                 //String email = PreferenceManager.getString(CreateHabit.this, "email");
                 final String email = "14dnfnfn@gmail.com"; //임시
+
+                final int id = event.getID();
+                Log.d("아이디", String.valueOf(id));
                 final String title = et_subject_title.getText().toString();
-                //String alarm = Alarm.getText().toString();
-                final String alarm = alm_set.getText().toString();
-                Log.d(TAG, "alarm= " + alarm);
                 final String memo = et_subject_memo.getText().toString();
                 final String date = start_date.getText().toString();
                 final String time = start_time.getText().toString();
                 final String enddate = end_date.getText().toString();
                 final String endtime = end_time.getText().toString();
+                final int importance = (int) sub_star.getRating();
+
+                //String alarm = Alarm.getText().toString();
+                final String alarm = alm_set.getText().toString();
+                Log.d(TAG, "alarm= " + alarm);
+
+
                 int getcateid = getIntent().getIntExtra("cateid", 1);
                 String am_pm;
-                final int id = event.getID();
 
-                final int importance = (int) sub_star.getRating();
                 //int year, month, pdate, hour, hour_24, minute;
 
                 if (title.equals("")) {
@@ -319,51 +327,90 @@ public class CreateSubjectEdit extends AppCompatActivity {
 
 
                 //DB 업데이트
-                //final ProgressDialog progressDialog = new ProgressDialog(CreateSubjectEdit);
-                //progressDialog.setMessage("update..");
-                //progressDialog.show();
 
-                StringRequest request = new StringRequest(Request.Method.POST, "http://159.89.193.200/update_cate.php",
-                        new Response.Listener<String>() {
+                final ProgressDialog progressDialog = new ProgressDialog(CreateSubjectEdit.this);
+                progressDialog.setMessage("update..");
+                progressDialog.show();
+
+                StringRequest request = new StringRequest(Request.Method.POST,"http://159.89.193.200/editSubject.php",
+                        new Response.Listener<String>(){
                             @Override
                             public void onResponse(String response) {
 
-                                Toast.makeText(CreateSubjectEdit.this, response, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CreateSubjectEdit.this,response,Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(CreateSubjectEdit.this, CalendarView.class);
                                 startActivity(intent);
-                                //progressDialog.dismiss();
+                                progressDialog.dismiss();
                             }
-                        }, new Response.ErrorListener() {
+                        },new Response.ErrorListener(){
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(CreateSubjectEdit.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        //progressDialog.dismiss();
+                    public void onErrorResponse(VolleyError error){
+                        Toast.makeText(CreateSubjectEdit.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
 
                     }
 
-                }) {
+                }){
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-
+                        Map<String, String> params = new HashMap<String,String>();
 
                         params.put("id", String.valueOf(id));
                         params.put("email", email);
                         params.put("title", title);
+                        params.put("memo", memo);
                         params.put("date", date);
                         params.put("time", time);
-                        params.put("alarm", alarm);
                         params.put("importance", String.valueOf(importance));
-                        params.put("memo", memo);
                         params.put("enddate", enddate);
                         params.put("endtime", endtime);
-
+                        //알람
+                        params.put("alarm", alarm);
 
                         return params;
                     }
                 };
-                RequestQueue queue = Volley.newRequestQueue(CreateSubjectEdit.this);
+                RequestQueue queue= Volley.newRequestQueue(CreateSubjectEdit.this);
                 queue.add(request);
+
+                /*if (title.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CreateSubjectEdit.this);
+                    dialog = builder.setMessage("값을 입력해주세요!")
+                            .setNegativeButton("OK", null)
+                            .create();
+                    dialog.show();
+                    return;
+                }
+                Response.Listener<String> responseListener = new Response.Listener<String>() {//volley
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jasonObject = new JSONObject(response);//Register2 php에 response
+                            boolean success = jasonObject.getBoolean("success");//Register2 php에 sucess
+                            if (success) {//저장 완료
+                                Toast toast = Toast.makeText(getApplicationContext(), "과목이 수정되었습니다. ", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                                toast.show();
+
+                                //onBackPressed();
+                                Intent intent = new Intent(CreateSubjectEdit.this, CalendarView.class);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            } else {//저장 실패한 경우
+                                Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                                toast.show();
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                //서버로 volley를 이용해서 요청을 함
+                CreateSubjectEditRequest createSubjectEditRequest = new CreateSubjectEditRequest(id, email, title, memo, date, time, enddate, endtime, importance, alarm, getcateid, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(CreateSubjectEdit.this);
+                queue.add(createSubjectEditRequest);*/
 
 
                 // 현재 지정된 시간으로 알람 시간 설정

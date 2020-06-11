@@ -19,6 +19,8 @@ public class WeekCalendarSub {
     private int endhour;
     private int endminute;
 
+    private String endtime;
+
     private int startday;
 
     public int getStar() {
@@ -117,7 +119,7 @@ public class WeekCalendarSub {
         this.endtime = endtime;
     }
 
-    private String endtime;
+
 
 
     public String getDate() {
