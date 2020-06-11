@@ -17,7 +17,7 @@
             android:background="#ff7a00"
             android:gravity="left"
             android:text="   1Sec."
-            android:textColor="#fff"
+            android:textColor="#ffff"
             android:textSize="25dp"
             android:fontFamily="@font/nanumsquare_acr"/>
     </LinearLayout>

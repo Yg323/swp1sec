@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="#fff">
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="bottom|end"
-                android:tint="#fff"
+                android:tint="@color/white"
                 app:backgroundTint="?attr/colorAccent"
                 app:elevation="0dp"
                 app:srcCompat="@android:drawable/ic_input_add"/>

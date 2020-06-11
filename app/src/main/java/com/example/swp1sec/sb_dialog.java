@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
@@ -47,6 +48,7 @@ public class sb_dialog extends AppCompatActivity {
         et_class_start1 = findViewById(R.id.et_class_start1);
         et_class_ends1 = findViewById(R.id.et_class_ends1);
         et_day1 = findViewById(R.id.et_day1);
+
 
 
 
@@ -162,8 +164,8 @@ public class sb_dialog extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                String email = "14dnfnfn@gmail.com"; //임시
+                String email = PreferenceManager.getString(sb_dialog.this, "email");
+                /*String email = "14dnfnfn@gmail.com"; //임시*/
                 String cate_title = et_category_title.getText().toString();
                 String pro_name = et_pro_name.getText().toString();
                 String pro_email = et_pro_email.getText().toString();
@@ -174,6 +176,13 @@ public class sb_dialog extends AppCompatActivity {
                 String class_start1 = et_class_start1.getText().toString();
                 String class_ends1 = et_class_ends1.getText().toString();
                 String day1 = et_day1.getText().toString();
+
+                if(cate_title.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sb_dialog.this);
+                    Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
 
 
 

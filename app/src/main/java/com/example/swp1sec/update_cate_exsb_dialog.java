@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -43,6 +44,12 @@ public class update_cate_exsb_dialog extends AppCompatActivity {
     public void up_cate_exsb_Ok(View view){
         final String cate_title=uptitle.getText().toString();
         final String id=upid.getText().toString();
+        if(cate_title.equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(update_cate_exsb_dialog.this);
+            Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("update..");

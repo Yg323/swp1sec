@@ -120,7 +120,7 @@
             android:screenOrientation="fullSensor">
         </activity>
 
-
+        <receiver android:name=".Badge_Alarm"/>
         <receiver android:name="com.example.swp1sec.ScreenReceiver" />
         <service android:name="com.example.swp1sec.ScreenService" />
         <activity android:name="com.example.swp1sec.LockScreenActivity" />

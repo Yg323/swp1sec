@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
@@ -39,9 +40,15 @@ public class exercise_dialog extends AppCompatActivity {
         exercise_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                String email = "14dnfnfn@gmail.com"; //임시
+                String email = PreferenceManager.getString(exercise_dialog.this, "email");
+                /*String email = "14dnfnfn@gmail.com"; //임시*/
                 String cate_title = et_category_title_exercise.getText().toString();
+                if(cate_title.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(exercise_dialog.this);
+                    Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
 
 
                 Response.Listener<String> responseListener=new Response.Listener<String>() {//volley

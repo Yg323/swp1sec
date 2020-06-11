@@ -71,7 +71,7 @@
         app:eventCornerRadius="5dp"
         app:eventTextColor="@android:color/white"
         app:futureBackgroundColor="@color/accent"
-        app:headerColumnBackground="#ffffffff"
+        app:headerColumnBackground="@color/white"
         app:headerColumnPadding="8dp"
         app:headerColumnTextColor="@color/toolbar_text"
         app:headerRowBackgroundColor="@color/white"

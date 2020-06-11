@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
@@ -38,9 +39,15 @@ public class add_dialog extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                String user_email = "14dnfnfn@gmail.com"; //임시
+                String user_email = PreferenceManager.getString(add_dialog.this, "email");
+                /*String user_email = "14dnfnfn@gmail.com"; //임시*/
                 String cal_title = et_add.getText().toString();
+                if(cal_title.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(add_dialog.this);
+                    Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
 
 
                 Response.Listener<String> responseListener=new Response.Listener<String>() {//volley
@@ -49,8 +56,8 @@ public class add_dialog extends AppCompatActivity {
                         try {
                             JSONObject jasonObject=new JSONObject(response);//Register2 php에 response
                             boolean success=jasonObject.getBoolean("success");//Register2 php에 sucess
-                            if (success) {//저장 완료
-                                Toast toast = Toast.makeText(getApplicationContext(), "습관이 등록되었습니다. ", Toast.LENGTH_SHORT);
+                            if (success) {//저장 완료1
+                                Toast toast = Toast.makeText(getApplicationContext(), "캘린더가 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
                                 toast.show();
                                 finish();

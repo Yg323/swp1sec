@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".CreateSubject">
+    tools:context=".CreateSubject"
+    android:background="@color/white"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"

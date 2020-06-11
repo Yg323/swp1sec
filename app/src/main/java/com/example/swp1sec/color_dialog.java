@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
@@ -170,6 +171,12 @@ public class color_dialog extends AppCompatActivity {
                             String email = "14dnfnfn@gmail.com";//임시
                             //String email = PreferenceManager.getString(color_dialog.this,"email");
                             String color = PreferenceManager.getString(color_dialog.this,"color");
+                            if(color.equals("")){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(color_dialog.this);
+                                Toast toast = Toast.makeText(getApplicationContext(), "색깔을 선택하세요 ", Toast.LENGTH_SHORT);
+                                toast.show();
+                                return;
+                            }
                             Response.Listener<String> responseListener=new Response.Listener<String>() {//volley
                                 @Override
                                 public void onResponse(String response) {

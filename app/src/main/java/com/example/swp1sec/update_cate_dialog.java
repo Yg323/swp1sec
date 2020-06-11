@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -180,6 +181,12 @@ public class update_cate_dialog extends AppCompatActivity {
         final String class_start1 =upclassstart1.getText().toString();
         final String class_ends1 =upclassends1.getText().toString();
         final String day1 =upday1.getText().toString();
+        if(cate_title.equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(update_cate_dialog.this);
+            Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
 
 
 

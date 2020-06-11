@@ -1,11 +1,13 @@
 package com.example.swp1sec;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,11 +39,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Time;
+import java.util.Calendar;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class badge_dialog extends AppCompatActivity {
 
+
+    public  static final String todonotificationChannelId = "todo";
     //todo
     private String badge_todojsonString;
     private static String badge_todoURL = "http://159.89.193.200//badge_todo.php";
@@ -49,33 +56,42 @@ public class badge_dialog extends AppCompatActivity {
     private String badge_habitjsonString;
     private static String badge_habitURL = "http://159.89.193.200//badge_habit.php";
     private static String badge_habitTAG = "getbadge_habit";
-    Button todo,habit,todo_habit;
+    Button todo, habit, todo_habit;
     Thread thread;
     public String email;
-    int count=0;
+
+    //알람
+    private TimePicker timepicker;
+    private AlarmManager alarmManager;
+    private int badgehour, badgeminute;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.badge_dialog);
 
+        //알람
+        timepicker = findViewById(R.id.badgetimepicker);
+
         //badge 투두
-        email = PreferenceManager.getString(badge_dialog.this,"email");
+
+
+        email = PreferenceManager.getString(badge_dialog.this, "email");
         badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
         badge_todotask.execute(badge_todoURL, email); //task 실행
 
-        todo=findViewById(R.id.badge_todo_);
+        todo = findViewById(R.id.badge_todo_);
         //badge 해빗
-        email = PreferenceManager.getString(badge_dialog.this,"email");
+        email = PreferenceManager.getString(badge_dialog.this, "email");
         badge_habit_Data badge_habittask = new badge_habit_Data(); //밑에 만들었던 클래스 만들고
         badge_habittask.execute(badge_habitURL, email); //task 실행
 
-        todo_habit=findViewById(R.id.badge_todo_habit);
-        todo_habit.setOnClickListener(new View.OnClickListener(){
+        todo_habit = findViewById(R.id.badge_todo_habit);
+        todo_habit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
 
                 thread = new Thread() {
 
@@ -99,14 +115,11 @@ public class badge_dialog extends AppCompatActivity {
         });
 
 
-
-
-
 // 해빗 뱃지
-        habit =findViewById(R.id.badge_habit);
-        habit.setOnClickListener(new View.OnClickListener(){
+        habit = findViewById(R.id.badge_habit);
+        habit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
 
                 thread = new Thread() {
 
@@ -130,7 +143,7 @@ public class badge_dialog extends AppCompatActivity {
         });
 
 //투두 뱃지
-        todo.setOnClickListener(new View.OnClickListener(){
+        todo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -156,40 +169,36 @@ public class badge_dialog extends AppCompatActivity {
         });
 
 
-
     }
 
-    private Handler todohabithandler = new Handler(){
+    private Handler todohabithandler = new Handler() {
         @Override
-        public void dispatchMessage(@NonNull Message msg)
-        {
+        public void dispatchMessage(@NonNull Message msg) {
             ShortcutBadger.removeCount(badge_dialog.this);
-            email = PreferenceManager.getString(badge_dialog.this,"email");
+            email = PreferenceManager.getString(badge_dialog.this, "email");
             badge_habit_Data badge_habittask = new badge_habit_Data(); //밑에 만들었던 클래스 만들고
             badge_habittask.execute(badge_habitURL, email); //task 실행
             badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
             badge_todotask.execute(badge_todoURL, email); //task 실행
-            todohabitcreateNotification(badge_habit_data.getbadge_habit()+badge_todo_data.getbadge_todo());
+            todohabitcreateNotification(badge_habit_data.getbadge_habit() + badge_todo_data.getbadge_todo());
         }
     };
 
-    private Handler habithandler = new Handler(){
+    private Handler habithandler = new Handler() {
         @Override
-        public void dispatchMessage(@NonNull Message msg)
-        {
+        public void dispatchMessage(@NonNull Message msg) {
             ShortcutBadger.removeCount(badge_dialog.this);
-            email = PreferenceManager.getString(badge_dialog.this,"email");
+            email = PreferenceManager.getString(badge_dialog.this, "email");
             badge_habit_Data badge_habittask = new badge_habit_Data(); //밑에 만들었던 클래스 만들고
             badge_habittask.execute(badge_habitURL, email); //task 실행
             habitcreateNotification(badge_habit_data.getbadge_habit());
         }
     };
-    private Handler todohandler = new Handler(){
+    private Handler todohandler = new Handler() {
         @Override
-        public void dispatchMessage(@NonNull Message msg)
-        {
+        public void dispatchMessage(@NonNull Message msg) {
             ShortcutBadger.removeCount(badge_dialog.this);
-            email = PreferenceManager.getString(badge_dialog.this,"email");
+            email = PreferenceManager.getString(badge_dialog.this, "email");
             badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
             badge_todotask.execute(badge_todoURL, email); //task 실행
             todocreateNotification(badge_todo_data.getbadge_todo());
@@ -200,15 +209,15 @@ public class badge_dialog extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void todohabitcreateNotificationChannel() {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel notificationChannel =new NotificationChannel(todohabitnotificationChannelId, "남은 할일 습관", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel notificationChannel = new NotificationChannel(todohabitnotificationChannelId, "남은 할일 습관", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
 
     public static int todohabitnotificationId = 12312;
 
     public void todohabitcreateNotification(int badgeCount) {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(this, badgeCount);
@@ -221,7 +230,6 @@ public class badge_dialog extends AppCompatActivity {
                 .setSmallIcon(R.drawable.img_1sec)
                 //클릭 시 자동 cancel(삭제)
                 .setAutoCancel(true);
-
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -245,25 +253,26 @@ public class badge_dialog extends AppCompatActivity {
 
 
     public void todohabitremoveNotification() {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.removeCount(this);
         notificationManager.cancel(todohabitnotificationId);
     }
+
     /*habit badge*/
     public static final String habitnotificationChannelId = "habit";
 
     @TargetApi(Build.VERSION_CODES.O)
     public void habitcreateNotificationChannel() {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel notificationChannel =new NotificationChannel(habitnotificationChannelId, "남은 습관", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel notificationChannel = new NotificationChannel(habitnotificationChannelId, "남은 습관", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
 
     public static int habitnotificationId = 1231;
 
     public void habitcreateNotification(int badgeCount) {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(this, badgeCount);
@@ -276,7 +285,6 @@ public class badge_dialog extends AppCompatActivity {
                 .setSmallIcon(R.drawable.img_1sec)
                 //클릭 시 자동 cancel(삭제)
                 .setAutoCancel(true);
-
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -300,31 +308,30 @@ public class badge_dialog extends AppCompatActivity {
 
 
     public void habitremoveNotification() {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.removeCount(this);
         notificationManager.cancel(habitnotificationId);
     }
 
 
-
     /*todo badge*/
-    public static final String todonotificationChannelId = "todo";
+
 
     @TargetApi(Build.VERSION_CODES.O)
     public void todocreateNotificationChannel() {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel notificationChannel =new NotificationChannel(todonotificationChannelId, "남은 할일", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel notificationChannel = new NotificationChannel(todonotificationChannelId, "남은 할일", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
 
     public static int todonotificationId = 123;
 
     public void todocreateNotification(int badgeCount) {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
-        ShortcutBadger.applyCount(this, badgeCount);
+        ShortcutBadger.applyCount(badge_dialog.this, badgeCount);
         todocreateNotificationChannel();
         Notification.Builder builder = new Notification.Builder(this)
                 .setContentTitle("할 일")
@@ -334,7 +341,6 @@ public class badge_dialog extends AppCompatActivity {
                 .setSmallIcon(R.drawable.img_1sec)
                 //클릭 시 자동 cancel(삭제)
                 .setAutoCancel(true);
-
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -358,7 +364,7 @@ public class badge_dialog extends AppCompatActivity {
 
 
     public void removeNotification() {
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.removeCount(this);
         notificationManager.cancel(todonotificationId);
@@ -396,10 +402,9 @@ public class badge_dialog extends AppCompatActivity {
             //mTextViewResult.setText(result);
             Log.d(badge_todoTAG, "response - " + result);
 
-            if (result == null){
+            if (result == null) {
                 //mTextViewResult.setText(errorString);
-            }
-            else {
+            } else {
                 badge_todojsonString = result; //크롬으로 확인했던 문자열 받아오고
                 badge_todoShowResult(); //밑에 dayHabitShowResult함수 실행
             }
@@ -409,7 +414,7 @@ public class badge_dialog extends AppCompatActivity {
         protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
 
             String serverURL = params[0]; //PHPURL
-            String email = (String)params[1]; //email
+            String email = (String) params[1]; //email
 
             String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
 
@@ -433,10 +438,9 @@ public class badge_dialog extends AppCompatActivity {
                 Log.d(badge_todoTAG, "response code - " + responseStatusCode);
 
                 InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
                     inputStream = httpURLConnection.getInputStream();
-                }
-                else{
+                } else {
                     inputStream = httpURLConnection.getErrorStream();
                 }
 
@@ -446,7 +450,7 @@ public class badge_dialog extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 String line;
 
-                while((line = bufferedReader.readLine()) != null){
+                while ((line = bufferedReader.readLine()) != null) {
                     sb.append(line);
                 }
                 bufferedReader.close();
@@ -467,18 +471,18 @@ public class badge_dialog extends AppCompatActivity {
 
         String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
         String TAG_title = "performance";
-        String TAG_todo ="todocount";
+        String TAG_todo = "todocount";
 
 
         try {
             JSONObject jsonObject = new JSONObject(badge_todojsonString);
             boolean success = jsonObject.getBoolean("success");
-            if(success){
+            if (success) {
                 String todoCount = jsonObject.getString("todocount");// 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
 
 
                 badge_todo_data badge_todo_data = new badge_todo_data(todoCount);
-                int todoCountint=Integer.parseInt(todoCount);
+                int todoCountint = Integer.parseInt(todoCount);
                 badge_todo_data.setbadge_todo(todoCountint);
             }
 
@@ -510,10 +514,9 @@ public class badge_dialog extends AppCompatActivity {
             //mTextViewResult.setText(result);
             Log.d(badge_habitTAG, "response - " + result);
 
-            if (result == null){
+            if (result == null) {
                 //mTextViewResult.setText(errorString);
-            }
-            else {
+            } else {
                 badge_habitjsonString = result; //크롬으로 확인했던 문자열 받아오고
                 badge_habitShowResult(); //밑에 dayHabitShowResult함수 실행
             }
@@ -523,7 +526,7 @@ public class badge_dialog extends AppCompatActivity {
         protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
 
             String serverURL = params[0]; //PHPURL
-            String email = (String)params[1]; //email
+            String email = (String) params[1]; //email
 
             String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
 
@@ -547,10 +550,9 @@ public class badge_dialog extends AppCompatActivity {
                 Log.d(badge_habitTAG, "response code - " + responseStatusCode);
 
                 InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
                     inputStream = httpURLConnection.getInputStream();
-                }
-                else{
+                } else {
                     inputStream = httpURLConnection.getErrorStream();
                 }
 
@@ -560,7 +562,7 @@ public class badge_dialog extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 String line;
 
-                while((line = bufferedReader.readLine()) != null){
+                while ((line = bufferedReader.readLine()) != null) {
                     sb.append(line);
                 }
                 bufferedReader.close();
@@ -581,18 +583,18 @@ public class badge_dialog extends AppCompatActivity {
 
         String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
         String TAG_title = "performance";
-        String TAG_habit ="habitcount";
+        String TAG_habit = "habitcount";
 
 
         try {
             JSONObject jsonObject = new JSONObject(badge_habitjsonString);
             boolean success = jsonObject.getBoolean("success");
-            if(success){
+            if (success) {
                 String habitCount = jsonObject.getString("habitcount");// 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
 
 
                 badge_habit_data badge_todo_data = new badge_habit_data(habitCount);
-                int habitCountint=Integer.parseInt(habitCount);
+                int habitCountint = Integer.parseInt(habitCount);
                 badge_todo_data.setbadge_habit(habitCountint);
             }
 
@@ -602,6 +604,31 @@ public class badge_dialog extends AppCompatActivity {
         }
     }
 
+    public void regist(View view) {
+        Intent intent = new Intent(this, badge_dialog.class);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            badgehour = timepicker.getHour();
+            badgeminute = timepicker.getMinute();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, badgehour);
+        calendar.set(Calendar.MINUTE, badgeminute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        //지정한 시간에 매일 알림
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
+        Toast.makeText(this, "알람설정 완료", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void unregist(View view) {
+        Intent intent = new Intent(this, Badge_Alarm.class);
+        PendingIntent plntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        alarmManager.cancel(plntent);
+
+    }
 
 }
 

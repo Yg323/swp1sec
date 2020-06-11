@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
 
     tools:context="com.example.swp1sec.CalendarView">
 
@@ -28,7 +28,7 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:content_background_color="#fff"
+        app:content_background_color="@color/white"
         app:current_day_circle_enable="true"
         app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:month_header_show="false"
-        app:week_header_background_color="#fff"
+        app:week_header_background_color="@color/white"
         app:week_header_movable="false"
         app:week_header_text_color="#000"
         app:current_day_text_color="@color/colorPrimaryDark"
@@ -448,46 +448,8 @@
                 android:background="@color/settingbackground"
                 android:orientation="vertical">
                 <include layout="@layout/reminder_settingbar" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:textSize="20sp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/nanumsquare_acr"
-                        android:text="  상단바 리마인더"/>
-                    <Switch
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="20dp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:textSize="20sp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/nanumsquare_acr"
-                        android:text="  상단바 리마인더 시간 설정"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textSize="20sp"
-                        android:text="오후 9시"
-                        android:gravity="center"
-                        android:fontFamily="@font/nanumsquare_acr"/>
-                </LinearLayout>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -588,29 +550,7 @@
                         android:gravity="center"
                         android:fontFamily="@font/nanumsquare_acr"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:textSize="20sp"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/nanumsquare_acr"
-                        android:text="  알람 소리"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textSize="20sp"
-                        android:text="기본"
-
-                        android:gravity="center"
-                        android:fontFamily="@font/nanumsquare_acr"/>
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
