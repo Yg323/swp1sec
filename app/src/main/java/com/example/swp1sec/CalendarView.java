@@ -355,17 +355,7 @@ public class CalendarView extends AppCompatActivity {
         imgRight = findViewById(R.id.imgRight);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //카테고리
-        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
-        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        cateRecyclerView.setLayoutManager(cateLayoutManager);
-        categoryArrayList = new ArrayList<>();
-        category_title_adapter = new category_title_adapter(this, categoryArrayList);
-        cateRecyclerView.setAdapter(category_title_adapter);
-        categoryArrayList.clear();
-        category_title_adapter.notifyDataSetChanged();
-        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
-        catetask.execute(CATEURL, email, calendar_title); //task 실행
+
 
         //캘린더
         calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
@@ -384,6 +374,20 @@ public class CalendarView extends AppCompatActivity {
         caltask.execute(CALURL, email); //task 실행
         //캘린더 데이터
 
+        //카테고리
+        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
+        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cateRecyclerView.setLayoutManager(cateLayoutManager);
+        categoryArrayList = new ArrayList<>();
+        category_title_adapter = new category_title_adapter(this, categoryArrayList);
+        cateRecyclerView.setAdapter(category_title_adapter);
+
+        categoryArrayList.clear();
+        category_title_adapter.notifyDataSetChanged();
+        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+        catetask.execute(CATEURL, email, calendar_title); //task 실행
+
+
         cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, int pos){
@@ -391,10 +395,13 @@ public class CalendarView extends AppCompatActivity {
                 String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
                 int cal_pos = PreferenceManager.getInt(getApplicationContext(),"cal_pos");
                 //Toast.makeText(CalendarView.this, cal_title +Integer.toString(calArrayList.get(cal_pos).getperformance()), Toast.LENGTH_SHORT).show();
-                categoryArrayList.clear();
+
                 category_title_adapter.notifyDataSetChanged();
+                categoryArrayList.clear();
+
                 cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
                 catetask.execute(CATEURL, email, cal_title);
+
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -418,6 +425,7 @@ public class CalendarView extends AppCompatActivity {
                 cal_check_request cal_check_request =new cal_check_request(email,cal_title,Integer.toString(calArrayList.get(cal_pos).getperformance()),responseListener);
                 RequestQueue queue=Volley.newRequestQueue(CalendarView.this);
                 queue.add(cal_check_request);
+
 
             }
 
@@ -924,8 +932,11 @@ public class CalendarView extends AppCompatActivity {
                 //mTextViewResult.setText(errorString);
             }
             else {
+                category_title_adapter.notifyDataSetChanged();
+                categoryArrayList.clear();
                 categoryjsonString = result; //크롬으로 확인했던 문자열 받아오고
                 daycateShowResult(); //밑에 dayHabitShowResult함수 실행
+
             }
         }
 
@@ -1095,6 +1106,11 @@ public class CalendarView extends AppCompatActivity {
             else {
                 caljsonString = result; //크롬으로 확인했던 문자열 받아오고
                 daycalShowResult(); //밑에 dayHabitShowResult함수 실행
+                String cal_title = PreferenceManager.getString(CalendarView.this, "cal_title");
+                categoryArrayList.clear();
+                category_title_adapter.notifyDataSetChanged();
+                cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+                catetask.execute(CATEURL, email, cal_title); //task 실행
             }
         }
 
