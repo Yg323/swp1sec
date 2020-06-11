@@ -97,6 +97,8 @@ public class RequestHttpURLConnection {
                 page += line;
             }
 
+            Log.d("TAG", "page = " + page);
+
             return page;
 
         } catch (MalformedURLException e) { // for URL.

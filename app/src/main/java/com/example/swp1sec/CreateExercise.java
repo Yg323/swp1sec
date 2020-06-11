@@ -56,6 +56,7 @@ public class CreateExercise extends AppCompatActivity {
     TimePicker t_picker;
     DatePicker d_picker;
     long triggertime;
+    AlarmManager alarmManager;
 
     private static String IP_ADDRESS = "159.89.193.200/set_alm.php";
     private static String URL = "http://159.89.193.200//plusExercise.php";
@@ -308,12 +309,11 @@ public class CreateExercise extends AppCompatActivity {
                 }
 
                 Date currentDateTime = calendar.getTime();
-                String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
-                triggertime = Long.parseLong(date_text);
+                String date_text = new SimpleDateFormat("yyyy-MM-dd-a hh-mm", Locale.getDefault()).format(currentDateTime);
+                //triggertime = Long.parseLong(date_text);
 
                 InsertData task = new InsertData();
                 task.execute("http://" + IP_ADDRESS, date_text);
-
                 diaryNotification(calendar);
             }
         });
@@ -323,9 +323,11 @@ public class CreateExercise extends AppCompatActivity {
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME, triggertime, pendingIntent);
+        // alarmIntent.setAction(AlarmReceiver);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        Log.d(TAG, "cal_ddd= " + this.getClass());
     }
 
     class InsertData extends AsyncTask<String, Void, String> {

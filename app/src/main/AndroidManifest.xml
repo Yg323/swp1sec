@@ -40,7 +40,6 @@
         <activity android:name=".DDayListActivity" />
         <activity android:name=".DDayListPActivity" />
         <activity android:name=".SearchActivity" />
-
         <activity android:name=".CalendarView"/>
         <activity android:name=".CreateExercise" />
         <activity android:name=".CreateNormal" />
@@ -120,7 +119,7 @@
             android:screenOrientation="fullSensor">
         </activity>
 
-
+        <receiver android:name="com.example.swp1sec.AlarmReceiver"/>
         <receiver android:name="com.example.swp1sec.ScreenReceiver" />
         <service android:name="com.example.swp1sec.ScreenService" />
         <activity android:name="com.example.swp1sec.LockScreenActivity" />
