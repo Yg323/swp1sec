@@ -40,7 +40,6 @@ public class Tutorial4 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tutorial4, container, false);
-        EditText tvLabel = (EditText) view.findViewById(R.id.editText);
         btn_start = (Button) view.findViewById(R.id.btn_start);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +48,7 @@ public class Tutorial4 extends Fragment {
                 startActivity(intent);
             }
         });
-        tvLabel.setText(page + " -- " + title);
+
         return view;
     }
 }
