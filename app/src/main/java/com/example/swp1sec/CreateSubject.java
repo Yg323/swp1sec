@@ -73,12 +73,12 @@ public class CreateSubject extends AppCompatActivity {
     AlarmManager alarmManager;
 
     private static String IP_ADDRESS = "159.89.193.200/nm_set_alm.php";
-    private static String URL = "http://159.89.193.200//plusSubject.php";
+    //private static String URL = "http://159.89.193.200//plusSubject.php";
     //private static String alm_url = "http://159.89.193.200/alarm_insert.php";
     private static String TAG = "setsubject";
     private TimePicker Alarm;
 
-
+    private static int div;
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -169,19 +169,21 @@ public class CreateSubject extends AppCompatActivity {
 
         //초기 제목 세팅
         int pos = getIntent().getIntExtra("pos", 3);
-        String catetitle = getIntent().getStringExtra("catetitle");
 
         switch (pos){
             case 0 :{
-                et_subject_title.setText(catetitle+" 시험");
+                et_subject_title.setText("시험");
+                div = 0;
                 break;
             }
             case 1 :{
-                et_subject_title.setText(catetitle+" 과제");
+                et_subject_title.setText("과제");
+                div = 1;
                 break;
             }
             case 2 :{
-                et_subject_title.setText(catetitle+" 휴강");
+                et_subject_title.setText("휴강");
+                div = 0;
                 break;
             }
         }
@@ -333,8 +335,11 @@ public class CreateSubject extends AppCompatActivity {
                 String endtime = end_time.getText().toString();
                 int getcateid = getIntent().getIntExtra("cateid", 1);
                 int a_year, a_month, a_date, a_hour, a_hour_24, a_minute;
+
+
                 String am_pm;
 
+                int division = div;
                 int importance = (int) sub_star.getRating();
                 //int year, month, pdate, hour, hour_24, minute;
 
@@ -373,7 +378,7 @@ public class CreateSubject extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, division, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
 

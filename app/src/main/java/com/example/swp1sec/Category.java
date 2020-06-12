@@ -79,7 +79,8 @@ public class Category extends AppCompatActivity {
                                     case 0:{
                                         Intent intent = new Intent(getApplicationContext(), CreateSubject.class);
                                         intent.putExtra("pos", 0);
-                                        intent.putExtra("catetitle", catetitle);
+                                        intent.putExtra("divison", 0);
+                                        //PreferenceManager.setInt(Category.this, "di",0);
                                         intent.putExtra("cateid", cateid);
                                         startActivity(intent);
                                         break;
@@ -87,7 +88,8 @@ public class Category extends AppCompatActivity {
                                     case 1:{
                                         Intent intent2 = new Intent(getApplicationContext(), CreateSubject.class);
                                         intent2.putExtra("pos", 1);
-                                        intent2.putExtra("catetitle", catetitle);
+                                        intent2.putExtra("division", 1);
+                                        //PreferenceManager.setInt(Category.this, "di",1);
                                         intent2.putExtra("cateid", cateid);
                                         startActivity(intent2);
                                         break;
@@ -95,7 +97,8 @@ public class Category extends AppCompatActivity {
                                     case 2: {
                                         Intent intent3 = new Intent(getApplicationContext(), CreateSubject.class);
                                         intent3.putExtra("pos", 2);
-                                        intent3.putExtra("catetitle", catetitle);
+                                        intent3.putExtra("division", 0);
+                                        //PreferenceManager.setInt(Category.this, "di",0);
                                         intent3.putExtra("cateid", cateid);
                                         startActivity(intent3);
                                         break;
