@@ -396,6 +396,26 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     //이벤트 롱클릭
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
+        int div = event.getmDivision();
+        int id = event.getID();
+
+        if(div == 0){
+            div = 0;
+            weekcalselect(div, id);
+
+        }
+        else if(div == 1){
+            div = 1;
+            weekcalselect(div, id);
+
+        }
+        else if(div == 2){
+            div = 2;
+            weekcalselect(div, id);
+
+        }
+
         Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
 
         //다이얼로그 띄우고 삭제 선택으로.
@@ -411,8 +431,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         return mWeekView;
     }
 
-    private void deleteCalendarData(final String id) {
-        StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/ddddd.php",
+    private void deleteCalendarData(final String id, final int division) {
+        StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/deleteCalendardata.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -434,7 +454,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String,String>();
                 params.put("id", id);
-
+                params.put("division", String.valueOf(division));
                 return params;
             }
         };
@@ -714,6 +734,34 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
         }
         return myEvents;
+    }
+
+    public void weekcalselect(final int division, final int idd)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("일정 삭제").setMessage("일정을 삭제하시겠습니까?");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                deleteCalendarData(String.valueOf(idd), division);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 

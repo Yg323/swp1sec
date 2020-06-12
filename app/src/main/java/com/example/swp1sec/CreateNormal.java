@@ -203,8 +203,8 @@ public class CreateNormal extends AppCompatActivity {
         btn_normal_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                String email = "14dnfnfn@gmail.com"; //임시
+                String email = PreferenceManager.getString(CreateNormal.this, "email");
+                //String email = "14dnfnfn@gmail.com"; //임시
                 String title = et_normal_title.getText().toString();
                 String memo = et_normal_memo.getText().toString();
                 String date = start_date.getText().toString();
