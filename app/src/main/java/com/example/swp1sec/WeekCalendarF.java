@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -22,6 +23,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.library.DateTimeInterpreter;
 import com.example.library.MonthLoader;
 import com.example.library.WeekView;
@@ -42,8 +50,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 public class WeekCalendarF extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
@@ -168,13 +178,13 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 startActivity(intent);
             }
         });
-        /*ibtn_store.setOnClickListener(new View.OnClickListener() {
+        ibtn_store.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(DayTrackerActivity.this, StoreActivity.class);
+                intent=new Intent(WeekCalendarF.this, Store_main.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
 
 
@@ -353,12 +363,63 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     //이벤트 클릭시
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Clicked " + event.getmDivision(), Toast.LENGTH_SHORT).show();
+
+        if(event.getmDivision() == 0){
+
+            Intent intent = new Intent(getApplicationContext(),CreateSubjectEdit.class);
+            intent.putExtra("eventsub", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+        else if(event.getmDivision() == 1){
+
+            Intent intent = new Intent(getApplicationContext(),CreateExerciseEdit.class);
+            intent.putExtra("eventex", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+        else {
+
+            Intent intent = new Intent(getApplicationContext(),CreateNormalEdit.class);
+            intent.putExtra("eventnor", event);
+            startActivity(intent);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
+
+        }
+
+
+
     }
     //이벤트 롱클릭
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
+        int div = event.getmDivision();
+        int id = event.getID();
+
+        if(div == 0){
+            div = 0;
+            weekcalselect(div, id);
+
+        }
+        else if(div == 1){
+            div = 1;
+            weekcalselect(div, id);
+
+        }
+        else if(div == 2){
+            div = 2;
+            weekcalselect(div, id);
+
+        }
+
         Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+
+        //다이얼로그 띄우고 삭제 선택으로.
+        //deleteCalendarData(String.valueOf(event.getID()));
     }
 
     @Override
@@ -368,6 +429,38 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
     public WeekView getWeekView() {
         return mWeekView;
+    }
+
+    private void deleteCalendarData(final String id, final int division) {
+        StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/deleteCalendardata.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equalsIgnoreCase("Data Deleted")){
+                            Toast.makeText(WeekCalendarF.this,"Data Deleted Successfully",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(WeekCalendarF.this,"Data Not Deleted",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(WeekCalendarF.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String,String>();
+                params.put("id", id);
+                params.put("division", String.valueOf(division));
+                return params;
+            }
+        };
+        RequestQueue queue= Volley.newRequestQueue(this);
+        queue.add(request);
+
     }
 
 
@@ -488,8 +581,11 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         String TAG_ENDDATE = "enddate";
         String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division";
+
         String TAG_ID = "id";
         String TAG_COLOR = "color";
+        String TAG_MEMO = "memo";
+        String TAG_IMPORTANCE = "importance";
 
         try {
             JSONObject jsonObject = new JSONObject(catejsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
@@ -505,9 +601,12 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 String Time = item.getString(TAG_TIME);
                 String EndDate = item.getString(TAG_ENDDATE);
                 String EndTime = item.getString(TAG_ENDTIME);
-                //int ID = item.getInt(TAG_ID);
-                //int division = item.getInt(TAG_DIVISION);
+                int ID = item.getInt(TAG_ID);
+                int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
+
+                String Memo = item.getString(TAG_MEMO);
+                int Importance = item.getInt(TAG_IMPORTANCE);
 
 
                 //DB 저장
@@ -519,6 +618,10 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 we.setEnddate(EndDate);
                 we.setEndtime(EndTime);
                 we.setColor(Color);
+                we.setDivision(division);
+                we.setId(ID);
+                we.setMemo(Memo);
+                we.setStar(Importance);
 
                 eventList.add(we);
                 mWeekView.notifyDatasetChanged();
@@ -546,11 +649,16 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             String EndTime = eventList.get(i).getEndtime();
             String Color = eventList.get(i).getColor();
 
+            int Division = eventList.get(i).getDivision();
+            int Star = eventList.get(i).getStar();
+            String Memo = eventList.get(i).getMemo();
+            int ID = eventList.get(i).getId();
+
 
             Random rndId = new Random();
             int Id = rndId.nextInt(3000);
 
-            //int Id = eventList.get(i).getId();
+
 
             int shour = 0;
             int sminute = 0;
@@ -610,14 +718,50 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             //endTime.set(Calendar.YEAR, eyear);
             //endTime.set(Calendar.MONTH, emonth);
             //endTime.set(Calendar.DAY_OF_MONTH, edate);
-            WeekViewEvent weekViewEvent = new WeekViewEvent(Id, Title, startTime, endTime);
+            WeekViewEvent weekViewEvent = new WeekViewEvent(Id, Title, startTime, endTime, Memo);
             weekViewEvent.setColor(android.graphics.Color.parseColor(Color));
+            weekViewEvent.setmDivision(Division);
+            weekViewEvent.setmMemo(Memo);
+            weekViewEvent.setmStar(Star);
+            weekViewEvent.setmStartDate(StartDate);
+            weekViewEvent.setsTime(StartTime);
+            weekViewEvent.setmEndDate(EndDate);
+            weekViewEvent.seteTime(EndTime);
+            weekViewEvent.setID(ID);
             myEvents.add(weekViewEvent);
 
             //mWeekView.notifyDatasetChanged();
 
         }
         return myEvents;
+    }
+
+    public void weekcalselect(final int division, final int idd)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("일정 삭제").setMessage("일정을 삭제하시겠습니까?");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                deleteCalendarData(String.valueOf(idd), division);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 
