@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -115,6 +117,30 @@ public class CalendarView extends AppCompatActivity {
     private String email;
     private String calendar_title;
 
+    private String check1, check2, check3;
+
+
+    //개인 설정 공휴일
+    private String holidayjsonString;
+    private static String HOLIDAYURL = "http://159.89.193.200//getHoliday.php";
+    private static String HOLIDAYTAG = "getholiday";
+    private List<Event> hEventList = new ArrayList<>();
+    private Calendar hCalendar;
+
+    //개인 설정 음력
+    private String lunarjsonString;
+    private static String LURNARURL = "http://159.89.193.200//getLunar.php";
+    private static String LURNARTAG = "getlunar";
+    private List<Event> lEventList = new ArrayList<>();
+    private Calendar lCalendar;
+
+    //개인 설정 학사일정
+    private String academicjsonString;
+    private static String ACAURL = "http://159.89.193.200//getAcademic.php";
+    private static String ACATAG = "getacademic";
+    private List<Event> aEventList = new ArrayList<>();
+    private Calendar aCalendar;
+
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, CalendarView.class);
@@ -176,6 +202,60 @@ public class CalendarView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //맨 처음 세팅값.
+        //PreferenceManager.setString(CalendarView.this, "check1", "l");
+        //PreferenceManager.setString(CalendarView.this, "check2", "h");
+        //PreferenceManager.setString(CalendarView.this, "check3", "u");
+
+        check1 = PreferenceManager.getString(CalendarView.this, "check1");
+        check2 = PreferenceManager.getString(CalendarView.this, "check2");
+        check3 = PreferenceManager.getString(CalendarView.this, "check3");
+
+        //개인 설정 체크박스
+        CheckBox lunarBox = findViewById(R.id.lunar);
+        CheckBox holidayBox = findViewById(R.id.holiday);
+        CheckBox univerBox = findViewById(R.id.univer);
+
+        if(check1 == "l"){
+            lunarBox.setChecked(false);
+        }else
+            lunarBox.setChecked(true);
+        if(check2 == "h"){
+            lunarBox.setChecked(false);
+        }else
+            lunarBox.setChecked(true);
+        if(check3 == "u"){
+            lunarBox.setChecked(false);
+        }else
+            lunarBox.setChecked(true);
+
+
+        //박스 선택시 preferencemanager에 값 넘겨줌.
+        if(lunarBox.isChecked()){
+            PreferenceManager.setString(CalendarView.this, "check1", "ll");
+            lunarBox.setChecked(true);
+        }else{
+            PreferenceManager.setString(CalendarView.this, "check1", "l");
+            lunarBox.setChecked(false);
+        }
+
+        if(holidayBox.isChecked()){
+            PreferenceManager.setString(CalendarView.this, "check2", "hh");
+            holidayBox.setChecked(true);
+        }else{
+            PreferenceManager.setString(CalendarView.this, "check2", "h");
+            holidayBox.setChecked(false);
+        }
+
+        if(univerBox.isChecked()){
+            PreferenceManager.setString(CalendarView.this, "check3", "uu");
+            univerBox.setChecked(true);
+        }else{
+            PreferenceManager.setString(CalendarView.this, "check3", "u");
+            univerBox.setChecked(false);
+        }
+
 
         //툴바
         setSupportActionBar(toolbar);
@@ -344,6 +424,11 @@ public class CalendarView extends AppCompatActivity {
         monthArrayList = new ArrayList<>();
         monthGetData monthtask = new monthGetData(); //밑에 만들었던 클래스 만들고
         monthtask.execute(MONTHURL, email); //task 실행
+
+        //음력, 공휴일, 학사일정
+        //personalArrayList = new ArrayList<>();
+        personalGetData personaltask = new personalGetData();
+        personaltask.execute(HOLIDAYURL, check1, check2, check3);
 
         //setting
 
@@ -1424,6 +1509,193 @@ public class CalendarView extends AppCompatActivity {
 
 
     }
+
+
+    //월간 일정 표시
+
+    private class personalGetData extends AsyncTask<String, Void, String> { //php읽어서 디비에서 데이터 가져오는 전체 프로세스를 클래스로 생성
+        //모든일은 background 에서 AsyncTask로 발생
+        //결과만 눈에 보임 -> 리사이클러뷰에 값출력
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(CalendarView.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) { //이게 onCreate에서 task.execute(PHPURL, email) 할때 발생하는 일
+            super.onPostExecute(result);
+
+
+            progressDialog.dismiss();
+            //mTextViewResult.setText(result);
+            Log.d(HOLIDAYTAG, "response - " + result);
+
+            if (result == null){
+                //mTextViewResult.setText(errorString);
+            }
+            else {
+                holidayjsonString = result; //크롬으로 확인했던 문자열 받아오고
+                PersonalResult(); //밑에 ShowResult함수 실행
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
+
+            String serverURL = params[0]; //PHPURL
+            //String email = (String)params[1]; //email
+            //int check1 = PreferenceManager.getInt(CalendarView.this, "check1");
+            //int check2 = PreferenceManager.getInt(CalendarView.this, "check2");
+            //int check3 = PreferenceManager.getInt(CalendarView.this, "check3");
+            String check1 = (String)params[1]; //
+            String check2 = (String)params[2];
+            String check3 = (String)params[3];
+
+            String postParameters = "email=" + email + "&" + "check1=" + check1 + "&" + "check2=" + check2 + "&" + "check3=" + check3; //php 파일에 $_POST 변수가 받기 위한 코드
+
+
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(HOLIDAYTAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(HOLIDAYTAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+
+    }
+
+    private void PersonalResult() { //이부분 잘봐
+
+        String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
+        String TAG_TITLE = "title";
+        String TAG_DATE = "date";
+        //String TAG_TIME = "time";
+        // TAG_ENDDATE = "enddate";
+        //String TAG_ENDTIME = "endtime";
+        //String TAG_DIVISION = "division"; //디비전으로 일정 다이얼로그에 해당 일정 창에 맞게 뜨도록 유도.
+        String TAG_ID = "id";
+        //String TAG_COLOR = "color";
+
+        try {
+            JSONObject jsonObject = new JSONObject(holidayjsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
+
+            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
+                JSONObject item = jsonArray.getJSONObject(i);
+
+
+                //DB에서 받아오기
+                String Title = item.getString(TAG_TITLE);
+                String Date = item.getString(TAG_DATE);
+                //String Time = item.getString(TAG_TIME);
+                //String EndDate = item.getString(TAG_ENDDATE);
+                //String EndTime = item.getString(TAG_ENDTIME);
+                int ID = item.getInt(TAG_ID);
+                //int division = item.getInt(TAG_DIVISION);
+                //String Color = item.getString(TAG_COLOR);
+
+                String Time = "null";
+
+                //캘린더 id 랜덤으로
+                Random rndId = new Random();
+                int Id = rndId.nextInt(3000);
+
+                //캘린더에 일정 저장하는 부분
+                Event event = new Event();
+                hCalendar = Calendar.getInstance();
+                int year = Integer.parseInt(Date.substring(0,4));
+                int month = Integer.parseInt(Date.substring(5,7))-1;
+                int date = Integer.parseInt(Date.substring(8,10));
+                int hour = 0;
+                int minute = 0;
+                if(Time != "null"){
+                    hour = Integer.parseInt(Time.substring(0,2));
+                    minute = Integer.parseInt(Time.substring(3,5));
+                }else{
+                    hour = 0;
+                    minute = 0;
+                }
+                //int hour = Integer.parseInt(Time.substring(0,2));
+                //int minute = Integer.parseInt(Time.substring(3,5));
+                hCalendar.set(Calendar.HOUR_OF_DAY, hour);
+                hCalendar.set(Calendar.MINUTE, minute);
+                hCalendar.set(Calendar.SECOND, 0);
+                hCalendar.set(Calendar.MILLISECOND, 0);
+
+                hCalendar.set(Calendar.YEAR, year);
+                hCalendar.set(Calendar.MONTH, month);
+                hCalendar.set(Calendar.DAY_OF_MONTH, date);
+
+                //event.setMdivision(division); // 디비전 값 저장
+                //android.graphics.Color.parseColor(Color);
+                event.setmID(String.valueOf(Id));
+                event.setmTitle(Title);
+                event.setmColor(R.color.black);
+                //event.setmDate(Calendar.getInstance());
+                event.setmDate(hCalendar);
+                //event.setmDate(Calendar.MINUTE, );
+                event.setCompleted(false);
+                hEventList.add(event); // 일간 다이얼로그에 값 넣어줌
+                //월간 캘린더 표시에 값 넣어줌
+                mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.d(HOLIDAYTAG, "showResult : ", e);
+        }
+
+    }
+
 
 
 
