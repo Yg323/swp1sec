@@ -1,16 +1,12 @@
 package com.example.swp1sec;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -21,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,7 +29,6 @@ import com.example.library.DateTimeInterpreter;
 import com.example.library.MonthLoader;
 import com.example.library.WeekView;
 import com.example.library.WeekViewEvent;
-import com.example.library.WeekViewLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -121,10 +115,11 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
 
         email =  PreferenceManager.getString(this,"email");
-        //String email = PreferenceManager.getString(Category.this, "email");
-        //String email = "14dnfnfn@gmail.com";//임시
+        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+
         WeekCalendarF.GetData weektask = new WeekCalendarF.GetData(); //밑에 만들었던 클래스 만들고
-        weektask.execute(WEEKURL, email); //task 실행
+
+        weektask.execute(WEEKURL, email,cal_title); //task 실행
 
 
 
@@ -519,8 +514,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
-
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String cal_title = (String)params[2];
+            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
