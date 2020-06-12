@@ -30,6 +30,8 @@
         <item>"습관"</item>
     </string-array>
 
+
+
     //주간 캘린더
     <string name="action_today">Today</string>
     <string name="action_day_view">Day view</string>
