@@ -30,9 +30,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.library.WeekViewEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +52,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class CreateNormalEdit extends AppCompatActivity {
     private EditText et_normal_title,et_normal_memo;
@@ -60,11 +67,14 @@ public class CreateNormalEdit extends AppCompatActivity {
     AlarmManager alarmManager;
 
     private static String IP_ADDRESS = "159.89.193.200/set_alm.php";
-    private static String URL = "http://159.89.193.200//plusNormal.php";
+    //private static String URL = "http://159.89.193.200//plusNormal.php";
     private static String TAG = "setnormal";
     private RadioGroup radioGroup;
     private RadioButton r1, r2;
     Calendar myCalendar = Calendar.getInstance();
+
+    //WeekViewEvent 받아오기
+    WeekViewEvent event;
 
     DatePickerDialog.OnDateSetListener StartDate = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -139,6 +149,19 @@ public class CreateNormalEdit extends AppCompatActivity {
                 }
             }
         });
+
+        //저장된 값으로 설정되어 창에 뜨게끔.
+        //event = getIntent().getParcelableExtra()
+        event = (WeekViewEvent)getIntent().getParcelableExtra("eventnor");
+        et_normal_title.setText(event.getName());
+        et_normal_memo.setText(event.getmMemo());
+        start_date.setText(event.getmStartDate());
+        start_time.setText(event.getsTime().substring(0, 5));
+        end_date.setText(event.getmEndDate());
+        end_time.setText(event.geteTime().substring(0, 5));
+        nor_star.setRating(Float.valueOf(event.getmStar()));
+
+
 
         t_picker = (TimePicker) findViewById(R.id.timePicker);
         t_picker.setIs24HourView(true);
@@ -237,19 +260,22 @@ public class CreateNormalEdit extends AppCompatActivity {
         btn_normal_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = PreferenceManager.getString(CreateNormalEdit.this, "email");
-                //String email = "14dnfnfn@gmail.com"; //임시
-                String title = et_normal_title.getText().toString();
-                String memo = et_normal_memo.getText().toString();
-                String date = start_date.getText().toString();
-                String time = start_time.getText().toString();
-                String enddate = end_date.getText().toString();
-                String endtime = end_time.getText().toString();
-                int division = PreferenceManager.getInt(CreateNormalEdit.this, "nor");
-                int importance = (int) nor_star.getRating();
-                int getcateid = getIntent().getIntExtra("cateid", 1);
+                final String email = PreferenceManager.getString(CreateNormalEdit.this, "email");
+
+                final String title = et_normal_title.getText().toString();
+                final String memo = et_normal_memo.getText().toString();
+                final String date = start_date.getText().toString();
+                final String time = start_time.getText().toString();
+                final String enddate = end_date.getText().toString();
+                final String endtime = end_time.getText().toString();
+                final int division = PreferenceManager.getInt(CreateNormalEdit.this, "nor");
+                final int importance = (int) nor_star.getRating();
+                final int getcateid = getIntent().getIntExtra("cateid", 1);
+                final int id = event.getID();
+
                 int a_year, a_month, a_date, a_hour, a_hour_24, a_minute;
                 String am_pm;
+
 
                 if (title.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateNormalEdit.this);
@@ -259,33 +285,54 @@ public class CreateNormalEdit extends AppCompatActivity {
                     dialog.show();
                     return;
                 }
-                Response.Listener<String> responseListener = new Response.Listener<String>() {//volley
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jasonObject = new JSONObject(response);//Register2 php에 response
-                            boolean success = jasonObject.getBoolean("success");//Register2 php에 sucess
-                            if (success) {//저장 완료
-                                Toast toast = Toast.makeText(getApplicationContext(), "일정이 등록되었습니다. ", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-                                toast.show();
+
+                //DB 업데이트
+
+                final ProgressDialog progressDialog = new ProgressDialog(CreateNormalEdit.this);
+                progressDialog.setMessage("update..");
+                progressDialog.show();
+
+                StringRequest request = new StringRequest(Request.Method.POST,"http://159.89.193.200/editNormal.php",
+                        new Response.Listener<String>(){
+                            @Override
+                            public void onResponse(String response) {
+
+                                Toast.makeText(CreateNormalEdit.this,response,Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(CreateNormalEdit.this, CalendarView.class);
                                 startActivity(intent);
-                            } else {//저장 실패한 경우
-                                Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-                                toast.show();
-                                return;
+                                progressDialog.dismiss();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        },new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        Toast.makeText(CreateNormalEdit.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+
+                    }
+
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String,String>();
+
+                        params.put("id", String.valueOf(id));
+                        params.put("email", email);
+                        params.put("title", title);
+                        params.put("memo", memo);
+                        params.put("date", date);
+                        params.put("time", time);
+                        params.put("importance", String.valueOf(importance));
+                        params.put("enddate", enddate);
+                        params.put("endtime", endtime);
+                        params.put("division", String.valueOf(division));
+
+
+                        return params;
                     }
                 };
-                //서버로 volley를 이용해서 요청을 함
-                CreateNormalRequest createNormalRequest = new CreateNormalRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, division, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(CreateNormalEdit.this);
-                queue.add(createNormalRequest);
+                RequestQueue queue= Volley.newRequestQueue(CreateNormalEdit.this);
+                queue.add(request);
+
 
                 //알람설정 part.2
                 if (Build.VERSION.SDK_INT >= 23) {
