@@ -1,8 +1,6 @@
 package com.example.swp1sec;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -47,8 +45,10 @@ public class Store_main extends AppCompatActivity {
     String outPut;
     String res;
     String result;
-    TextView Coin;
-    String email;
+    private TextView Coin;
+    private String email;
+    private String url="http://159.89.193.200/get_money.php";
+    private String jsonString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class Store_main extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         perchase = new Purchase();
         history = new History();
-        String url = "http://159.89.193.200/get_money.php";
+
 
         email = PreferenceManager.getString(Store_main.this, "email");
         Log.d(TAG, "email= " + email);
@@ -78,21 +78,13 @@ public class Store_main extends AppCompatActivity {
         //InsertData task = new InsertData();
         //task.execute(url, email);
 
-        NetworkTask networkTask = new NetworkTask(url, null);
-        Log.d(TAG, "mlllll= " + url);
-        //networkTask.execute(url,email);
-        try{
-            outPut = networkTask.execute(url, email).get();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //outPut = networkTask.getTv_outPut();
-        //String ex_title = tv_outPut;
-        Log.d(TAG,"outPut: "+ result);
+        NetworkTask networkTask = new NetworkTask();
 
-        money_doJSONParser(result);
-        Log.d(TAG, "money = " + res);
-        Coin.setText(res);
+        networkTask.execute(url,email);
+
+
+
+
 
         p_button.setOnClickListener(new View.OnClickListener() {
 
@@ -144,39 +136,44 @@ public class Store_main extends AppCompatActivity {
         });
     }
 
-    public class NetworkTask extends AsyncTask<String , Void, String> {
+    private class NetworkTask extends AsyncTask<String, Void, String> {
 
-        private String url;
-        private ContentValues values;
-        private String tv_outPut;
-        private static final String TAG = "networktask";
         String errorString = null;
 
-        public NetworkTask(String url, ContentValues values) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-            this.url = url;
-            this.values = values;
-            Log.d(TAG, "Nurl= " + url);
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+                //mTextViewResult.setText(errorString);
+            }
+            else {
+                jsonString = result; //크롬으로 확인했던 문자열 받아오고
+                ShowResult(); //밑에 dayHabitShowResult함수 실행
+                Coin.setText(res);
+            }
         }
 
         @Override
-        protected String doInBackground(String ... params) {
-            String severurl = (String)params[0];
-            String email = (String)params[1];
-            // 요청 결과를 저장할 변수.
+        protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
 
-            String postParameters = "emaill=" + email;
-            //Log.d(TAG, "postparams= " + postParameters);
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
 
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            //Log.d(TAG, "url = " + url);
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            Log.d(TAG, "result = " + result);
+
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
-                java.net.URL url = new URL(severurl);
-                Log.d(TAG, "url- " +url);
+                java.net.URL url = new URL(serverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
                 httpURLConnection.setReadTimeout(5000);
@@ -212,48 +209,29 @@ public class Store_main extends AppCompatActivity {
                 }
                 bufferedReader.close();
 
-                //return sb.toString().trim();
+                return sb.toString().trim();
             } catch (Exception e) {
 
                 Log.d(TAG, "GetData : Error ", e);
                 errorString = e.toString();
 
-                //return null;
+                return null;
             }
 
-            return result;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
-            tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
         }
     }
 
-    public void money_doJSONParser(String str){
-        try{
-            String result = new String();
-            int rem_money = 0;
-            int h_money = 0;
-            int m_money = 0;
-            JSONObject object = new JSONObject(str);
-            JSONArray index = object.getJSONArray("money");
-            //Log.d(TAG, "index = " + index);
-            for(int i = 0; i < index.length(); i++){
-                JSONObject tt = index.getJSONObject(i);
+    private void ShowResult() { //이부분 잘봐
+        String result1 = new String();
+        int rem_money = 0;
+        int h_money = 0;
+        int m_money = 0;
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            JSONArray jsonArray = jsonObject.getJSONArray("money"); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
+            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
+                JSONObject tt = jsonArray.getJSONObject(i);
                 String money = tt.getString("money");
                 rem_money = Integer.parseInt(money);
                 Log.d(TAG, "rem= " + rem_money);
@@ -267,24 +245,17 @@ public class Store_main extends AppCompatActivity {
                     }
                 }
 
-                result = h_money + "시간 " + m_money + "분 " + rem_money + "초";
+                result1 = h_money + "시간 " + m_money + "분 " + rem_money + "초";
 
                 //Log.d(TAG, "result = " + result);
 
             }
-            res = result;
+            res = result1;
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }
 
-    public void onFragmentChange(int index){
-        if(index == 0 ){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, perchase).commit();
-        }else if(index == 1){
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, history).commit();
-        }
-    }
     public void calclick(){
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(Store_main.this);
@@ -314,89 +285,4 @@ public class Store_main extends AppCompatActivity {
         dlg.show();
     }
 
-    class InsertData extends AsyncTask<String, Void, String>{
-        ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            //Log.d(TAG, "Yohoho" + result);
-        }
-
-        @Override
-        protected String doInBackground(String...params){
-            String severurl = (String)params[0];
-            String email = (String)params[1];
-            String postParameters;
-
-            postParameters = "email=" +email;
-
-            //postParameters = "normal=" + Integer.toString(n_theme1) + "&premium=" + Integer.toString(p_theme1);
-
-            Log.d(TAG, "postparam = " + postParameters);
-
-            try {
-
-                URL url = new URL(severurl);
-                Log.d(TAG, "url= " +url);
-                Log.d(TAG, "email = " + email);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.connect();
-
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d(TAG, "POST response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-
-
-                bufferedReader.close();
-
-
-                return sb.toString();
-
-
-            } catch (Exception e) {
-
-                Log.d(TAG, "InsertData: Error ", e);
-
-                return new String("Error: " + e.getMessage());
-            }
-
-        }
-    }
 }

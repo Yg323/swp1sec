@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,7 +30,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.library.WeekView;
-import com.example.swp1sec.data.Event;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -373,7 +371,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, 1,responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubjectEdit.this);
                 queue.add(createSubjectRequest);
 
