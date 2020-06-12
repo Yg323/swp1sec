@@ -22,6 +22,8 @@ public class Event implements Parcelable {
     private RatingBar mStar;
 
     private int mdivision;
+    private String memo;
+    private int star;
 
     public Event(){ }
 
@@ -33,6 +35,18 @@ public class Event implements Parcelable {
         this.isCompleted = isCompleted;
 
 
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 
     public int getMdivision() {

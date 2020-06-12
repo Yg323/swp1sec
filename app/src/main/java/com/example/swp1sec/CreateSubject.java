@@ -119,10 +119,13 @@ public class CreateSubject extends AppCompatActivity {
 
     private void updateLabel() {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
 
         TextView et_date = (TextView) findViewById(R.id.sub_start_date);
-        et_date.setText(sdf.format(myCalendar.getTime()));
+        et_date.setText(sdf.format(date));
 
     }
 

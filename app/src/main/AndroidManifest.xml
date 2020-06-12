@@ -49,6 +49,9 @@
         <activity android:name=".WeekCalendarF" />
         <activity android:name=".CreateHabit" />
         <activity android:name=".CreateSubject" />
+        <activity android:name=".CreateSubjectEdit"/>
+        <activity android:name=".CreateExerciseEdit"/>
+        <activity android:name=".CreateNormalEdit"/>
 
 
         <activity android:name="com.example.swp1sec.add_dialog"

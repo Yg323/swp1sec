@@ -43,6 +43,8 @@ public class exercise_dialog extends AppCompatActivity {
                 String email = PreferenceManager.getString(exercise_dialog.this, "email");
                 /*String email = "14dnfnfn@gmail.com"; //임시*/
                 String cate_title = et_category_title_exercise.getText().toString();
+                String cal_title = PreferenceManager.getString(exercise_dialog.this,"cal_title");
+
                 if(cate_title.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(exercise_dialog.this);
                     Toast toast = Toast.makeText(getApplicationContext(), "제목을 입력하세요 ", Toast.LENGTH_SHORT);
@@ -77,7 +79,7 @@ public class exercise_dialog extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CategoryRequesttitle_exercise categoryRequesttitle_exercise=new CategoryRequesttitle_exercise(email,cate_title,responseListener);
+                CategoryRequesttitle_exercise categoryRequesttitle_exercise=new CategoryRequesttitle_exercise(email,cate_title,cal_title,responseListener);
                 RequestQueue queue= Volley.newRequestQueue(exercise_dialog.this);
                 queue.add(categoryRequesttitle_exercise);
             }

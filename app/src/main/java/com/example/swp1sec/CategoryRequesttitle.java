@@ -11,10 +11,12 @@ public class CategoryRequesttitle extends StringRequest{
     private Map<String, String> map;
     //private Map<String, String>parameters;
 
-    public CategoryRequesttitle(String email,String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,String class_start1,String class_ends1,String day1,Response.Listener<String> listener) {
+    public CategoryRequesttitle(String email,String cal_title, String cate_title,String pro_name,String pro_email,String day,String class_start,String class_ends,String lectureroom,String class_start1,String class_ends1,String day1,Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null); // 위 url에 post방식으로 값을 전송
         map = new HashMap<>();
         map.put("email",email);
+        map.put("cal_title",cal_title);
+
         map.put("cate_title",cate_title);
         map.put("pro_name",pro_name);
         map.put("pro_email",pro_email);

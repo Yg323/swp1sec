@@ -9,7 +9,8 @@ public class WeekCalendarSub {
     private String enddate;
     private int id;
 
-
+    private int star;
+    private String memo;
 
     private int startyear;
     private int startmonth;
@@ -18,7 +19,25 @@ public class WeekCalendarSub {
     private int endhour;
     private int endminute;
 
+    private String endtime;
+
     private int startday;
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
 
     public int getStartday() {
         return startday;
@@ -100,7 +119,7 @@ public class WeekCalendarSub {
         this.endtime = endtime;
     }
 
-    private String endtime;
+
 
 
     public String getDate() {

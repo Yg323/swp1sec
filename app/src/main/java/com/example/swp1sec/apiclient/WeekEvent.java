@@ -2,6 +2,8 @@ package com.example.swp1sec.apiclient;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,7 +20,7 @@ import java.util.Date;
  * Created by Raquib-ul-Alam Kanak on 1/3/16.
  * Website: http://alamkanak.github.io
  */
-public class Event{
+public class WeekEvent implements Parcelable {
 
     @Expose @SerializedName("name")
     private String mName;
@@ -30,6 +32,67 @@ public class Event{
     private String mEndTime;
     @Expose @SerializedName("color")
     private String mColor;
+
+    private String mStartDate;
+    private String mEndDate;
+    private String mMemo;
+    private String mStar;
+
+    protected WeekEvent(Parcel in) {
+        mName = in.readString();
+        mDayOfMonth = in.readInt();
+        mStartTime = in.readString();
+        mEndTime = in.readString();
+        mColor = in.readString();
+        mStartDate = in.readString();
+        mEndDate = in.readString();
+        mMemo = in.readString();
+        mStar = in.readString();
+    }
+
+    public static final Creator<WeekEvent> CREATOR = new Creator<WeekEvent>() {
+        @Override
+        public WeekEvent createFromParcel(Parcel in) {
+            return new WeekEvent(in);
+        }
+
+        @Override
+        public WeekEvent[] newArray(int size) {
+            return new WeekEvent[size];
+        }
+    };
+
+    public String getmStartDate() {
+        return mStartDate;
+    }
+
+    public void setmStartDate(String mStartDate) {
+        this.mStartDate = mStartDate;
+    }
+
+    public String getmEndDate() {
+        return mEndDate;
+    }
+
+    public void setmEndDate(String mEndDate) {
+        this.mEndDate = mEndDate;
+    }
+
+    public String getmMemo() {
+        return mMemo;
+    }
+
+    public void setmMemo(String mMemo) {
+        this.mMemo = mMemo;
+    }
+
+    public String getmStar() {
+        return mStar;
+    }
+
+    public void setmStar(String mStar) {
+        this.mStar = mStar;
+    }
 
     public String getName() {
         return mName;
@@ -110,5 +173,24 @@ public class Event{
         weekViewEvent.setColor(Color.parseColor(getColor()));
 
         return weekViewEvent;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeInt(mDayOfMonth);
+        dest.writeString(mStartTime);
+        dest.writeString(mEndTime);
+        dest.writeString(mColor);
+        dest.writeString(mStartDate);
+        dest.writeString(mEndDate);
+        dest.writeString(mMemo);
+        dest.writeString(mStar);
+
     }
 }

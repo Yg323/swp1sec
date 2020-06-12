@@ -41,6 +41,8 @@ public class normal_dialog extends AppCompatActivity {
         normal_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String cal_title = PreferenceManager.getString(normal_dialog.this,"cal_title");
+
                 String email = PreferenceManager.getString(normal_dialog.this, "email");
                 /*String email = "14dnfnfn@gmail.com"; //임시*/
                 String cate_title = et_category_title_normal.getText().toString();
@@ -78,7 +80,7 @@ public class normal_dialog extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CategoryRequesttitle_normal categoryRequesttitle_normal=new CategoryRequesttitle_normal(email,cate_title,responseListener);
+                CategoryRequesttitle_normal categoryRequesttitle_normal=new CategoryRequesttitle_normal(email,cate_title,cal_title,responseListener);
                 RequestQueue queue= Volley.newRequestQueue(normal_dialog.this);
                 queue.add(categoryRequesttitle_normal);
             }
