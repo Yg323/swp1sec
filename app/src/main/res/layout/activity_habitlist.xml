@@ -28,8 +28,12 @@
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquare"
+            android:background="@drawable/button_shape"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="SEarch" />
+            android:text="search" />
     </LinearLayout>
 
 
@@ -44,26 +48,41 @@
             android:id="@+id/btn_callist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquare"
+            android:background="@drawable/button_shape"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:lineHeight="10dp"
-
             android:text="일정" />
         <Button
             android:id="@+id/btn_todolist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquare"
+            android:background="@drawable/button_shape"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="할 일" />
         <Button
             android:id="@+id/btn_habitlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquare"
+            android:background="@drawable/button_shape"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="습관" />
         <Button
             android:id="@+id/btn_ddaylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nanumsquare"
+            android:background="@drawable/button_shape"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
             android:text="D-DAY" />
     </LinearLayout>

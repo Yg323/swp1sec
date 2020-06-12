@@ -152,7 +152,7 @@ public class CalendarView extends AppCompatActivity {
         String text = PreferenceManager.getString(CalendarView.this,"start_week_title");
         setting_start_day.setText(text);
 
-        email =  PreferenceManager.getString(this,"email");
+        email =  PreferenceManager.getString(CalendarView.this,"email");
         calendar_title = PreferenceManager.getString(CalendarView.this,"cal_title");
 
         //뱃지

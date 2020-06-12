@@ -54,7 +54,7 @@ public class TodoListCaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_todolist);
+        setContentView(R.layout.activity_todolist_ca);
 
         ibtn_calender = findViewById(R.id.ibtn_calendar);
         ibtn_calenderlist = findViewById(R.id.ibtn_calendarlist);
