@@ -161,6 +161,9 @@ public class CalendarView extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setting_theme = findViewById(R.id.setting_theme);
         setting_start_day=findViewById(R.id.setting_start_day);
+
+
+
         setting_theme.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -256,9 +259,40 @@ public class CalendarView extends AppCompatActivity {
         }
 
 
+
         //툴바
         setSupportActionBar(toolbar);
         mCalendarView = findViewById(R.id.calendarView);
+
+        //캘린더
+        calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
+        LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        calRecyclerView.setLayoutManager(calLayoutManager);
+        calArrayList = new ArrayList<>();
+
+
+        cal_title_adapter = new cal_title_adapter(this, calArrayList);
+        calRecyclerView.setAdapter(cal_title_adapter);
+
+        calArrayList.clear();
+        cal_title_adapter.notifyDataSetChanged();
+        calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
+        caltask.execute(CALURL, email); //task 실행
+
+        //카테고리
+        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
+        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cateRecyclerView.setLayoutManager(cateLayoutManager);
+        categoryArrayList = new ArrayList<>();
+        category_title_adapter = new category_title_adapter(this, categoryArrayList);
+        cateRecyclerView.setAdapter(category_title_adapter);
+
+        categoryArrayList.clear();
+        category_title_adapter.notifyDataSetChanged();
+        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+        catetask.execute(CATEURL, email, calendar_title); //task 실행
+
+
         //상단 툴바에 뜨는 달(Title)이랑 년도(subtitle) 설정 움직일때 변경되는 것
         mCalendarView.setOnMonthChangedListener(new com.example.swp1sec.CalendarViewM.OnMonthChangedListener() {
             @Override // 여기에 int day 추가했음
@@ -286,8 +320,6 @@ public class CalendarView extends AppCompatActivity {
                 }
             }
         });
-
-
 
 
         //상단 액션바와 연관 움직일때x 초기화면을 말함
@@ -398,35 +430,11 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
-        //캘린더
-        calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
-        LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        calRecyclerView.setLayoutManager(calLayoutManager);
-        calArrayList = new ArrayList<>();
 
-
-        cal_title_adapter = new cal_title_adapter(this, calArrayList);
-        calRecyclerView.setAdapter(cal_title_adapter);
-
-        calArrayList.clear();
-        cal_title_adapter.notifyDataSetChanged();
-        calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
-        caltask.execute(CALURL, email); //task 실행
 
         //캘린더 데이터
 
-        //카테고리
-        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
-        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        cateRecyclerView.setLayoutManager(cateLayoutManager);
-        categoryArrayList = new ArrayList<>();
-        category_title_adapter = new category_title_adapter(this, categoryArrayList);
-        cateRecyclerView.setAdapter(category_title_adapter);
 
-        categoryArrayList.clear();
-        category_title_adapter.notifyDataSetChanged();
-        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
-        catetask.execute(CATEURL, email, calendar_title); //task 실행
 
 
         //상단 액션바와 연관 움직일때x 초기화면을 말함
@@ -453,7 +461,7 @@ public class CalendarView extends AppCompatActivity {
         //월간
         monthArrayList = new ArrayList<>();
         monthGetData monthtask = new monthGetData(); //밑에 만들었던 클래스 만들고
-        monthtask.execute(MONTHURL, email, calendar_title); //task 실행
+        monthtask.execute(MONTHURL, email); //task 실행
 
         //음력, 공휴일, 학사일정
         //personalArrayList = new ArrayList<>();
@@ -1373,9 +1381,9 @@ public class CalendarView extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
-            String cal_title =(String)params[2];
+            //String cal_title =(String)params[2];
 
-            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 

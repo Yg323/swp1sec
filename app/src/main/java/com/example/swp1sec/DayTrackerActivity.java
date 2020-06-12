@@ -73,6 +73,7 @@ public class DayTrackerActivity extends AppCompatActivity {
         txt_dayfeedback=findViewById(R.id.txt_dayfeedback);
 
         String email = PreferenceManager.getString(DayTrackerActivity.this, "email");
+        String cal_title=PreferenceManager.getString(getApplicationContext(),"cal_title");
 
         ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +136,7 @@ public class DayTrackerActivity extends AppCompatActivity {
         todoArrayList.clear();
         toDoAdapter.notifyDataSetChanged();
         TodoGetData todotask = new TodoGetData(); //밑에 만들었던 클래스 만들고
-        todotask.execute(TODOURL, email); //task 실행
+        todotask.execute(TODOURL, email, cal_title); //task 실행
 
 
 
@@ -192,7 +193,9 @@ public class DayTrackerActivity extends AppCompatActivity {
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String cal_title = (String)params[2];
+
+            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
