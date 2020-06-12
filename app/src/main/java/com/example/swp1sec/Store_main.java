@@ -79,11 +79,7 @@ public class Store_main extends AppCompatActivity {
         //task.execute(url, email);
 
         NetworkTask networkTask = new NetworkTask();
-
         networkTask.execute(url,email);
-
-
-
 
 
         p_button.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +153,7 @@ public class Store_main extends AppCompatActivity {
             }
             else {
                 jsonString = result; //크롬으로 확인했던 문자열 받아오고
-                ShowResult(); //밑에 dayHabitShowResult함수 실행
+                ShowResult(); //밑에 ShowResult함수 실행
                 Coin.setText(res);
             }
         }
@@ -244,11 +240,8 @@ public class Store_main extends AppCompatActivity {
                         rem_money = rem_money%60;
                     }
                 }
-
                 result1 = h_money + "시간 " + m_money + "분 " + rem_money + "초";
-
                 //Log.d(TAG, "result = " + result);
-
             }
             res = result1;
             //Log.d(TAG,"tv_OUTPUT = " + res);
