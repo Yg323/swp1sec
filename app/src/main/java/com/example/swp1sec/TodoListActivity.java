@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -49,6 +50,8 @@ public class TodoListActivity extends AppCompatActivity {
     private String jsonString;
     private static String URL = "http://159.89.193.200//gettodolist.php";
     private static String TAG = "gettodo";
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,6 +210,19 @@ public class TodoListActivity extends AppCompatActivity {
                 TodoListRequest todoListRequest=new TodoListRequest(email,title,cate_title,Integer.toString(todoList.getDday()),Integer.toString(todoList.getPerformance()),responseListener);
                 RequestQueue queue= Volley.newRequestQueue(TodoListActivity.this);
                 queue.add(todoListRequest);
+            }
+        });
+        //새로고침
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_todo);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.stay);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
