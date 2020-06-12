@@ -1,6 +1,7 @@
 package com.example.swp1sec;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class Store_main extends AppCompatActivity {
 
     String TAG = "MainActivity";
@@ -38,7 +46,9 @@ public class Store_main extends AppCompatActivity {
     Button btn01;
     String outPut;
     String res;
+    String result;
     TextView Coin;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,9 @@ public class Store_main extends AppCompatActivity {
         perchase = new Purchase();
         history = new History();
         String url = "http://159.89.193.200/get_money.php";
+
+        email = PreferenceManager.getString(Store_main.this, "email");
+        Log.d(TAG, "email= " + email);
 
         Button p_button = findViewById(R.id.p_button);
         Button h_button = findViewById(R.id.h_button);
@@ -62,17 +75,22 @@ public class Store_main extends AppCompatActivity {
 
         final Intent intent = getIntent();
 
+        //InsertData task = new InsertData();
+        //task.execute(url, email);
+
         NetworkTask networkTask = new NetworkTask(url, null);
+        Log.d(TAG, "mlllll= " + url);
+        //networkTask.execute(url,email);
         try{
-            outPut = networkTask.execute().get();
+            outPut = networkTask.execute(url, email).get();
         }catch (Exception e){
             e.printStackTrace();
         }
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
-        Log.d(TAG,"outPut: "+ outPut);
+        Log.d(TAG,"outPut: "+ result);
 
-        money_doJSONParser(outPut);
+        money_doJSONParser(result);
         Log.d(TAG, "money = " + res);
         Coin.setText(res);
 
@@ -126,26 +144,82 @@ public class Store_main extends AppCompatActivity {
         });
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask extends AsyncTask<String , Void, String> {
 
         private String url;
         private ContentValues values;
         private String tv_outPut;
         private static final String TAG = "networktask";
+        String errorString = null;
 
         public NetworkTask(String url, ContentValues values) {
 
             this.url = url;
             this.values = values;
+            Log.d(TAG, "Nurl= " + url);
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
+        protected String doInBackground(String ... params) {
+            String severurl = (String)params[0];
+            String email = (String)params[1];
+            // 요청 결과를 저장할 변수.
+
+            String postParameters = "emaill=" + email;
+            //Log.d(TAG, "postparams= " + postParameters);
+
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            Log.d(TAG, "url = " + url);
+            //Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
             Log.d(TAG, "result = " + result);
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(severurl);
+                Log.d(TAG, "url- " +url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                //return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                //return null;
+            }
 
             return result;
         }
@@ -238,5 +312,91 @@ public class Store_main extends AppCompatActivity {
             }
         });
         dlg.show();
+    }
+
+    class InsertData extends AsyncTask<String, Void, String>{
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            //Log.d(TAG, "Yohoho" + result);
+        }
+
+        @Override
+        protected String doInBackground(String...params){
+            String severurl = (String)params[0];
+            String email = (String)params[1];
+            String postParameters;
+
+            postParameters = "email=" +email;
+
+            //postParameters = "normal=" + Integer.toString(n_theme1) + "&premium=" + Integer.toString(p_theme1);
+
+            Log.d(TAG, "postparam = " + postParameters);
+
+            try {
+
+                URL url = new URL(severurl);
+                Log.d(TAG, "url= " +url);
+                Log.d(TAG, "email = " + email);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "POST response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString();
+
+
+            } catch (Exception e) {
+
+                Log.d(TAG, "InsertData: Error ", e);
+
+                return new String("Error: " + e.getMessage());
+            }
+
+        }
     }
 }

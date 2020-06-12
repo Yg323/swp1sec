@@ -308,7 +308,7 @@ public class CreateSubject extends AppCompatActivity {
                 String email = "14dnfnfn@gmail.com"; //임시
                 String title = et_subject_title.getText().toString();
                 //String alarm = Alarm.getText().toString();
-                String alarm = alm_set.getText().toString();
+                //String alarm = alm_set.getText().toString();
                 //Log.d(TAG, "alarm= " + alarm);
                 String memo = et_subject_memo.getText().toString();
                 String date = start_date.getText().toString();
@@ -357,7 +357,7 @@ public class CreateSubject extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, alarm, getcateid, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
 

@@ -36,6 +36,7 @@ public class t_r_PopupActivity extends AppCompatActivity {
     String outPut;
     int res;
     Intent mintent;
+    String email;
 
     private static String IP_ADDRESS = "159.89.193.200/t_r_store.php";
 
@@ -46,6 +47,8 @@ public class t_r_PopupActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.popup_activity);
+
+        email = PreferenceManager.getString(this, "email");
 
         String url = "http://159.89.193.200/get_money.php";
 
@@ -106,11 +109,12 @@ public class t_r_PopupActivity extends AppCompatActivity {
         });
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask extends AsyncTask<String, Void, String> {
 
         private String url;
         private ContentValues values;
         private String tv_outPut;
+        String errorString = null;
         private static final String TAG = "networktask";
 
         public NetworkTask(String url, ContentValues values) {
@@ -120,12 +124,64 @@ public class t_r_PopupActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(String ... params) {
+            String serverURL = params[0];
+            String email = params[1];
+
+            String postParameters = "email=" + email;
+
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
             Log.d(TAG, "result = " + result);
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                //return null;
+            }
 
             return result;
         }
@@ -192,9 +248,9 @@ public class t_r_PopupActivity extends AppCompatActivity {
             String postParameters;
 
             if(mnum < 70)
-                postParameters = "normal=1" + "&money=" + res;
+                postParameters = "normal=1" + "&money=" + res + "&email=" +email;
             else
-                postParameters = "premium=1" + "&money=" + res;
+                postParameters = "premium=1" + "&money=" + res + "&email=" +email;
 
             //postParameters = "normal=" + Integer.toString(n_theme1) + "&premium=" + Integer.toString(p_theme1);
 
@@ -229,7 +285,6 @@ public class t_r_PopupActivity extends AppCompatActivity {
                     inputStream = httpURLConnection.getErrorStream();
                 }
 
-
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -240,9 +295,7 @@ public class t_r_PopupActivity extends AppCompatActivity {
                     sb.append(line);
                 }
 
-
                 bufferedReader.close();
-
 
                 return sb.toString();
 

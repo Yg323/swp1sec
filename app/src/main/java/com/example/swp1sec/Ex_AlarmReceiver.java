@@ -84,8 +84,9 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
         builder.setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-
+                .setSmallIcon(R.drawable.icon_personsetting)
                 .setTicker("{Time to watch some cool stuff!}")
+                .setContentText("1Sec.")
                 .setContentTitle(res)
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);

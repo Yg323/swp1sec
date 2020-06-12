@@ -124,6 +124,9 @@
         </activity>
 
         <receiver android:name=".Badge_Alarm"/>
+        <receiver android:name="com.example.swp1sec.Ex_AlarmReceiver"/>
+        <receiver android:name="com.example.swp1sec.Nm_AlarmReceiver"/>
+        <receiver android:name="com.example.swp1sec.Sbj_AlarmReceiver"/>
         <receiver android:name="com.example.swp1sec.ScreenReceiver" />
         <service android:name="com.example.swp1sec.ScreenService" />
         <activity android:name="com.example.swp1sec.LockScreenActivity" />
