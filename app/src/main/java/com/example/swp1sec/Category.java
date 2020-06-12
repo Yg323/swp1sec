@@ -1,6 +1,8 @@
 package com.example.swp1sec;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,12 +62,54 @@ public class Category extends AppCompatActivity {
             public void onItemClick(View v, int position) {
                 CategoryItem categoryItem = categoryArrayList.get(position);
                 int division = categoryItem.getDivision();
-                int cateid = categoryItem.getId();
+                final int cateid = categoryItem.getId();
+                final String catetitle = categoryItem.getTitle();
                 switch (division) {
                     case 0:
-                        Intent intent = new Intent(v.getContext(), CreateSubject.class);
+                        AlertDialog.Builder dlg = new AlertDialog.Builder(Category.this);
+                        dlg.setTitle("시험-과제-휴강 선택"); //제목
+                        //dlg.setMessage("안녕하세요 계발에서 개발까지 입니다."); // 메시지
+                        //dlg.setIcon(R.drawable.deum); // 아이콘 설정
+//                버튼 클릭시 동작
+                        dlg.setItems(R.array.LA, new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int pos)
+                            {
+                                switch (pos) {
+                                    case 0:{
+                                        Intent intent = new Intent(getApplicationContext(), CreateSubject.class);
+                                        intent.putExtra("pos", 0);
+                                        intent.putExtra("catetitle", catetitle);
+                                        intent.putExtra("cateid", cateid);
+                                        startActivity(intent);
+                                        break;
+                                    }
+                                    case 1:{
+                                        Intent intent2 = new Intent(getApplicationContext(), CreateSubject.class);
+                                        intent2.putExtra("pos", 1);
+                                        intent2.putExtra("catetitle", catetitle);
+                                        intent2.putExtra("cateid", cateid);
+                                        startActivity(intent2);
+                                        break;
+                                    }
+                                    case 2: {
+                                        Intent intent3 = new Intent(getApplicationContext(), CreateSubject.class);
+                                        intent3.putExtra("pos", 2);
+                                        intent3.putExtra("catetitle", catetitle);
+                                        intent3.putExtra("cateid", cateid);
+                                        startActivity(intent3);
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                        dlg.show();
+
+
+
+                        /*Intent intent = new Intent(v.getContext(), CreateSubject.class);
                         intent.putExtra("cateid", cateid);
-                        v.getContext().startActivity(intent);
+                        v.getContext().startActivity(intent);*/
                         break;
 
                     case 1:
@@ -211,6 +255,39 @@ public class Category extends AppCompatActivity {
         } catch (JSONException e) {
             Log.d(TAG, "showResult : ", e);
         }
+    }
+
+    public void subjectclick(){
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(Category.this);
+        dlg.setTitle("시험-과제-휴강 선택"); //제목
+        //dlg.setMessage("안녕하세요 계발에서 개발까지 입니다."); // 메시지
+        //dlg.setIcon(R.drawable.deum); // 아이콘 설정
+//                버튼 클릭시 동작
+        dlg.setItems(R.array.LA, new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int pos)
+            {
+                switch (pos) {
+                    case 0:{
+                        Intent intent = new Intent(getApplicationContext(), CreateSubject.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 1:{
+                        Intent intent = new Intent(getApplicationContext(), CreateSubject.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 2: {
+                        Intent intent = new Intent(getApplicationContext(), CreateSubject.class);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+            }
+        });
+        dlg.show();
     }
 
 
