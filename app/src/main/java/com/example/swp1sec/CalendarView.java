@@ -398,6 +398,37 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
+        //캘린더
+        calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
+        LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        calRecyclerView.setLayoutManager(calLayoutManager);
+        calArrayList = new ArrayList<>();
+
+
+        cal_title_adapter = new cal_title_adapter(this, calArrayList);
+        calRecyclerView.setAdapter(cal_title_adapter);
+
+        calArrayList.clear();
+        cal_title_adapter.notifyDataSetChanged();
+        calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
+        caltask.execute(CALURL, email); //task 실행
+
+        //캘린더 데이터
+
+        //카테고리
+        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
+        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cateRecyclerView.setLayoutManager(cateLayoutManager);
+        categoryArrayList = new ArrayList<>();
+        category_title_adapter = new category_title_adapter(this, categoryArrayList);
+        cateRecyclerView.setAdapter(category_title_adapter);
+
+        categoryArrayList.clear();
+        category_title_adapter.notifyDataSetChanged();
+        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+        catetask.execute(CATEURL, email, calendar_title); //task 실행
+
+
         //상단 액션바와 연관 움직일때x 초기화면을 말함
         if (getSupportActionBar() != null) {
             // int day = mCalendarView.getCurrentDate().get(Calendar.DATE);
@@ -440,36 +471,6 @@ public class CalendarView extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-        //캘린더
-        calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
-        LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        calRecyclerView.setLayoutManager(calLayoutManager);
-        calArrayList = new ArrayList<>();
-
-
-        cal_title_adapter = new cal_title_adapter(this, calArrayList);
-        calRecyclerView.setAdapter(cal_title_adapter);
-
-        calArrayList.clear();
-        cal_title_adapter.notifyDataSetChanged();
-
-        calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
-        caltask.execute(CALURL, email); //task 실행
-        //캘린더 데이터
-
-        //카테고리
-        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
-        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        cateRecyclerView.setLayoutManager(cateLayoutManager);
-        categoryArrayList = new ArrayList<>();
-        category_title_adapter = new category_title_adapter(this, categoryArrayList);
-        cateRecyclerView.setAdapter(category_title_adapter);
-
-        categoryArrayList.clear();
-        category_title_adapter.notifyDataSetChanged();
-        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
-        catetask.execute(CATEURL, email, calendar_title); //task 실행
 
 
         cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
@@ -1190,8 +1191,8 @@ public class CalendarView extends AppCompatActivity {
                 //mTextViewResult.setText(errorString);
             }
             else {
-                caljsonString = result; //크롬으로 확인했던 문자열 받아오고
-                daycalShowResult(); //밑에 dayHabitShowResult함수 실행
+                caljsonString = result;
+                daycalShowResult();
                 String cal_title = PreferenceManager.getString(CalendarView.this, "cal_title");
                 categoryArrayList.clear();
                 category_title_adapter.notifyDataSetChanged();
