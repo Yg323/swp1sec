@@ -23,6 +23,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.library.DateTimeInterpreter;
 import com.example.library.MonthLoader;
 import com.example.library.WeekView;
@@ -43,8 +50,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 public class WeekCalendarF extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
@@ -366,7 +375,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         }
         else if(event.getmDivision() == 1){
 
-            Intent intent = new Intent(getApplicationContext(),CreateExercise.class);
+            Intent intent = new Intent(getApplicationContext(),CreateExerciseEdit.class);
             intent.putExtra("eventex", event);
             startActivity(intent);
             overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
@@ -374,7 +383,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         }
         else {
 
-            Intent intent = new Intent(getApplicationContext(),CreateNormal.class);
+            Intent intent = new Intent(getApplicationContext(),CreateNormalEdit.class);
             intent.putExtra("eventnor", event);
             startActivity(intent);
             overridePendingTransition( R.anim.slide_in_up, R.anim.stay );
@@ -388,6 +397,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
         Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+
+        //다이얼로그 띄우고 삭제 선택으로.
+        //deleteCalendarData(String.valueOf(event.getID()));
     }
 
     @Override
@@ -397,6 +409,38 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
     public WeekView getWeekView() {
         return mWeekView;
+    }
+
+    private void deleteCalendarData(final String id) {
+        StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/ddddd.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equalsIgnoreCase("Data Deleted")){
+                            Toast.makeText(WeekCalendarF.this,"Data Deleted Successfully",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(WeekCalendarF.this,"Data Not Deleted",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(WeekCalendarF.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String,String>();
+                params.put("id", id);
+
+                return params;
+            }
+        };
+        RequestQueue queue= Volley.newRequestQueue(this);
+        queue.add(request);
+
     }
 
 

@@ -293,11 +293,10 @@ public class CreateSubjectEdit extends AppCompatActivity {
         btn_subject_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                final String email = "14dnfnfn@gmail.com"; //임시
-
+                final String email = PreferenceManager.getString(CreateSubjectEdit.this, "email");
+                //final String email = "14dnfnfn@gmail.com"; //임시
                 final int id = event.getID();
-                Log.d("아이디", String.valueOf(id));
+                //Log.d("아이디", String.valueOf(id));
                 final String title = et_subject_title.getText().toString();
                 final String memo = et_subject_memo.getText().toString();
                 final String date = start_date.getText().toString();
