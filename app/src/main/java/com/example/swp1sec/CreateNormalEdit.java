@@ -325,7 +325,7 @@ public class CreateNormalEdit extends AppCompatActivity {
         }
 
 
-        Button button = (Button) findViewById(R.id.n_alm_button);
+        /*Button button = (Button) findViewById(R.id.n_alm_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -418,6 +418,6 @@ public class CreateNormalEdit extends AppCompatActivity {
 //            pm.setComponentEnabledSetting(receiver,
 //                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 //                    PackageManager.DONT_KILL_APP);
-//        }
+//        }*/
     }
 }

@@ -32,6 +32,7 @@ public class DayRemind extends AppCompatActivity {
     ArrayList res_title;
     ArrayList res_time;
     ArrayList res_date;
+    ArrayList res_imp;
     ArrayList spend = new ArrayList();
     ArrayList<Data> list = new ArrayList<Data>();
 
@@ -43,7 +44,7 @@ public class DayRemind extends AppCompatActivity {
         setContentView(R.layout.dayremind);
 
         Date currentTime = Calendar.getInstance().getTime();
-        String date_text = new SimpleDateFormat("yyyy-MM-dd일", Locale.getDefault()).format(currentTime);
+        String date_text = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentTime);
         now = date_text;
 
         Log.d(TAG, "now= " + now);
@@ -62,15 +63,24 @@ public class DayRemind extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        //Log.d(TAG, "outPut = " + outPut);
 
         date_doJSONParser(outPut);
+        //Log.d(TAG, "res_date_length= " + res_date.size());
         title_doJSONParser(outPut);
+        //Log.d(TAG, "res_title_length= " + res_title.size());
         time_doJSONParser(outPut);
-
-        for(int i = 0; i < res_title.size(); i++){
-            addItem(getDrawable(R.drawable.icon_personsetting), getDrawable(R.drawable.importance), res_title.get(i).toString(), res_time.get(i).toString());
-        }
-
+        //Log.d(TAG, "res_title= " + res_title);
+        imp_doJSONParser(outPut);
+        if(res_title.size() != 0) {
+            //Log.d(TAG, "res_size = " + res_title.size());
+            for (int i = 0; i < res_title.size(); i++) {
+                //Log.d(TAG, "title= " + res_title.get(i).toString());
+                //Log.d(TAG, "time= " + res_time.get(i).toString());
+                 addItem(getDrawable(R.drawable.icon_personsetting), getDrawable(R.drawable.importance), res_title.get(i).toString(), res_time.get(i).toString(), res_imp.get(i).toString());
+            }
+        }else
+            addItem(getDrawable(R.drawable.icon_personsetting), getDrawable(R.drawable.importance), "예정된 일정이 없습니다.", "예정된 일정이 없습니다.", "");
         btn_redayclose = findViewById(R.id.btn_redayclose);
         btn_redayclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,13 +91,14 @@ public class DayRemind extends AppCompatActivity {
         });
     }
 
-    public void addItem(Drawable logo, Drawable im_img, String title, String content) {
+    public void addItem(Drawable logo, Drawable im_img, String title, String content, String imp) {
         Data item = new Data();
 
         item.set_l_ResId(logo);
         item.set_s_ResId(im_img);
         item.setTitle(title);
-        item.setContent("X" + content);
+        item.setContent(content);
+        item.setImp("X" + imp);
 
         list.add(item);
     }
@@ -140,19 +151,21 @@ public class DayRemind extends AppCompatActivity {
             ArrayList result = new ArrayList();
             JSONObject object = new JSONObject(str);
             JSONArray index = object.getJSONArray("exercise");
-            //Log.d(TAG, "index = " + index);
+            //Log.d(TAG, "res_date = " + res_date);
+            //Log.d(TAG, "P_now = " + now);
             for(int i = 0; i < index.length(); i++){
-                if(res_date.get(i).toString() == now) {
+                Log.d(TAG, "res_date.get= " + res_date.get(i).toString());
+                if(res_date.get(i).toString().equals(now)) {
                     JSONObject tt = index.getJSONObject(i);
                     String title = tt.getString("title");
 
-                    result.add(i, title);
+                    result.add(title);
 
-                    //Log.d(TAG, "result = " + result);
+                    //Log.d(TAG, "title = " + title);
                 }
             }
             res_title = result;
-            //Log.d(TAG,"tv_OUTPUT = " + res);
+            //Log.d(TAG,"res_title = " + res_title);
         }catch (JSONException e){
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }
@@ -162,13 +175,16 @@ public class DayRemind extends AppCompatActivity {
             ArrayList result = new ArrayList();
             JSONObject object = new JSONObject(str);
             JSONArray index = object.getJSONArray("exercise");
-            //Log.d(TAG, "index = " + index);
-            for(int i = 0; i < index.length(); i++){
-                if(res_date.get(i).toString() == now) {
+            int length = index.length();
+            Log.d(TAG, "length= " + length);
+            for(int i = 0; i < length; i++){
+                Log.d(TAG, "res_date= " + res_date.get(i).toString());
+                Log.d(TAG, "i= " + i);
+                if(res_date.get(i).toString().equals(now)) {
                     JSONObject tt = index.getJSONObject(i);
                     String time = tt.getString("time");
-
-                    result.add(i, time);
+                    Log.d(TAG, "i= " + i);
+                    result.add(time);
 
                     //Log.d(TAG, "result = " + result);
                 }
@@ -179,17 +195,42 @@ public class DayRemind extends AppCompatActivity {
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }
 
+    public void imp_doJSONParser(String str){
+        try{
+            ArrayList result = new ArrayList();
+            JSONObject object = new JSONObject(str);
+            JSONArray index = object.getJSONArray("exercise");
+            int length = index.length();
+            Log.d(TAG, "length= " + length);
+            for(int i = 0; i < length; i++){
+                Log.d(TAG, "res_date= " + res_date.get(i).toString());
+                Log.d(TAG, "i= " + i);
+                if(res_date.get(i).toString().equals(now)) {
+                    JSONObject tt = index.getJSONObject(i);
+                    String imp = tt.getString("time");
+                    Log.d(TAG, "i= " + i);
+                    result.add(imp);
+
+                    //Log.d(TAG, "result = " + result);
+                }
+            }
+            res_imp = result;
+            //Log.d(TAG,"tv_OUTPUT = " + res);
+        }catch (JSONException e){
+            Log.d(TAG, "ex_doJSONParser = ", e);}
+    }
+
     public void date_doJSONParser(String str){
         try{
             ArrayList result = new ArrayList();
             JSONObject object = new JSONObject(str);
-            JSONArray index = object.getJSONArray("spend");
+            JSONArray index = object.getJSONArray("exercise");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject tt = index.getJSONObject(i);
-                String title = tt.getString("date");
+                String date = tt.getString("date");
 
-                result.add(i, title);
+                result.add(date);
 
                 //Log.d(TAG, "result = " + result);
 

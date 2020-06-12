@@ -354,7 +354,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
     void diaryNotification(Calendar calendar) {
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        Intent alarmIntent = new Intent(this, Ex_AlarmReceiver.class);
         // alarmIntent.setAction(AlarmReceiver);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

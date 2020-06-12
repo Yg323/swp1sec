@@ -113,7 +113,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, month);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel3();
+            //updateLabel3();
         }
     };
 
@@ -135,15 +135,15 @@ public class CreateSubjectEdit extends AppCompatActivity {
         et_date.setText(sdf.format(myCalendar.getTime()));
     }
 
-    private void updateLabel3() {
+    /*private void updateLabel3() {
         String myFormat = "yyyy년 MM월 dd일 ";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
-        TextView et_date = (TextView) findViewById(R.id.alm_date_set);
+        //TextView et_date = (TextView) findViewById(R.id.alm_date_set);
         et_date.setText(sdf.format(myCalendar.getTime()));
 
         alm_text_date = et_date.getText().toString();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,8 +159,8 @@ public class CreateSubjectEdit extends AppCompatActivity {
         end_date = findViewById(R.id.sub_end_date);
         end_time = findViewById(R.id.sub_end_time);
         //알람
-        alm_set = findViewById(R.id.alm_set);
-        alm_date_set = findViewById(R.id.alm_date_set);
+        //alm_set = findViewById(R.id.alm_set);
+        //alm_date_set = findViewById(R.id.alm_date_set);
 
         //Title= (EditText)findViewById(R.id.editText_main_title);
         Alarm = (TimePicker)findViewById(R.id.timePicker);
@@ -470,7 +470,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
 
         PackageManager pm = this.getPackageManager();
         ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        Intent alarmIntent = new Intent(this, Sbj_AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 

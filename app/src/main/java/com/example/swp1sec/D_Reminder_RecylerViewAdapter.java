@@ -1,6 +1,7 @@
 package com.example.swp1sec;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class D_Reminder_RecylerViewAdapter extends RecyclerView.Adapter<D_Reminder_RecylerViewAdapter.ViewHolder> {
+    String TAG = "D_Reminder_RecylerViewAdapter";
     private ArrayList<Data> mData = null ;
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
@@ -34,11 +36,11 @@ public class D_Reminder_RecylerViewAdapter extends RecyclerView.Adapter<D_Remind
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(D_Reminder_RecylerViewAdapter.ViewHolder holder, int position) {
-
         Data item = mData.get(position);
-
+        Log.d(TAG, "holder.title= " + holder.title);
         holder.title.setText(item.getTitle());
-        holder.importance_txt.setText(item.getContent());
+        Log.d(TAG, "item.content= " + item.getContent());
+        holder.time.setText(item.getContent());
         holder.logo.setImageDrawable(item.get_l_ResId());
         holder.importance_img.setImageDrawable(item.get_s_ResId());
     }
@@ -53,6 +55,7 @@ public class D_Reminder_RecylerViewAdapter extends RecyclerView.Adapter<D_Remind
         ImageView logo;
         ImageView importance_img;
         TextView title;
+        TextView time;
         TextView importance_txt;
 
         ViewHolder(View itemView) {
@@ -61,7 +64,8 @@ public class D_Reminder_RecylerViewAdapter extends RecyclerView.Adapter<D_Remind
             // 뷰 객체에 대한 참조. (hold strong reference)
             logo = itemView.findViewById(R.id.day_logo);
             importance_img = itemView.findViewById(R.id.day_im_img);
-            title = itemView.findViewById(R.id.title);
+            title = itemView.findViewById(R.id.day_title);
+            time = itemView.findViewById(R.id.day_time);
             importance_txt = itemView.findViewById(R.id.day_im_txt);
         }
     }

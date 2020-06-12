@@ -8,6 +8,7 @@ public class Data {
     private String content;
     private String Coin;
     private String spent;
+    private String imp;
     private int m_resId;
     private int c_resId;
     private Drawable s_resId;
@@ -33,6 +34,13 @@ public class Data {
     }
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImp() {
+        return imp;
+    }
+    public void setImp(String imp) {
+        this.imp = imp;
     }
 
     public String getspent() {

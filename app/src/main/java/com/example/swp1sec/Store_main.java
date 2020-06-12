@@ -163,7 +163,7 @@ public class Store_main extends AppCompatActivity {
         protected String doInBackground(String ... params) {
             String severurl = (String)params[0];
             String email = (String)params[1];
-            // 요청 결과를 저장할 변수.
+            // 요청 결과를 저장할 변수.7
 
             String postParameters = "emaill=" + email;
             //Log.d(TAG, "postparams= " + postParameters);
