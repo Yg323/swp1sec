@@ -158,6 +158,7 @@ public class DDayListActivity extends AppCompatActivity {
             }
         });
         String email = PreferenceManager.getString(DDayListActivity.this, "email");
+        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         // 목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -171,7 +172,7 @@ public class DDayListActivity extends AppCompatActivity {
         dDayListAdapter.notifyDataSetChanged();
 
         DDayListActivity.GetData caltask = new DDayListActivity.GetData(); //밑에 만들었던 클래스 만들고
-        caltask.execute(URL, email); //task 실행
+        caltask.execute(URL, email,cal_title); //task 실행
 
         dDayListAdapter.setOnCheckedChangeListener(new DDayListAdapter.OnCheckedChangeListener() {
             @Override
@@ -239,8 +240,9 @@ public class DDayListActivity extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
+            String cal_title = (String)params[2];
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 

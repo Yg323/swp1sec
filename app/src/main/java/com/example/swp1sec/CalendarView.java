@@ -7,7 +7,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -423,7 +422,7 @@ public class CalendarView extends AppCompatActivity {
         //월간
         monthArrayList = new ArrayList<>();
         monthGetData monthtask = new monthGetData(); //밑에 만들었던 클래스 만들고
-        monthtask.execute(MONTHURL, email); //task 실행
+        monthtask.execute(MONTHURL, email, calendar_title); //task 실행
 
         //음력, 공휴일, 학사일정
         //personalArrayList = new ArrayList<>();
@@ -1373,8 +1372,9 @@ public class CalendarView extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
+            String cal_title =(String)params[2];
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
@@ -1444,8 +1444,6 @@ public class CalendarView extends AppCompatActivity {
 
             for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
                 JSONObject item = jsonArray.getJSONObject(i);
-
-
                 //DB에서 받아오기
                 String Title = item.getString(TAG_TITLE);
                 String Date = item.getString(TAG_DATE);
