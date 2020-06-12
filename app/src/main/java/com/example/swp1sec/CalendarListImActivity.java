@@ -165,6 +165,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             }
         });
         String email = PreferenceManager.getString(CalendarListImActivity.this, "email");
+        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         // 일정 목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -178,7 +179,7 @@ public class CalendarListImActivity extends AppCompatActivity {
         calendarListAdapter.notifyDataSetChanged();
 
         CalendarListImActivity.GetData caltask = new CalendarListImActivity.GetData(); //밑에 만들었던 클래스 만들고
-        caltask.execute(CalURL, email); //task 실행
+        caltask.execute(CalURL, email, cal_title); //task 실행
 
         calendarListAdapter.setOnCheckedChangeListener(new CalendarListAdapter.OnCheckedChangeListener() {
             @Override
@@ -246,8 +247,9 @@ public class CalendarListImActivity extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
+            String cal_title = (String)params[2];
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 

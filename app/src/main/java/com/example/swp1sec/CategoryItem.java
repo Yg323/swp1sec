@@ -5,6 +5,8 @@ public class CategoryItem {
     private int division;
     private String color;
     private int id;
+    private String StartTime;
+    private String EndTime;
 
 
 
@@ -13,6 +15,22 @@ public class CategoryItem {
     }
 
     public CategoryItem() {
+    }
+
+    public String getStartTime() {
+        return StartTime;
+    }
+
+    public void setStartTime(String startTime) {
+        StartTime = startTime;
+    }
+
+    public String getEndTime() {
+        return EndTime;
+    }
+
+    public void setEndTime(String endTime) {
+        EndTime = endTime;
     }
 
     public int getId() {

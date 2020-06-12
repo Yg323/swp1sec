@@ -80,7 +80,7 @@ public class DayRemind extends AppCompatActivity {
                  addItem(getDrawable(R.drawable.icon_personsetting), getDrawable(R.drawable.importance), res_title.get(i).toString(), res_time.get(i).toString(), res_imp.get(i).toString());
             }
         }else
-            addItem(getDrawable(R.drawable.icon_personsetting), getDrawable(R.drawable.importance), "예정된 일정이 없습니다.", "예정된 일정이 없습니다.", "");
+            addItem(getDrawable(R.drawable.icon_personsetting), getDrawable(R.drawable.importance), "예정된 일정이 없습니다.", "예정된 일정이 없습니다.", "0");
         btn_redayclose = findViewById(R.id.btn_redayclose);
         btn_redayclose.setOnClickListener(new View.OnClickListener() {
             @Override

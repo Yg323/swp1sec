@@ -79,11 +79,6 @@ public class CreateSubject extends AppCompatActivity {
     private TimePicker Alarm;
 
 
-    private static final String INTENT_EXTRA_EVENT = "intent_extra_event";
-
-    public static Intent makeIntent(Context context, @NonNull Event event) {
-        return new Intent(context, CreateSubject.class).putExtra(INTENT_EXTRA_EVENT, event);
-    }
 
     Calendar myCalendar = Calendar.getInstance();
 
@@ -171,6 +166,25 @@ public class CreateSubject extends AppCompatActivity {
         //Result.setMovementMethod(new ScrollingMovementMethod());
 
         sub_star = findViewById(R.id.sub_ratingBar);
+
+        //초기 제목 세팅
+        int pos = getIntent().getIntExtra("pos", 3);
+        String catetitle = getIntent().getStringExtra("catetitle");
+
+        switch (pos){
+            case 0 :{
+                et_subject_title.setText(catetitle+" 시험");
+                break;
+            }
+            case 1 :{
+                et_subject_title.setText(catetitle+" 과제");
+                break;
+            }
+            case 2 :{
+                et_subject_title.setText(catetitle+" 휴강");
+                break;
+            }
+        }
 
         //final TimePicker t_picker=(TimePicker)findViewById(R.id.timePicker);
         //final DatePicker d_picker = (DatePicker)findViewById(R.id.datePicker);
@@ -306,7 +320,9 @@ public class CreateSubject extends AppCompatActivity {
             public void onClick(View v) {
                 String email = PreferenceManager.getString(CreateSubject.this, "email");
                 //String email = "14dnfnfn@gmail.com"; //임시
+
                 String title = et_subject_title.getText().toString();
+                //String title = et_subject_title.getText().toString();
                 //String alarm = Alarm.getText().toString();
                 //String alarm = alm_set.getText().toString();
                 //Log.d(TAG, "alarm= " + alarm);

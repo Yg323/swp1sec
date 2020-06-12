@@ -85,7 +85,7 @@
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
         <activity android:name="com.example.swp1sec.DayRemind"
-            android:theme="@style/PopUpTheme"
+            android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor"
             />
 

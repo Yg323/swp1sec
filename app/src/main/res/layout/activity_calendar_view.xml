@@ -55,7 +55,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleMarginStart="200dp"
+        app:titleMarginStart="50dp"
         app:titleTextAppearance="@style/AppTheme.TitleText">
 
         <ImageButton
@@ -286,6 +286,7 @@
                 android:orientation="horizontal"
                 >
                 <CheckBox
+                    android:id="@+id/lunar"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -305,6 +306,7 @@
                 android:background="@color/settingbackground"
                 >
                 <CheckBox
+                    android:id="@+id/holiday"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
@@ -321,6 +323,7 @@
                 android:orientation="horizontal"
                 android:background="@color/settingbackground">
                 <CheckBox
+                    android:id="@+id/univer"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"/>
