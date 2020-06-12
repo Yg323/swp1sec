@@ -152,7 +152,7 @@ public class CalendarView extends AppCompatActivity {
         String text = PreferenceManager.getString(CalendarView.this,"start_week_title");
         setting_start_day.setText(text);
 
-        email =  PreferenceManager.getString(this,"email");
+        email =  PreferenceManager.getString(CalendarView.this,"email");
         calendar_title = PreferenceManager.getString(CalendarView.this,"cal_title");
 
         //뱃지
@@ -844,6 +844,8 @@ public class CalendarView extends AppCompatActivity {
         });
         dlg.show();
     }
+
+
 
     private void deleteData(final String id) {
         StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/deletedata.php",

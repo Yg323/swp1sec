@@ -7,7 +7,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,10 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-/*import com.github.arturogutierrez.Badges;
-import com.github.arturogutierrez.BadgesNotSupportedException;*/
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,10 +34,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Time;
 import java.util.Calendar;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
+
+/*import com.github.arturogutierrez.Badges;
+import com.github.arturogutierrez.BadgesNotSupportedException;*/
 
 public class badge_dialog extends AppCompatActivity {
 
@@ -65,9 +62,15 @@ public class badge_dialog extends AppCompatActivity {
     private AlarmManager alarmManager;
     private int badgehour, badgeminute;
 
+    //추가
+    public static Context mContext;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //추가
+        mContext = this;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.badge_dialog);
@@ -147,8 +150,9 @@ public class badge_dialog extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                todocreateNotification(badge_todo_data.getbadge_todo());
-                finish();
+               /* todocreateNotification(badge_todo_data.getbadge_todo());
+                finish();*/
+               setAlarm();
 
                 /*thread = new Thread() {
                     public void run() {
@@ -170,7 +174,11 @@ public class badge_dialog extends AppCompatActivity {
             }
         });
 
-
+    }
+    public void setAlarm(){
+        todocreateNotification(badge_todo_data.getbadge_todo());
+        Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private Handler todohabithandler = new Handler() {
@@ -211,7 +219,7 @@ public class badge_dialog extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void todohabitcreateNotificationChannel() {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel notificationChannel = new NotificationChannel(todohabitnotificationChannelId, "남은 할일 습관", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
@@ -219,7 +227,7 @@ public class badge_dialog extends AppCompatActivity {
     public static int todohabitnotificationId = 12312;
 
     public void todohabitcreateNotification(int badgeCount) {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
 
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(this, badgeCount);
@@ -255,7 +263,7 @@ public class badge_dialog extends AppCompatActivity {
 
 
     public void todohabitremoveNotification() {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.removeCount(this);
         notificationManager.cancel(todohabitnotificationId);
@@ -266,7 +274,7 @@ public class badge_dialog extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void habitcreateNotificationChannel() {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel notificationChannel = new NotificationChannel(habitnotificationChannelId, "남은 습관", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
@@ -274,7 +282,7 @@ public class badge_dialog extends AppCompatActivity {
     public static int habitnotificationId = 1231;
 
     public void habitcreateNotification(int badgeCount) {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
 
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(this, badgeCount);
@@ -310,7 +318,7 @@ public class badge_dialog extends AppCompatActivity {
 
 
     public void habitremoveNotification() {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.removeCount(this);
         notificationManager.cancel(habitnotificationId);
@@ -322,7 +330,7 @@ public class badge_dialog extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void todocreateNotificationChannel() {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel notificationChannel = new NotificationChannel(todonotificationChannelId, "남은 할일", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel);
     }
@@ -330,7 +338,7 @@ public class badge_dialog extends AppCompatActivity {
     public static int todonotificationId = 123;
 
     public void todocreateNotification(int badgeCount) {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         todocreateNotificationChannel();
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.applyCount(badge_dialog.this, badgeCount);
@@ -366,7 +374,7 @@ public class badge_dialog extends AppCompatActivity {
 
 
     public void removeNotification() {
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         //하위 버전에서 동작하라고...??, 아직 하위버전은 테스트 해보지 못함.
         ShortcutBadger.removeCount(this);
         notificationManager.cancel(todonotificationId);
@@ -625,12 +633,13 @@ public class badge_dialog extends AppCompatActivity {
 
     }
 
-    public void unregist(View view) {
+    /*public void unregist(View view) {
         Intent intent = new Intent(this, Badge_Alarm.class);
         PendingIntent plntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         alarmManager.cancel(plntent);
 
-    }
+    }*/
+
 
 }
 

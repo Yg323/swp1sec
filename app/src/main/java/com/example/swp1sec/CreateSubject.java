@@ -304,8 +304,8 @@ public class CreateSubject extends AppCompatActivity {
         btn_subject_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String email = PreferenceManager.getString(CreateHabit.this, "email");
-                String email = "14dnfnfn@gmail.com"; //임시
+                String email = PreferenceManager.getString(CreateSubject.this, "email");
+                //String email = "14dnfnfn@gmail.com"; //임시
                 String title = et_subject_title.getText().toString();
                 //String alarm = Alarm.getText().toString();
                 //String alarm = alm_set.getText().toString();
