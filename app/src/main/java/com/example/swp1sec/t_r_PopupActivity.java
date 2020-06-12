@@ -109,7 +109,7 @@ public class t_r_PopupActivity extends AppCompatActivity {
         });
     }
 
-    public class NetworkTask extends AsyncTask<String, Void, String> {
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
 
         private String url;
         private ContentValues values;
@@ -124,64 +124,12 @@ public class t_r_PopupActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String ... params) {
-            String serverURL = params[0];
-            String email = params[1];
-
-            String postParameters = "email=" + email;
-
+        protected String doInBackground(Void ... params) {
             String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
             Log.d(TAG, "result = " + result);
-
-            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
-
-                java.net.URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d(TAG, "response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-                bufferedReader.close();
-
-                return sb.toString().trim();
-            } catch (Exception e) {
-
-                Log.d(TAG, "GetData : Error ", e);
-                errorString = e.toString();
-
-                //return null;
-            }
 
             return result;
         }
