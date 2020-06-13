@@ -1282,7 +1282,8 @@ public class CalendarView extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
                 JSONObject item = jsonArray.getJSONObject(i);
                 //반복문인점 주의!
-                String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                String Title = item.getString(TAG_TITLE);
+                String id =item.getString(TAG_ID);//그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
                 int performnace = item.getInt(TAg_Performance);
                 if(performnace == 1){
                     PreferenceManager.setString(CalendarView.this,"cal_title",Title);

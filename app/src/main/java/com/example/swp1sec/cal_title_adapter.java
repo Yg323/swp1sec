@@ -29,7 +29,7 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     //checkbox listener
 
     public interface OnCheckedChangeListener {
-        void onCheckedChanged (CompoundButton compoundButton,int view, int position);
+        void onCheckedChanged (CompoundButton compoundButton, int position);
     }
     private cal_title_adapter.OnCheckedChangeListener mListener = null;
 
@@ -132,7 +132,7 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
                         }
                     }
                 }
-                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,0,position);
+                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,position);
             }
         });
 
