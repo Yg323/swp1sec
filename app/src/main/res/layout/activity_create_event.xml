@@ -25,32 +25,12 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="20dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:subtitleTextAppearance="@style/AppTheme.SubTitleText"
                 app:titleTextAppearance="@style/AppTheme.TitleText"/>
 
-            <LinearLayout
-                android:id="@+id/ll_header"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:orientation="horizontal"
-                android:background="?attr/colorPrimary">
 
-
-                <Button
-                    android:id="@+id/btn_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="저장" />
-                <Button
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="취소" />
-            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -237,7 +217,29 @@
                 <View style="@style/createEventSeparator" />
 
 
+                <LinearLayout
+                    android:id="@+id/ll_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal"
+                    android:background="?attr/colorPrimary"
+                    android:theme="@style/AppTheme.AppBarOverlay">
 
+
+
+                    <Button
+                        android:id="@+id/btn_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="저장" />
+                    <Button
+                        android:id="@+id/btn_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="취소" />
+                </LinearLayout>
 
 
 

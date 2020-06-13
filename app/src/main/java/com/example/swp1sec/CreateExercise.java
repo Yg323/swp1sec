@@ -55,6 +55,16 @@ public class CreateExercise extends AppCompatActivity {
     DatePicker d_picker;
     AlarmManager alarmManager;
 
+    //현재시간으로 세팅
+    long now = System.currentTimeMillis();
+    Date datenow = new Date(now);
+    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd");
+    String formatDate = sdfNow.format(datenow);
+
+    Date timenow = new Date(now);
+    SimpleDateFormat sdfTNow = new SimpleDateFormat("HH:mm");
+    String formatTDate = sdfTNow.format((timenow));
+
     private static String IP_ADDRESS = "159.89.193.200/set_alm.php";
     private static String URL = "http://159.89.193.200//plusExercise.php";
     private static String TAG = "setexercise";
@@ -71,32 +81,14 @@ public class CreateExercise extends AppCompatActivity {
         }
     };
 
-    DatePickerDialog.OnDateSetListener EndDate = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel2();
-        }
-    };
 
     private void updateLabel() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
+        String myFormat = "yyyy-MM-dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
         TextView et_date = (TextView) findViewById(R.id.ex_start_date);
         et_date.setText(sdf.format(myCalendar.getTime()));
-
     }
 
-    private void updateLabel2() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
-        TextView et_date = (TextView) findViewById(R.id.ex_end_date);
-        et_date.setText(sdf.format(myCalendar.getTime()));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +101,7 @@ public class CreateExercise extends AppCompatActivity {
 
         start_date = findViewById(R.id.ex_start_date);
         start_time = findViewById(R.id.ex_start_time);
-        end_date = findViewById(R.id.ex_end_date);
+        //end_date = findViewById(R.id.ex_end_date);
         end_time = findViewById(R.id.ex_end_time);
 
         ex_star = findViewById(R.id.ex_ratingBar);
@@ -118,6 +110,10 @@ public class CreateExercise extends AppCompatActivity {
         t_picker.setIs24HourView(true);
         d_picker = (DatePicker)findViewById(R.id.datePicker);
 
+        //달력, 시간 현재 시간으로 세팅
+        start_date.setText(formatDate);
+        start_time.setText(formatTDate);
+        end_time.setText(formatTDate);
         //알람설정 part.1
         // 이전 설정값으로 TimePicker 초기화
         Calendar nextNotifyTime = new GregorianCalendar();
@@ -147,12 +143,6 @@ public class CreateExercise extends AppCompatActivity {
             }
         });
 
-        end_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(CreateExercise.this, EndDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
 
         start_time.setOnClickListener(new View.OnClickListener() {
             @Override

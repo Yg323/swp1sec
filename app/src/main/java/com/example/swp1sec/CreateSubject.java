@@ -80,6 +80,16 @@ public class CreateSubject extends AppCompatActivity {
 
     private static int div;
 
+    //현재시간으로 세팅
+    long now = System.currentTimeMillis();
+    Date datenow = new Date(now);
+    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd");
+    String formatDate = sdfNow.format(datenow);
+
+    Date timenow = new Date(now);
+    SimpleDateFormat sdfTNow = new SimpleDateFormat("HH:mm");
+    String formatTDate = sdfTNow.format((timenow));
+
     Calendar myCalendar = Calendar.getInstance();
 
     DatePickerDialog.OnDateSetListener StartDate = new DatePickerDialog.OnDateSetListener() {
@@ -92,15 +102,6 @@ public class CreateSubject extends AppCompatActivity {
         }
     };
 
-    DatePickerDialog.OnDateSetListener EndDate = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel2();
-        }
-    };
 
     DatePickerDialog.OnDateSetListener Alm_Date_Set = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -113,25 +114,14 @@ public class CreateSubject extends AppCompatActivity {
     };
 
     private void updateLabel() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
+        String myFormat = "yyyy-MM-dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
 
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-
         TextView et_date = (TextView) findViewById(R.id.sub_start_date);
-        et_date.setText(sdf.format(date));
-
-    }
-
-
-    private void updateLabel2() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
-        TextView et_date = (TextView) findViewById(R.id.sub_end_date);
         et_date.setText(sdf.format(myCalendar.getTime()));
+
     }
+
 
     /*private void updateLabel3() {
         String myFormat = "yyyy년 MM월 dd일 ";    // 출력형식   2018/11/28
@@ -154,7 +144,7 @@ public class CreateSubject extends AppCompatActivity {
 
         start_date = findViewById(R.id.sub_start_date);
         start_time = findViewById(R.id.sub_start_time);
-        end_date = findViewById(R.id.sub_end_date);
+
         end_time = findViewById(R.id.sub_end_time);
         t_picker = (TimePicker)findViewById(R.id.timePicker);
         t_picker.setIs24HourView(true);
@@ -166,6 +156,11 @@ public class CreateSubject extends AppCompatActivity {
         //Result.setMovementMethod(new ScrollingMovementMethod());
 
         sub_star = findViewById(R.id.sub_ratingBar);
+
+        //달력, 시간 현재 시간으로 세팅
+        start_date.setText(formatDate);
+        start_time.setText(formatTDate);
+        end_time.setText(formatTDate);
 
         //초기 제목 세팅
         int pos = getIntent().getIntExtra("pos", 3);
@@ -221,12 +216,6 @@ public class CreateSubject extends AppCompatActivity {
             }
         });
 
-        end_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(CreateSubject.this, EndDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
 
         //알람 데이트 피커
         /*alm_date_set.setOnClickListener(new View.OnClickListener() {
