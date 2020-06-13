@@ -12,11 +12,12 @@ public class TodoListRequest extends StringRequest {
     final static private String URL = "http://159.89.193.200//todocheck.php";
     private Map<String, String> map;
 
-    public TodoListRequest(String email, String title,String cate_title, String dcheck, String performance, Response.Listener<String> listener) {
+    public TodoListRequest(String email,String cal_title, String title,String cate_title, String dcheck, String performance, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null);
 
         map = new HashMap<>();
         map.put("email",email);
+        map.put("cal_title",cal_title);
         map.put("title", title);
         map.put("cate_title", cate_title);
         map.put("dcheck", dcheck);

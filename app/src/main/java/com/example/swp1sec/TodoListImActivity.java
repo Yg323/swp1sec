@@ -50,6 +50,9 @@ public class TodoListImActivity extends AppCompatActivity {
     private static String URL = "http://159.89.193.200//gettodolist_im.php";
     private static String TAG = "gettodo";
 
+    String email;
+    String cal_title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,8 +167,8 @@ public class TodoListImActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        String email = PreferenceManager.getString(TodoListImActivity.this, "email");
-        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+        email = PreferenceManager.getString(TodoListImActivity.this, "email");
+        cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         //목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -185,7 +188,6 @@ public class TodoListImActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked, int pos) {
                 TodoList todoList = todoListArrayList.get(pos);
-                String email = PreferenceManager.getString(TodoListImActivity.this, "email");
                 String title = todoList.getTitle();
                 String cate_title = todoList.getCate_title();
                 Response.Listener<String> responseListener=new Response.Listener<String>() {
@@ -204,7 +206,7 @@ public class TodoListImActivity extends AppCompatActivity {
                         }
                     }
                 };
-                TodoListRequest todoListRequest=new TodoListRequest(email,title,cate_title,Integer.toString(todoList.getDday()),Integer.toString(todoList.getPerformance()),responseListener);
+                TodoListRequest todoListRequest=new TodoListRequest(email,cal_title,title,cate_title,Integer.toString(todoList.getDday()),Integer.toString(todoList.getPerformance()),responseListener);
                 RequestQueue queue= Volley.newRequestQueue(TodoListImActivity.this);
                 queue.add(todoListRequest);
             }
