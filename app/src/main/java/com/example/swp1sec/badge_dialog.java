@@ -57,7 +57,7 @@ public class badge_dialog extends AppCompatActivity {
     private static String badge_habitTAG = "getbadge_habit";
     Button todo, habit, todo_habit;
     Thread thread;
-    public String email;
+    public String email,cal_title;
 
     //알람
     private TimePicker timepicker;
@@ -84,10 +84,10 @@ public class badge_dialog extends AppCompatActivity {
         timepicker = findViewById(R.id.badgetimepicker);
 
         //badge 투두
-
+        cal_title =PreferenceManager.getString(badge_dialog.this,"cal_title");
         email = PreferenceManager.getString(badge_dialog.this, "email");
         badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
-        badge_todotask.execute(badge_todoURL, email); //task 실행
+        badge_todotask.execute(badge_todoURL, email,cal_title); //task 실행
 
 
         //badge 해빗
