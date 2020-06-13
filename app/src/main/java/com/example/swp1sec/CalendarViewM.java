@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.swp1sec.data.Event;
 import com.example.swp1sec.helpers.FrameLinearLayout;
 import com.example.swp1sec.helpers.SelectedTextView;
 import com.example.swp1sec.helpers.YMDCalendar;
@@ -936,6 +937,12 @@ public class CalendarViewM extends FrameLayout {
             this.mDatetime = mDatetime;
             this.text = text;
             this.bgColor = bgColor;
+        }
+
+        //추가
+        public CalendarObject(String mID) {
+            this.mID = mID;
+
         }
 
         public String getID() {

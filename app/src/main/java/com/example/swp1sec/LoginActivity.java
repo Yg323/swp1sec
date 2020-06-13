@@ -1,7 +1,5 @@
 package com.example.swp1sec;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -67,6 +67,10 @@ public class LoginActivity extends AppCompatActivity {
                                 toast.show();
                                 Intent intent = new Intent(LoginActivity.this, TutorialActivity.class);
                                 PreferenceManager.setString(LoginActivity.this, "email",email);
+                                //맨 처음 세팅
+                                PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
+                                PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
+                                PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
                                 startActivity(intent);
                                 finish();
                             }

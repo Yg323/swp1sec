@@ -19,6 +19,9 @@
     <color name="accent">#2789e4</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="holiday">#FD4F4F</color>
+    <color name="school">#008EFF</color>
+    <color name="lunar">#434343</color>
 
     //settingbackground#ADADAD
     <color name="settingbackground">#E9E9E9</color>
