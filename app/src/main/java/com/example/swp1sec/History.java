@@ -321,7 +321,9 @@ public class History extends Fragment {
             for (int i = 0; i < index.length(); i++) {
                 JSONObject tt = index.getJSONObject(i);
                 spend.add(tt.getString("spend"));
+                Log.d(TAG, "spend- " + spend);
                 spent = Integer.parseInt(spend.get(i).toString());
+                Log.d(TAG, "spent - " + spent);
 
                 if(spent >= 0) {
                     while (spent >= 60) {
@@ -344,22 +346,30 @@ public class History extends Fragment {
                         }
                     }
                 }
+                Log.d(TAG, "after+spent= " +spent);
                 if (h_spent == 0) {
-                    if (m_spent == 0)
-                        result.add(spent);
-                    else {
-                        if(spent != 0)
+                    if (m_spent == 0) {
+                        result.add(spent + "초");
+                        Log.d(TAG, "tv_OUTPUT = " + result);
+                    }else {
+                        if(spent != 0) {
                             result.add(m_spent + "분 " + spent + "초");
-                        else
+                            m_spent = 0;
+                        }else {
                             result.add(m_spent + "분");
+                            m_spent = 0;
+                        }
                     }
-                } else
+                } else {
                     result.add(h_spent + "시간 " + m_spent + " 분" + spent + "초");
+                    h_spent = 0;
+                    m_spent = 0;
+                }
                 //Log.d(TAG, "result = " + result);
 
             }
             res_spend = result;
-            //Log.d(TAG,"tv_OUTPUT = " + res);
+            //Log.d(TAG,"tv_OUTPUT = " + result);
         }catch (JSONException e){
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }

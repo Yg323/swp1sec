@@ -231,54 +231,67 @@ public class WeekRemind extends AppCompatActivity {
                 JSONObject tt = index.getJSONObject(i);
                 String date = tt.getString("date");
                 String title = tt.getString("title");
+                Log.d(TAG, "parsing_title= " + title);
                 Date set_date = format.parse(date);
                 long calDate = d_now.getTime() - set_date.getTime();
                 long calDateDays = calDate/(24*60*60*1000);
+                Log.d(TAG, "calDateDays = " + calDateDays);
+                Log.d(TAG, "set_date.getTime() = " + set_date.getTime());
                 if(calDateDays < 7){
-                    switch (nWeek){
-                        case 1:
+                    switch ((int) calDateDays){
+                        case 0:
                             result.add(date + " 월요일");
                             if(Mon_title1 == " ")
                                 Mon_title1 = title;
                             else
                                 Mon_title2 = title;
-                        case 2:
+                            Log.d(TAG, "mon= " + Mon_title1);
+                        case 1:
                             result.add(date + " 화요일");
                             if(Tue_title1 == " ")
                                 Tue_title1 = title;
                             else
                                 Tue_title2 = title;
-                        case 3:
+                            Log.d(TAG, "tue= " + Tue_title1);
+                        case 2:
                             result.add(date + " 수요일");
                             if(Wed_title1 == " ")
                                 Wed_title1 = title;
                             else
                                 Wed_title2 = title;
-                        case 4:
+                            Log.d(TAG, "wed= " + Wed_title1);
+                        case 3:
                             result.add(date + " 목요일");
                             if(Thr_title1 == " ")
                                 Thr_title1 = title;
                             else
                                 Thr_title2 = title;
-                        case 5:
+                            Log.d(TAG, "thr= " + Thr_title1);
+                        case 4:
                             result.add(date + " 금요일");
                             if(Fri_title1 == " ")
                                 Fri_title1 = title;
                             else
                                 Fri_title2 = title;
-                        case 6:
+                            Log.d(TAG, "fri= " + Fri_title1);
+                        case 5:
                             result.add(date + " 토요일");
                             if(Sat_title1 == " ")
                                 Sat_title1 = title;
                             else
                                 Sat_title2 = title;
-                        case 7:
+                            Log.d(TAG, "sat= " + Sat_title1);
+                        case 6:
                             result.add(date + " 일요일");
                             if(Sun_title1 == " ")
                                 Sun_title1 = title;
                             else
                                 Sun_title2 = title;
+                            Log.d(TAG, "sun= " + Sun_title1);
+                        default:
+                            Log.d(TAG, "nWeek_strange_err");
                     }
+
                 }
 
                 result.add(date);
