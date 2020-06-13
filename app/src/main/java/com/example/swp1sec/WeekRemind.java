@@ -48,7 +48,7 @@ public class WeekRemind extends AppCompatActivity {
     private W_Reminder_RecyclerViewAdapter w_reminder_recyclerViewAdapter;
     private ArrayList<CalendarList> calendarListArrayList;
     private String caljsonString;
-    private static String CalURL = "http://159.89.193.200//getcallist.php";
+    private static String CalURL = "http://159.89.193.200//weekreminder.php";
     private static String CalTAG = "getcal";
 
     @Override

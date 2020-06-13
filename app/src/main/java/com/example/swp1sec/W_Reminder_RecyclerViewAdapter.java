@@ -1,8 +1,6 @@
 package com.example.swp1sec;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,19 +39,17 @@ public class W_Reminder_RecyclerViewAdapter extends RecyclerView.Adapter<W_Remin
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        private TextView txt_callisttitle,txt_date;
+        private TextView txt_week,txt_date;
         private ImageView iv_calcolor;
         private RatingBar star_cal;
         private Switch swit_Dmin, swit_Dplus;
 
         public CustomViewHolder(View view) {
             super(view);
-            this.txt_callisttitle = (TextView) view.findViewById(R.id.txt_callisttitle);
+            this.txt_week = (TextView) view.findViewById(R.id.txt_week);
             this.txt_date = (TextView) view.findViewById(R.id.txt_date);
             this.iv_calcolor = (ImageView) view.findViewById(R.id.iv_calcolor);
             this.star_cal = (RatingBar) view.findViewById(R.id.star_cal);
-            this.swit_Dmin = (Switch) view.findViewById(R.id.swit_Dmin);
-            this.swit_Dplus = (Switch) view.findViewById(R.id.swit_Dplus);
 
         }
     }
@@ -69,91 +65,8 @@ public class W_Reminder_RecyclerViewAdapter extends RecyclerView.Adapter<W_Remin
 
     @Override
     public void onBindViewHolder(@NonNull final CustomViewHolder viewholder, final int position) {
-        viewholder.txt_callisttitle.setText(mList.get(position).getCate_title()+"_"+mList.get(position).getTitle());
+        viewholder.txt_week.setText(mList.get(position).getTitle());
         viewholder.txt_date.setText(mList.get(position).getDate());
-
-        viewholder.iv_calcolor.setColorFilter(Color.parseColor(mList.get(position).getColor()), PorterDuff.Mode.SRC_IN);
-        //viewholder.star_cal.setRating(mList.get(position).getStar());
-        final int dday = mList.get(position).getDday();
-        switch (dday) {
-            case 0: //d-만 켜져있음
-                viewholder.swit_Dmin.setChecked(true);
-                viewholder.swit_Dplus.setChecked(false);
-                /*if(viewholder.swit_Dplus.isChecked()){
-                    viewholder.swit_Dplus.setChecked(false);
-                }
-                if(!viewholder.swit_Dmin.isChecked()) {
-                    viewholder.swit_Dmin.setChecked(true);
-                }*/
-                break;
-            case 1: //d+
-                viewholder.swit_Dplus.setChecked(true);
-                viewholder.swit_Dmin.setChecked(false);
-                /*if(!viewholder.swit_Dplus.isChecked()){
-                    viewholder.swit_Dplus.setChecked(true);
-                }
-                if(viewholder.swit_Dmin.isChecked()) {
-                    viewholder.swit_Dmin.setChecked(false);
-                }*/
-                break;
-            case 2: //설정 X
-                viewholder.swit_Dmin.setChecked(false);
-                viewholder.swit_Dplus.setChecked(false);
-                /*if(viewholder.swit_Dplus.isChecked()){
-                    viewholder.swit_Dplus.setChecked(false);
-                }
-                if(viewholder.swit_Dmin.isChecked()) {
-                    viewholder.swit_Dmin.setChecked(false);
-                }*/
-                break;
-            default:
-                break;
-        }
-
-        viewholder.swit_Dmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int pos = viewholder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    if (isChecked) {
-                        viewholder.swit_Dplus.setChecked(false);
-                        mList.get(position).setDday(0);
-                    }
-                    else {
-                        if (viewholder.swit_Dplus.isChecked()) {
-                            mList.get(position).setDday(1);
-                        }
-                        else {
-                            mList.get(position).setDday(2);
-                        }
-                    }
-                }
-                if (mListener != null) mListener.onCheckedChanged(viewholder.swit_Dmin, isChecked, pos);
-
-            }
-
-        });
-        viewholder.swit_Dplus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int pos = viewholder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    if (isChecked) {
-                        viewholder.swit_Dmin.setChecked(false);
-                        mList.get(position).setDday(1);
-                    }
-                    else {
-                        if (viewholder.swit_Dmin.isChecked()) {
-                            mList.get(position).setDday(0);
-                        }
-                        else {
-                            mList.get(position).setDday(2);
-                        }
-                    }
-                    if (mListener != null) mListener.onCheckedChanged(viewholder.swit_Dplus, isChecked, pos);
-                }
-            }
-        });
     }
 
     @Override
