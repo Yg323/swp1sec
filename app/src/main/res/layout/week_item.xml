@@ -1,92 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:gravity="center_vertical"
-    android:layout_marginBottom="8dp"
-    android:background="@android:color/white">
+    android:layout_marginLeft="25dp"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:layout_marginRight="10dp"
+    >
 
     <ImageView
-        android:id="@+id/week_logo"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:src="@mipmap/ic_launcher" />
+        android:id="@+id/iv_calcolor"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:src="@drawable/icon_personsetting" />
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:background="@color/cardview_shadow_start_color"
-        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical">
-
         <TextView
-            android:id="@+id/week_title"
+            android:id="@+id/txt_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:includeFontPadding="false"
-            android:text="TITLE"
-            android:layout_marginLeft="5dp"
-            android:textColor="@android:color/black"
+            android:fontFamily="@font/nanumsquare_acr"
             android:textSize="30dp"
             android:textStyle="bold"
-            android:fontFamily="@font/nanumsquare_acr"/>
+            android:text="DATE" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/cardview_shadow_start_color"
-            android:gravity="center_vertical"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/r_wek_list1"
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_callisttitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:includeFontPadding="false"
-                android:text="sub title"
-                android:textColor="@android:color/black"
-                android:textSize="18dp"
-                android:fontFamily="@font/nanumsquare_acr"/>
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:padding="5dp"
+                android:fontFamily="@font/nanumsquare_acr"
+                android:textSize="25dp"
+                android:text="타이틀" />
 
             <ImageView
-                android:id="@+id/r_wek_star1"
-                android:layout_marginLeft="10dp"
-                android:layout_width="200dp"
-                android:layout_height="20dp"
-                app:srcCompat="@mipmap/ic_launcher" />
-        </LinearLayout>
+                android:id="@+id/imageView5"
+                android:layout_width="208dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/week_imp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/cardview_shadow_start_color"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/r_wek_list2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:layout_marginLeft="5dp"
-                android:text="sub title"
-                android:textColor="@android:color/black"
-                android:textSize="18dp"
-                android:fontFamily="@font/nanumsquare_acr"/>
-
-            <ImageView
-                android:id="@+id/r_wek_star2"
-                android:layout_marginLeft="10dp"
-                android:layout_width="200dp"
-                android:layout_height="20dp"
-                app:srcCompat="@mipmap/ic_launcher" />
         </LinearLayout>
 
     </LinearLayout>

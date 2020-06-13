@@ -1,78 +1,166 @@
 package com.example.swp1sec;
 
-import android.content.Context;
-import android.util.Log;
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class W_Reminder_RecyclerViewAdapter extends RecyclerView.Adapter<W_Reminder_RecyclerViewAdapter.ViewHolder> {
-    String TAG = "W_Reminder_RecyclerViewAdapter";
-    private ArrayList<Data> mData = null ;
 
-    // 생성자에서 데이터 리스트 객체를 전달받음.
-    W_Reminder_RecyclerViewAdapter(ArrayList<Data> list) {
-        mData = list ;
+public class W_Reminder_RecyclerViewAdapter extends RecyclerView.Adapter<W_Reminder_RecyclerViewAdapter.CustomViewHolder> {
+    ///
+    private ArrayList<CalendarList> mList = null;
+    private Activity context = null;
+
+    // switch 버튼
+    public interface OnCheckedChangeListener {
+        void onCheckedChanged (CompoundButton compoundButton, boolean isChecked, int position);
     }
 
-    // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
-    @Override
-    public W_Reminder_RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext() ;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
+    private OnCheckedChangeListener mListener = null;
 
-        View view = inflater.inflate(R.layout.week_item, parent, false) ;
-        W_Reminder_RecyclerViewAdapter.ViewHolder vh = new W_Reminder_RecyclerViewAdapter.ViewHolder(view) ;
-
-        return vh ;
+    public void setOnCheckedChangeListener (OnCheckedChangeListener listener) {
+        this.mListener = listener;
     }
 
-    // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
-    @Override
-    public void onBindViewHolder(W_Reminder_RecyclerViewAdapter.ViewHolder holder, int position) {
-        Data item = mData.get(position);
-        Log.d(TAG, "holder.title= " + holder.title);
-        holder.title.setText(item.getTitle());
-        Log.d(TAG, "item.content= " + item.getContent());
-        holder.subtitle1.setText(item.getContent());
-        holder.subtitle2.setText(item.getContent1());
-        Log.d(TAG, "item.get_l_ResId= " + item.get_l_ResId());
-        Log.d(TAG, "holder.logo= " + holder.logo);
-        holder.logo.setImageDrawable(item.get_l_ResId());
-        holder.importance_img1.setImageDrawable(item.get_s_ResId());
-        holder.importance_img2.setImageDrawable(item.get_s_ResId());
+
+    public W_Reminder_RecyclerViewAdapter(Activity context, ArrayList<CalendarList> list) {
+        this.context = context;
+        this.mList = list;
     }
 
-    // getItemCount() - 전체 데이터 갯수 리턴.
-    @Override
-    public int getItemCount() {
-        return mData.size() ;
-    }
+    class CustomViewHolder extends RecyclerView.ViewHolder {
+        private TextView txt_callisttitle,txt_date;
+        private ImageView iv_calcolor;
+        private RatingBar star_cal;
+        private Switch swit_Dmin, swit_Dplus;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView logo;
-        ImageView importance_img1;
-        ImageView importance_img2;
-        TextView title;
-        TextView subtitle1;
-        TextView subtitle2;
+        public CustomViewHolder(View view) {
+            super(view);
+            this.txt_callisttitle = (TextView) view.findViewById(R.id.txt_callisttitle);
+            this.txt_date = (TextView) view.findViewById(R.id.txt_date);
+            this.iv_calcolor = (ImageView) view.findViewById(R.id.iv_calcolor);
+            this.star_cal = (RatingBar) view.findViewById(R.id.star_cal);
+            this.swit_Dmin = (Switch) view.findViewById(R.id.swit_Dmin);
+            this.swit_Dplus = (Switch) view.findViewById(R.id.swit_Dplus);
 
-        ViewHolder(View itemView) {
-            super(itemView);
-
-            // 뷰 객체에 대한 참조. (hold strong reference)
-            logo = itemView.findViewById(R.id.week_logo);
-            importance_img1 = itemView.findViewById(R.id.r_wek_star1);
-            importance_img2 = itemView.findViewById(R.id.r_wek_star2);
-            title = itemView.findViewById(R.id.week_title);
-            subtitle1 = itemView.findViewById(R.id.r_wek_list1);
-            subtitle2 = itemView.findViewById(R.id.r_wek_list2);
         }
     }
+
+    @NonNull
+    @Override
+    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate( R.layout.week_item, null);
+        CustomViewHolder viewHolder = new CustomViewHolder(view);
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final CustomViewHolder viewholder, final int position) {
+        viewholder.txt_callisttitle.setText(mList.get(position).getCate_title()+"_"+mList.get(position).getTitle());
+        viewholder.txt_date.setText(mList.get(position).getDate());
+
+        viewholder.iv_calcolor.setColorFilter(Color.parseColor(mList.get(position).getColor()), PorterDuff.Mode.SRC_IN);
+        //viewholder.star_cal.setRating(mList.get(position).getStar());
+        final int dday = mList.get(position).getDday();
+        switch (dday) {
+            case 0: //d-만 켜져있음
+                viewholder.swit_Dmin.setChecked(true);
+                viewholder.swit_Dplus.setChecked(false);
+                /*if(viewholder.swit_Dplus.isChecked()){
+                    viewholder.swit_Dplus.setChecked(false);
+                }
+                if(!viewholder.swit_Dmin.isChecked()) {
+                    viewholder.swit_Dmin.setChecked(true);
+                }*/
+                break;
+            case 1: //d+
+                viewholder.swit_Dplus.setChecked(true);
+                viewholder.swit_Dmin.setChecked(false);
+                /*if(!viewholder.swit_Dplus.isChecked()){
+                    viewholder.swit_Dplus.setChecked(true);
+                }
+                if(viewholder.swit_Dmin.isChecked()) {
+                    viewholder.swit_Dmin.setChecked(false);
+                }*/
+                break;
+            case 2: //설정 X
+                viewholder.swit_Dmin.setChecked(false);
+                viewholder.swit_Dplus.setChecked(false);
+                /*if(viewholder.swit_Dplus.isChecked()){
+                    viewholder.swit_Dplus.setChecked(false);
+                }
+                if(viewholder.swit_Dmin.isChecked()) {
+                    viewholder.swit_Dmin.setChecked(false);
+                }*/
+                break;
+            default:
+                break;
+        }
+
+        viewholder.swit_Dmin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int pos = viewholder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    if (isChecked) {
+                        viewholder.swit_Dplus.setChecked(false);
+                        mList.get(position).setDday(0);
+                    }
+                    else {
+                        if (viewholder.swit_Dplus.isChecked()) {
+                            mList.get(position).setDday(1);
+                        }
+                        else {
+                            mList.get(position).setDday(2);
+                        }
+                    }
+                }
+                if (mListener != null) mListener.onCheckedChanged(viewholder.swit_Dmin, isChecked, pos);
+
+            }
+
+        });
+        viewholder.swit_Dplus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int pos = viewholder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    if (isChecked) {
+                        viewholder.swit_Dmin.setChecked(false);
+                        mList.get(position).setDday(1);
+                    }
+                    else {
+                        if (viewholder.swit_Dmin.isChecked()) {
+                            mList.get(position).setDday(0);
+                        }
+                        else {
+                            mList.get(position).setDday(2);
+                        }
+                    }
+                    if (mListener != null) mListener.onCheckedChanged(viewholder.swit_Dplus, isChecked, pos);
+                }
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return (null != mList ? mList.size() : 0);
+    }
+
+
+
 }
