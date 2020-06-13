@@ -108,7 +108,7 @@ public class CalendarView extends AppCompatActivity {
     private static String CATETAG = "getcategory";
     //달력
     private cal_title_adapter cal_title_adapter;
-    private ArrayList<cal_title_data> calArrayList;
+    public static ArrayList<cal_title_data> calArrayList;
     private String caljsonString;
     private static String CALURL = "http://159.89.193.200//caltitle.php";
     private static String CALTAG = "getcal";
