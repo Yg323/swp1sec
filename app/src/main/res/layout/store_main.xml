@@ -104,19 +104,10 @@
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="737dp"
+            android:layout_height="565dp"
             android:layout_marginTop="25dp"
-            app:layout_constraintTop_toBottomOf="@+id/store_button"
             android:background="@color/white"
-            >
-
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.example.swp1sec.Purchase"
-                android:layout_width="match_parent"
-                android:layout_height="738dp"
-                android:background="@color/white"
-                />
+            app:layout_constraintTop_toBottomOf="@+id/store_button">
 
         </FrameLayout>
     </LinearLayout>

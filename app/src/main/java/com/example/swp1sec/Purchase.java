@@ -86,18 +86,14 @@ public class Purchase extends Fragment {
 
     private void getData() {
         // 임의의 데이터입니다.
-        List<String> listTitle = Arrays.asList(" 테마 랜덤 박스", " 테마 선택 박스", " 팔레트 랜덤 박스", " 팔레트 선택 박스", " 알람소리 랜덤 박스", " 알람소리 선택 박스");
+        List<String> listTitle = Arrays.asList(" 테마 랜덤 박스", " 테마 선택 박스", " 팔레트 랜덤 박스", " 팔레트 선택 박스");
         List<String> listContent = Arrays.asList(
                 "  앱에 적용 가능한 테마 중 한가지를 \n  무작위로 획득합니다.",
                 "  앱에 적용 가능한 테마 중 한가지를 \n  선택 구매합니다.",
                 "  앱에 적용 가능한 색상 팔레트 중 한가지를 \n  무작위로 획득합니다.",
-                "  앱에 적용 가능한 색상 팔레트 중 한가지를 \n  선택 구매합니다.",
-                "  앱에 적용 가능한 알람 소리 중 한가지를 \n  무작위로 획득합니다.",
-                "  앱에 적용 가능한 알람 소리 중 한가지를 \n  선택 구매합니다."
+                "  앱에 적용 가능한 색상 팔레트 중 한가지를 \n  선택 구매합니다."
         );
         List<Integer> m_listResId = Arrays.asList(
-                R.drawable.product_random,
-                R.drawable.product_choose,
                 R.drawable.product_random,
                 R.drawable.product_choose,
                 R.drawable.product_random,
@@ -107,12 +103,10 @@ public class Purchase extends Fragment {
                 R.drawable.coin_clock,
                 R.drawable.coin_clock,
                 R.drawable.coin_clock,
-                R.drawable.coin_clock,
-                R.drawable.coin_clock,
                 R.drawable.coin_clock
         );
         List<String> listCoin = Arrays.asList(
-                " 30m", " 50m", " 30m", " 50m", " 30m", " 50m"
+                " 30m", " 50m", " 30m", " 50m"
         );
         for (int i = 0; i < listTitle.size(); i++) {
             // 각 List의 값들을 data 객체에 set 해줍니다.
