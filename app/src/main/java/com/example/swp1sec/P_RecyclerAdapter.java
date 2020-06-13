@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.swp1sec.R;
@@ -27,6 +28,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class P_RecyclerAdapter extends RecyclerView.Adapter<P_RecyclerAdapter.ItemViewHolder> {
@@ -38,6 +45,8 @@ public class P_RecyclerAdapter extends RecyclerView.Adapter<P_RecyclerAdapter.It
     public Intent mintent;
     String outPut;
     int res;
+    private String jsonString;
+    private String email;
 
     @NonNull
     @Override
@@ -48,18 +57,22 @@ public class P_RecyclerAdapter extends RecyclerView.Adapter<P_RecyclerAdapter.It
 
         String url = "http://159.89.193.200/get_money.php";
 
-        NetworkTask networkTask = new NetworkTask(url, null);
-        try{
+        email = PreferenceManager.getString(parent.getContext(), "email");
+        Log.d(TAG, "email= " + email);
+
+        NetworkTask networkTask = new NetworkTask();
+        /*try{
             outPut = networkTask.execute().get();
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
         //Log.d(TAG,"outPut: "+ outPut);
 
-        money_doJSONParser(outPut);
+        //money_doJSONParser(outPut);
         //Log.d(TAG, "res_adap = " + res);
+        networkTask.execute(url,email);
 
         return new ItemViewHolder(view);
     }
@@ -180,67 +193,120 @@ public class P_RecyclerAdapter extends RecyclerView.Adapter<P_RecyclerAdapter.It
         }
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    private class NetworkTask extends AsyncTask<String, Void, String> {
 
-        private String url;
-        private ContentValues values;
-        private String tv_outPut;
-        private static final String TAG = "networktask";
-
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-            this.values = values;
-        }
+        String errorString = null;
 
         @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            //Log.d(TAG, "url = " + url);
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            //Log.d(TAG, "result = " + result);
-
-            return result;
-        }
-
-        @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             super.onPreExecute();
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
 
-            tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
-            tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+                //mTextViewResult.setText(errorString);
+            }
+            else {
+                jsonString = result; //크롬으로 확인했던 문자열 받아오고
+                ShowResult(); //밑에 dayHabitShowResult함수 실행
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
+
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
+
+
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
         }
     }
 
-    public void money_doJSONParser(String str){
-        try{
-            int result = 0;
-            int rem_money = 0;
-            int h_money = 0;
-            int m_money = 0;
-            JSONObject object = new JSONObject(str);
-            JSONArray index = object.getJSONArray("money");
-            //Log.d(TAG, "index = " + index);
-            for(int i = 0; i < index.length(); i++){
-                JSONObject tt = index.getJSONObject(i);
+    private void ShowResult() { //이부분 잘봐
+        String result1 = new String();
+        int rem_money = 0;
+        int h_money = 0;
+        int m_money = 0;
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            JSONArray jsonArray = jsonObject.getJSONArray("money"); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
+            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
+                JSONObject tt = jsonArray.getJSONObject(i);
                 String money = tt.getString("money");
+                /*rem_money = Integer.parseInt(money);
+                Log.d(TAG, "rem= " + rem_money);
+                while(rem_money > 60){
+                    if(rem_money >= 3600){
+                        h_money = rem_money/3600;
+                        rem_money = rem_money%3600;
+                    }else{
+                        m_money = rem_money/60;
+                        rem_money = rem_money%60;
+                    }
+                }*/
 
-                result = Integer.parseInt(money);
+                result1 = money;
+
                 //Log.d(TAG, "result = " + result);
-            }
 
-            res = result;
+            }
+            res = Integer.parseInt(result1);
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "ex_doJSONParser = ", e);}

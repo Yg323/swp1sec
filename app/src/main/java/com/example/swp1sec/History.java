@@ -19,6 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,12 +41,16 @@ public class History extends Fragment {
     int length = 0;
     int spent = 0;
     ArrayList spend = new ArrayList();
+    String email;
+    String jsonString;
 
     String url = "http://159.89.193.200/history.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        email = PreferenceManager.getString(getContext(), "email");
     }
     @Override
     public void onAttach(Context context) {
@@ -98,19 +108,20 @@ public class History extends Fragment {
         List<String> listTitle = null;
         List<String> listContent = null;
         List<Integer> listResId = null;
-        NetworkTask networkTask = new NetworkTask(url, null);
-        try{
+        NetworkTask networkTask = new NetworkTask();
+        /*try{
             outPut = networkTask.execute().get();
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
+        networkTask.execute(url, email);
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
         //Log.d(TAG,"outPut: "+ outPut);
-        length_doJSONParser(outPut);
-        title_doJSONParser(outPut);
-        date_doJSONParser(outPut);
-        spend_doJSONParser(outPut);
+        //length_doJSONParser(outPut);
+        //title_doJSONParser(outPut);
+        //date_doJSONParser(outPut);
+        //spend_doJSONParser(outPut);
         //Log.d(TAG, "res_title= " + res_title);
 
         /*for(int i = length; i < 0; i--) {
@@ -121,84 +132,131 @@ public class History extends Fragment {
         }
         Log.d(TAG, "listTitle= " + listTitle);*/
 
-        for (int j = length; j > 0; j--) {
-            // 각 List의 값들을 data 객체에 set 해줍니다.
-            //Log.d(TAG, "ListSize=" + listTitle.size());
-            Data data = new Data();
-            data.setTitle(res_title.get(j).toString());
-            //Log.d(TAG, "res_title= " + data.getTitle());
-            data.setContent(res_date.get(j).toString());
-            //Log.d(TAG, "res_date= " + data.getContent());
-            data.setspent(res_spend.get(j).toString());
-            //Log.d(TAG, "listContent= "+listContent.get(i));
 
-            if(Integer.parseInt(spend.get(j).toString()) >= 0)
-                data.setm_ResId(R.drawable.add_time);
-            else
-                data.setm_ResId(R.drawable.desease_time);
-            //Log.d(TAG, "data= "+data.getm_ResId());
-            // 각 값이 들어간 data를 adapter에 추가합니다.
-            adapter.addItem(data);
-        }
-
-        // adapter의 값이 변경되었다는 것을 알려줍니다.
-        adapter.notifyDataSetChanged();
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    private class NetworkTask extends AsyncTask<String, Void, String> {
 
-        private String url;
-        private ContentValues values;
-        private String tv_outPut;
-        private static final String TAG = "networktask";
-
-        public NetworkTask(String url, ContentValues values) {
-
-            this.url = url;
-            this.values = values;
-        }
+        String errorString = null;
 
         @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            //Log.d(TAG, "url = " + url);
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            //Log.d(TAG, "result = " + result);
-
-            return result;
-        }
-
-        @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             super.onPreExecute();
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
 
-            tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
-            tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            Log.d(TAG, "response - " + result);
+
+            if (result == null){
+                //mTextViewResult.setText(errorString);
+            }
+            else {
+                jsonString = result; //크롬으로 확인했던 문자열 받아오고
+                //length_doJSONParser();
+                title_doJSONParser();
+                date_doJSONParser();
+                spend_doJSONParser();//밑에 dayHabitShowResult함수 실행
+                Log.d(TAG, "res_title.size()= " + res_title.size());
+                for (int j = res_title.size(); j > 0; j--) {
+                    // 각 List의 값들을 data 객체에 set 해줍니다.
+                    //Log.d(TAG, "ListSize=" + listTitle.size());
+                    Data data = new Data();
+                    Log.d(TAG, "res_title.get(j).toString() = " + res_title.get(j-1).toString());
+                    data.setTitle(res_title.get(j-1).toString());
+                    //Log.d(TAG, "res_title= " + data.getTitle());
+                    data.setContent(res_date.get(j-1).toString());
+                    //Log.d(TAG, "res_date= " + data.getContent());
+                    data.setspent(res_spend.get(j-1).toString());
+                    //Log.d(TAG, "listContent= "+listContent.get(i));
+
+                    if(Integer.parseInt(spend.get(j-1).toString()) >= 0)
+                        data.setm_ResId(R.drawable.add_time);
+                    else
+                        data.setm_ResId(R.drawable.desease_time);
+                    //Log.d(TAG, "data= "+data.getm_ResId());
+                    // 각 값이 들어간 data를 adapter에 추가합니다.
+                    adapter.addItem(data);
+                }
+
+                // adapter의 값이 변경되었다는 것을 알려줍니다.
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
+
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
+
+
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
         }
     }
 
-    public void length_doJSONParser(String str){
+    public void length_doJSONParser(){
         try{
             int result = 0;
             int l = 0;
-            JSONObject object = new JSONObject(str);
+            JSONObject object = new JSONObject(jsonString);
             JSONArray index = object.getJSONArray("spend");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject tt = index.getJSONObject(i);
                 String length = tt.getString("length");
-                l = Integer.parseInt(length);
+                l = index.length();
                 //Log.d(TAG, "length= " + l);
 
                 result = l;
@@ -210,17 +268,17 @@ public class History extends Fragment {
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }
 
-    public void title_doJSONParser(String str){
+    public void title_doJSONParser(){
         try{
             ArrayList result = new ArrayList();
-            JSONObject object = new JSONObject(str);
+            JSONObject object = new JSONObject(jsonString);
             JSONArray index = object.getJSONArray("spend");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject tt = index.getJSONObject(i);
                 String title = tt.getString("title");
 
-                result.add(i, title);
+                result.add(title);
 
                 //Log.d(TAG, "result = " + result);
 
@@ -231,17 +289,17 @@ public class History extends Fragment {
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }
 
-    public void date_doJSONParser(String str){
+    public void date_doJSONParser(){
         try{
             ArrayList result = new ArrayList();
-            JSONObject object = new JSONObject(str);
+            JSONObject object = new JSONObject(jsonString);
             JSONArray index = object.getJSONArray("spend");
             //Log.d(TAG, "index = " + index);
             for(int i = 0; i < index.length(); i++){
                 JSONObject tt = index.getJSONObject(i);
                 String title = tt.getString("date");
 
-                result.add(i, title);
+                result.add(title);
 
                 //Log.d(TAG, "result = " + result);
 
@@ -252,12 +310,12 @@ public class History extends Fragment {
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }
 
-    public void spend_doJSONParser(String str){
+    public void spend_doJSONParser(){
         try {
             int h_spent = 0;
             int m_spent = 0;
             ArrayList result = new ArrayList();
-            JSONObject object = new JSONObject(str);
+            JSONObject object = new JSONObject(jsonString);
             JSONArray index = object.getJSONArray("spend");
             //Log.d(TAG, "index = " + index);
             for (int i = 0; i < index.length(); i++) {
@@ -288,15 +346,15 @@ public class History extends Fragment {
                 }
                 if (h_spent == 0) {
                     if (m_spent == 0)
-                        result.add(i, spent);
+                        result.add(spent);
                     else {
                         if(spent != 0)
-                            result.add(i, m_spent + "분 " + spent + "초");
+                            result.add(m_spent + "분 " + spent + "초");
                         else
-                            result.add(i, m_spent + "분");
+                            result.add(m_spent + "분");
                     }
                 } else
-                    result.add(i, h_spent + "시간 " + m_spent + " 분" + spent + "초");
+                    result.add(h_spent + "시간 " + m_spent + " 분" + spent + "초");
                 //Log.d(TAG, "result = " + result);
 
             }

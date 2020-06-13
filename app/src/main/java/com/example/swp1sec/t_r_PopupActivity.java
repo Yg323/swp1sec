@@ -52,18 +52,19 @@ public class t_r_PopupActivity extends AppCompatActivity {
 
         String url = "http://159.89.193.200/get_money.php";
 
-        NetworkTask networkTask = new NetworkTask(url, null);
-        try{
+        NetworkTask networkTask = new NetworkTask();
+        /*try{
             outPut = networkTask.execute().get();
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
-        Log.d(TAG,"outPut: "+ outPut);
+        networkTask.execute(url, email);
+        //Log.d(TAG,"outPut: "+ outPut);
 
-        money_doJSONParser(outPut);
-        Log.d(TAG, "money = " + res);
+       /* money_doJSONParser(outPut);
+        Log.d(TAG, "money = " + res);*/
 
         okBtn = (Button) findViewById(R.id.ok);
         cancelBtn = (Button) findViewById(R.id.cancel);
@@ -71,12 +72,12 @@ public class t_r_PopupActivity extends AppCompatActivity {
         //UI 객체생성
         txtText = (TextView) findViewById(R.id.txtText);
 
-        //데이터 가져오기
+       /* //데이터 가져오기
         Intent intent = getIntent();
         //Log.d(TAG, "intent= " + intent);
         String data = "테마 랜덤 박스를 구매하시겠습니까?";
         //Log.d(TAG, "data= " + data);
-        txtText.setText(data);
+        txtText.setText(data);*/
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +110,7 @@ public class t_r_PopupActivity extends AppCompatActivity {
         });
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask extends AsyncTask<String, Void, String> {
 
         private String url;
         private ContentValues values;
@@ -117,21 +118,72 @@ public class t_r_PopupActivity extends AppCompatActivity {
         String errorString = null;
         private static final String TAG = "networktask";
 
-        public NetworkTask(String url, ContentValues values) {
+        /*public NetworkTask(String url, ContentValues values) {
 
             this.url = url;
             this.values = values;
-        }
+        }   */
 
         @Override
-        protected String doInBackground(Void ... params) {
-            String result; // 요청 결과를 저장할 변수.
+        protected String doInBackground(String ... params) {
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
+
+            /*String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
             Log.d(TAG, "result = " + result);
 
-            return result;
+            return result;*/
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
         }
 
         @Override
@@ -142,14 +194,18 @@ public class t_r_PopupActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+/*
             tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
-            tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
+            tv_outPut = s;*/
+
+            money_doJSONParser(s);
+            //추가
+            //데이터 가져오기
+            Intent intent = getIntent();
+            //Log.d(TAG, "intent= " + intent);
+            String data = "테마 랜덤 박스를 구매하시겠습니까?";
+            //Log.d(TAG, "data= " + data);
+            txtText.setText(data);
         }
     }
 

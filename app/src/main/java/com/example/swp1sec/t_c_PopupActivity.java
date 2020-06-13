@@ -37,6 +37,7 @@ public class t_c_PopupActivity extends AppCompatActivity {
     String outPut;
     int res;
     Intent mintent;
+    String email;
 
     private static String IP_ADDRESS = "159.89.193.200/t_c_store.php";
 
@@ -48,19 +49,22 @@ public class t_c_PopupActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.c_popup_activity);
 
+        email = PreferenceManager.getString(this, "email");
+
         String url = "http://159.89.193.200/get_money.php";
 
-        NetworkTask networkTask = new NetworkTask(url, null);
-        try{
+        NetworkTask networkTask = new NetworkTask();
+        /*try{
             outPut = networkTask.execute().get();
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
+        networkTask.execute(url, email);
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
         Log.d(TAG,"outPut: "+ outPut);
 
-        money_doJSONParser(outPut);
+        //money_doJSONParser(outPut);
         Log.d(TAG, "money = " + res);
 
         okBtn = (Button)findViewById(R.id.ok);
@@ -110,28 +114,80 @@ public class t_c_PopupActivity extends AppCompatActivity {
         });
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask extends AsyncTask<String, Void, String> {
 
         private String url;
         private ContentValues values;
         private String tv_outPut;
+        String errorString = null;
         private static final String TAG = "networktask";
 
-        public NetworkTask(String url, ContentValues values) {
+        /*public NetworkTask(String url, ContentValues values) {
 
             this.url = url;
             this.values = values;
-        }
+        }   */
 
         @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
+        protected String doInBackground(String ... params) {
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
+
+            /*String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
             Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
             Log.d(TAG, "result = " + result);
 
-            return result;
+            return result;*/
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
         }
 
         @Override
@@ -142,14 +198,18 @@ public class t_c_PopupActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+/*
             tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
-            tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
+            tv_outPut = s;*/
+
+            money_doJSONParser(s);
+            //추가
+            //데이터 가져오기
+            Intent intent = getIntent();
+            //Log.d(TAG, "intent= " + intent);
+            String data = "물품을 선택하세요.";
+            //Log.d(TAG, "data= " + data);
+            txtText.setText(data);
         }
     }
 
@@ -196,9 +256,9 @@ public class t_c_PopupActivity extends AppCompatActivity {
             String postParameters;
 
             if(mnum == 0)
-                postParameters = "normal=1" + "&money=" + res;
+                postParameters = "normal=1" + "&money=" + res + "&email=" + email;
             else
-                postParameters = "premium=1" + "&money=" + res;
+                postParameters = "premium=1" + "&money=" + res + "&email=" + email;
 
             //postParameters = "normal=" + Integer.toString(n_theme1) + "&premium=" + Integer.toString(p_theme1);
 

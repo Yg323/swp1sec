@@ -6,6 +6,7 @@ public class Data {
 
     private String title;
     private String content;
+    private String content1;
     private String Coin;
     private String spent;
     private String imp;
@@ -34,6 +35,13 @@ public class Data {
     }
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getContent1() {
+        return content1;
+    }
+    public void setContent1(String content1) {
+        this.content1 = content1;
     }
 
     public String getImp() {
