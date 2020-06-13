@@ -40,10 +40,17 @@ public class habit_badge_dialog  extends AppCompatActivity {
         timepicker=findViewById(R.id.habitimepicker);
 
 
+
     }
     /*habit badge*/
     public static final String habitnotificationChannelId = "habit";
 
+    public void habitsetAlarm(){
+
+
+        habitcreateNotification(badge_habit_data.getbadge_habit());
+        finish();
+    }
     @TargetApi(Build.VERSION_CODES.O)
     public void habitcreateNotificationChannel() {
         NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -106,14 +113,14 @@ public class habit_badge_dialog  extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, badgehour);
-        calendar.set(Calendar.MINUTE, badgeminute);
+        calendar.set(Calendar.MINUTE, badgeminute-1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
         //지정한 시간에 매일 알림
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
-        Toast.makeText(this, badgehour+":"+badgeminute+"습관 알람설정 완료", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, badgehour+" : "+badgeminute +" 습관 설정완료", Toast.LENGTH_SHORT).show();
         finish();
 
 

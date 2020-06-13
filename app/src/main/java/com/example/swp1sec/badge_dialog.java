@@ -46,7 +46,7 @@ import com.github.arturogutierrez.BadgesNotSupportedException;*/
 public class badge_dialog extends AppCompatActivity {
 
 
-    public  static final String todonotificationChannelId = "todo";
+
     //todo
     private String badge_todojsonString;
     private static String badge_todoURL = "http://159.89.193.200//badge_todo.php";
@@ -73,8 +73,6 @@ public class badge_dialog extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        todo_text = findViewById(R.id.todotimepicker_text);
-
 
         //추가
         mContext = this;
@@ -99,59 +97,22 @@ public class badge_dialog extends AppCompatActivity {
 
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void setAlarm(){
 
         todocreateNotification(badge_todo_data.getbadge_todo());
-        Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
         finish();
     }
-    public void habitsetAlarm(){
 
-
-        habitcreateNotification(badge_habit_data.getbadge_habit());
-        Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
-        finish();
-    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void todohabitsetAlarm(){
 
         todohabitcreateNotification(badge_habit_data.getbadge_habit() + badge_todo_data.getbadge_todo());
-        Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
+
         finish();
     }
 
-    private Handler todohabithandler = new Handler() {
-        @Override
-        public void dispatchMessage(@NonNull Message msg) {
-            ShortcutBadger.removeCount(badge_dialog.this);
-            email = PreferenceManager.getString(badge_dialog.this, "email");
-            badge_habit_Data badge_habittask = new badge_habit_Data(); //밑에 만들었던 클래스 만들고
-            badge_habittask.execute(badge_habitURL, email); //task 실행
-            badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
-            badge_todotask.execute(badge_todoURL, email); //task 실행
-            todohabitcreateNotification(badge_habit_data.getbadge_habit() + badge_todo_data.getbadge_todo());
-        }
-    };
-
-    private Handler habithandler = new Handler() {
-        @Override
-        public void dispatchMessage(@NonNull Message msg) {
-            ShortcutBadger.removeCount(badge_dialog.this);
-            email = PreferenceManager.getString(badge_dialog.this, "email");
-            badge_habit_Data badge_habittask = new badge_habit_Data(); //밑에 만들었던 클래스 만들고
-            badge_habittask.execute(badge_habitURL, email); //task 실행
-            habitcreateNotification(badge_habit_data.getbadge_habit());
-        }
-    };
-    private Handler todohandler = new Handler() {
-        @Override
-        public void dispatchMessage(@NonNull Message msg) {
-            ShortcutBadger.removeCount(badge_dialog.this);
-            email = PreferenceManager.getString(badge_dialog.this, "email");
-            badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
-            badge_todotask.execute(badge_todoURL, email); //task 실행
-            todocreateNotification(badge_todo_data.getbadge_todo());
-        }
-    };
     /*todo+habit badge*/
     public static final String todohabitnotificationChannelId = "todohabit";
 
@@ -265,8 +226,9 @@ public class badge_dialog extends AppCompatActivity {
 
     /*todo badge*/
 
+    public  static final String todonotificationChannelId = "todo";
 
-    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void todocreateNotificationChannel() {
         NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel notificationChannel = new NotificationChannel(todonotificationChannelId, "남은 할일", NotificationManager.IMPORTANCE_DEFAULT);
@@ -275,6 +237,7 @@ public class badge_dialog extends AppCompatActivity {
 
     public static int todonotificationId = 123;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void todocreateNotification(int badgeCount) {
         NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
         todocreateNotificationChannel();
@@ -282,7 +245,7 @@ public class badge_dialog extends AppCompatActivity {
         ShortcutBadger.applyCount(badge_dialog.this, badgeCount);
 
         Notification.Builder builder = new Notification.Builder(this)
-                .setContentTitle("할 일")
+                .setContentTitle("남은 할일")
                 .setContentText("")
                 .setNumber(badgeCount)
                 //statusBar 및 notification view에 표시되는 작은 아이콘
@@ -318,16 +281,6 @@ public class badge_dialog extends AppCompatActivity {
         notificationManager.cancel(todonotificationId);
     }
 
-    /* public void todo_badge(View v){
-
-         try{
-             Badges.setBadge(badge_dialog.this,badge_todo_data.getbadge_todo());
-         }catch (BadgesNotSupportedException error){
-             Toast.makeText(this,"에러!",Toast.LENGTH_SHORT).show();
-         }
-
-         finish();
-     }*/
     //투두 데이타
     private class badge_todo_Data extends AsyncTask<String, Void, String> { //php읽어서 디비에서 데이터 가져오는 전체 프로세스를 클래스로 생성
         //모든일은 background 에서 AsyncTask로 발생
@@ -564,14 +517,14 @@ public class badge_dialog extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, badgehour);
-        calendar.set(Calendar.MINUTE, badgeminute);
+        calendar.set(Calendar.MINUTE, badgeminute-1);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
         //지정한 시간에 매일 알림
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
-        Toast.makeText(this, badgehour+":"+badgeminute+"알람설정 완료", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, badgehour+" : "+badgeminute +" 할일 설정완료", Toast.LENGTH_SHORT).show();
         finish();
 
 

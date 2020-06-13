@@ -86,7 +86,7 @@ public class CalendarView extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     ImageButton imgLeft, imgRight;
     LinearLayout drawer_right, drawer_left;
-    TextView morningtime, nighttime,setting_theme,setting_start_day,badge;
+    TextView morningtime, nighttime,setting_theme,setting_start_day,badge_text;
     int mHour, mMinute, nHour, nMinute;
     private TextView txt_logout;
 
@@ -161,6 +161,13 @@ public class CalendarView extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setting_theme = findViewById(R.id.setting_theme);
         setting_start_day=findViewById(R.id.setting_start_day);
+        badge_text = findViewById(R.id.badge_text);
+        badge_text.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                badgeshow();
+            }
+        });
 
 
 
@@ -478,7 +485,36 @@ public class CalendarView extends AppCompatActivity {
         imgRight = findViewById(R.id.imgRight);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        cal_title_adapter.setOnClickListener(new cal_title_adapter.OnClickListener() {
+            @Override
+            public void onClick(View v, final int position) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(calRecyclerView.getContext());
+                ProgressDialog progressDialog = new ProgressDialog(calRecyclerView.getContext());
 
+                CharSequence[] dialogItem ={"edit data","delete data"};
+                builder.setTitle(calArrayList.get(position).gettitle());
+                builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        switch (i){
+                            case 0:
+                                    cateintent = new Intent(getApplicationContext(),Update_calendar.class);
+                                    cateintent.putExtra("position",position);
+                                    startActivity(cateintent);
+
+                                break;
+
+                            case 1:
+                                caldeleteData(calArrayList.get(position).getid());
+
+                                break;
+                        }
+
+                    }
+                });
+                builder.create().show();
+            }
+        });
 
 
         cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
@@ -938,7 +974,37 @@ public class CalendarView extends AppCompatActivity {
         dlg.show();
     }
 
+    private void caldeleteData(final String id) {
+        StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/caldeletedata.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equalsIgnoreCase("Data Deleted")){
+                            Toast.makeText(CalendarView.this,"Data Deleted Successfully",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(CalendarView.this,"Data Not Deleted",Toast.LENGTH_SHORT).show();
+                        }
 
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CalendarView.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String,String>();
+                params.put("id", id);
+
+                return params;
+            }
+        };
+        RequestQueue queue= Volley.newRequestQueue(this);
+        queue.add(request);
+
+    }
 
     private void deleteData(final String id) {
         StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/deletedata.php",
@@ -1272,7 +1338,7 @@ public class CalendarView extends AppCompatActivity {
         String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
         String TAG_TITLE = "cal_title";
         String TAg_Performance ="performance";
-        String TAG_ID="id";
+        String TAG_ID = "id";
 
 
         try {
@@ -1282,8 +1348,8 @@ public class CalendarView extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
                 JSONObject item = jsonArray.getJSONObject(i);
                 //반복문인점 주의!
-                String Title = item.getString(TAG_TITLE);
-                String id =item.getString(TAG_ID);//그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                String id = item.getString(TAG_ID); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
                 int performnace = item.getInt(TAg_Performance);
                 if(performnace == 1){
                     PreferenceManager.setString(CalendarView.this,"cal_title",Title);
@@ -1291,8 +1357,7 @@ public class CalendarView extends AppCompatActivity {
                 }
                 cal_title_data cal_title_data = new cal_title_data(Title,id);
                 cal_title_data.settitle(Title);
-                cal_title_data.setid(id);
-
+                cal_title_data.settitle(id);
                 cal_title_data.setperformance(performnace);
 
 
@@ -1335,6 +1400,48 @@ public class CalendarView extends AppCompatActivity {
                         //String text2 = PreferenceManager.getString(CalendarView.this,"start_week_title2");
                         //setting_start_day.setText(text2);
                         setting_start_day.setText("일요일");
+                        break;
+
+                }
+                String selectedText = items[pos].toString();
+                Toast.makeText(CalendarView.this, selectedText, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
+    }
+    void badgeshow()
+    {
+
+        final List<String> ListItems = new ArrayList<>();
+        ListItems.add("할일");
+        ListItems.add("습관");
+        ListItems.add("할일 + 습관");
+
+        final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("뱃지 설정");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int pos) {
+                switch (pos){
+                    case 0:
+                        Intent intent=new Intent(CalendarView.this, badge_dialog.class);
+                        startActivity(intent);
+                        badge_text.setText("할일");
+
+
+
+                        break;
+                    case 1:
+                        Intent intent1=new Intent(CalendarView.this, habit_badge_dialog.class);
+                        startActivity(intent1);
+                        badge_text.setText("습관");
+                        break;
+                    case 2:
+                        Intent intent2=new Intent(CalendarView.this, todohabit_badge_dialog.class);
+                        startActivity(intent2);
+                        badge_text.setText("할일 + 습관");
+
                         break;
 
                 }
