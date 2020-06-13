@@ -91,7 +91,7 @@
             android:layout_gravity="left"
             android:includeFontPadding="false"
             android:text="content"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/black"
             android:textSize="13sp"
             android:fontFamily="@font/nanumsquare_acr"/>
     </LinearLayout>
