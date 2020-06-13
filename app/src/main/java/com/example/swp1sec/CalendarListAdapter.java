@@ -48,7 +48,7 @@ public class CalendarListAdapter extends RecyclerView.Adapter<CalendarListAdapte
 
         public CustomViewHolder(View view) {
             super(view);
-            this.txt_callisttitle = (TextView) view.findViewById(R.id.txt_callisttitle);
+            this.txt_callisttitle = (TextView) view.findViewById(R.id.txt_week);
             this.txt_date = (TextView) view.findViewById(R.id.txt_date);
             this.iv_calcolor = (ImageView) view.findViewById(R.id.iv_calcolor);
             this.star_cal = (RatingBar) view.findViewById(R.id.star_cal);

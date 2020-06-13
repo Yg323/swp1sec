@@ -80,15 +80,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
         }
     };
 
-    DatePickerDialog.OnDateSetListener EndDate = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel2();
-        }
-    };
+
 
     private void updateLabel() {
         String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
@@ -99,13 +91,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
 
     }
 
-    private void updateLabel2() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
-        TextView et_date = (TextView) findViewById(R.id.ex_end_date);
-        et_date.setText(sdf.format(myCalendar.getTime()));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +104,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
 
         start_date = findViewById(R.id.ex_start_date);
         start_time = findViewById(R.id.ex_start_time);
-        end_date = findViewById(R.id.ex_end_date);
+
         end_time = findViewById(R.id.ex_end_time);
 
         ex_star = findViewById(R.id.ex_ratingBar);
@@ -167,12 +153,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
             }
         });
 
-        end_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(CreateExerciseEdit.this, EndDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+
 
         start_time.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -46,7 +46,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.Custom
 
         public CustomViewHolder(View view) {
             super(view);
-            this.txt_callisttitle = (TextView) view.findViewById(R.id.txt_callisttitle);
+            this.txt_callisttitle = (TextView) view.findViewById(R.id.txt_week);
             this.txt_date = (TextView) view.findViewById(R.id.txt_date);
             this.cb_todo = (CheckBox) view.findViewById(R.id.cb_todo);
             this.star_cal = (RatingBar) view.findViewById(R.id.star_cal);

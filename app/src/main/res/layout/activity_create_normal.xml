@@ -25,33 +25,11 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="20dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:subtitleTextAppearance="@style/AppTheme.SubTitleText"
                 app:titleTextAppearance="@style/AppTheme.TitleText"/>
 
-            <LinearLayout
-                android:id="@+id/ll_header"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:orientation="horizontal"
-                android:background="?attr/colorPrimary">
-
-                <Button
-                    android:id="@+id/btn_normal_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/save" />
-
-                <Button
-                    android:id="@+id/btn_normal_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cancel" />
-
-            </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -195,42 +173,6 @@
                         android:text="07:00"
                         android:textColor="#252525" />
 
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingEnd="14dp">
-
-                    <ImageView
-                        style="@style/createEventIconStyle"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/icon_clock" />
-
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10" />
-
-                    <TextView
-                        android:id="@+id/nor_end_date"
-                        style="@style/createEventItemTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="0dp"
-                        android:gravity="end"
-                        android:paddingStart="8dp"
-                        android:paddingTop="6.5dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="6.5dp"
-                        android:text="2020/05/28"
-                        android:textColor="#252525" />
-
                     <TextView
                         android:id="@+id/nor_end_time"
                         style="@style/createEventItemTextView"
@@ -247,8 +189,8 @@
                         android:text="07:00"
                         android:textColor="#252525" />
 
-
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -376,19 +318,32 @@
                     style="@style/createEventSeparator"
                     android:layout_marginStart="57dp" />
 
-                <View
-                    style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp" />
+                <LinearLayout
+                    android:id="@+id/ll_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal"
+                    android:background="?attr/colorPrimary"
+                    android:theme="@style/AppTheme.AppBarOverlay">
 
-                <View
-                    style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp" />
+                    <Button
+                        android:id="@+id/btn_normal_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/save" />
 
-                <View
-                    style="@style/createEventSeparator"
-                    android:layout_marginStart="57dp" />
+                    <Button
+                        android:id="@+id/btn_normal_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cancel" />
 
-                <View style="@style/createEventSeparator" />
+                </LinearLayout>
+
+
+                <!--<View style="@style/createEventSeparator" />-->
 
 
             </LinearLayout>

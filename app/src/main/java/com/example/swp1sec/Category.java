@@ -127,9 +127,9 @@ public class Category extends AppCompatActivity {
                         v.getContext().startActivity(intent3);
                         break;
                 }
-                Toast toast = Toast.makeText(v.getContext(), "division = " + division, Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                toast.show();
+                //Toast toast = Toast.makeText(v.getContext(), "division = " + division, Toast.LENGTH_SHORT);
+                //toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                //toast.show();
             }
         });
     }

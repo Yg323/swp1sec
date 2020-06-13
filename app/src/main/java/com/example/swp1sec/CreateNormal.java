@@ -64,6 +64,17 @@ public class CreateNormal extends AppCompatActivity {
     private static String TAG = "setnormal";
     private RadioGroup radioGroup;
     private RadioButton r1, r2;
+
+    //현재시간으로 세팅
+    long now = System.currentTimeMillis();
+    Date datenow = new Date(now);
+    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd");
+    String formatDate = sdfNow.format(datenow);
+
+    Date timenow = new Date(now);
+    SimpleDateFormat sdfTNow = new SimpleDateFormat("HH:mm");
+    String formatTDate = sdfTNow.format((timenow));
+
     Calendar myCalendar = Calendar.getInstance();
 
     DatePickerDialog.OnDateSetListener StartDate = new DatePickerDialog.OnDateSetListener() {
@@ -76,18 +87,9 @@ public class CreateNormal extends AppCompatActivity {
         }
     };
 
-    DatePickerDialog.OnDateSetListener EndDate = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel2();
-        }
-    };
 
     private void updateLabel() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
+        String myFormat = "yyyy-MM-dd";    // 출력형식   2018/11/28
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
         TextView et_date = (TextView) findViewById(R.id.nor_start_date);
@@ -95,13 +97,7 @@ public class CreateNormal extends AppCompatActivity {
 
     }
 
-    private void updateLabel2() {
-        String myFormat = "yyyy/MM/dd";    // 출력형식   2018/11/28
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
 
-        TextView et_date = (TextView) findViewById(R.id.nor_end_date);
-        et_date.setText(sdf.format(myCalendar.getTime()));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +110,15 @@ public class CreateNormal extends AppCompatActivity {
 
         start_date = findViewById(R.id.nor_start_date);
         start_time = findViewById(R.id.nor_start_time);
-        end_date = findViewById(R.id.nor_end_date);
+
         end_time = findViewById(R.id.nor_end_time);
 
         nor_star = findViewById(R.id.nor_ratingBar);
+
+        //달력, 시간 현재 시간으로 세팅
+        start_date.setText(formatDate);
+        start_time.setText(formatTDate);
+        end_time.setText(formatTDate);
 
         radioGroup = findViewById(R.id.radio_normal);
         r1 = findViewById(R.id.radio_nor_check);
@@ -172,12 +173,6 @@ public class CreateNormal extends AppCompatActivity {
             }
         });
 
-        end_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(CreateNormal.this, EndDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
 
         start_time.setOnClickListener(new View.OnClickListener() {
             @Override
