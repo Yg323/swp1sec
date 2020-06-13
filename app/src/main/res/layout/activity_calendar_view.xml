@@ -283,25 +283,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal"
                 >
                 <CheckBox
                     android:id="@+id/lunar"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:background="@color/settingbackground"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_weight="19"
                     android:text="음력"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:background="@color/settingbackground"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal"
                 android:background="@color/settingbackground"
                 >
@@ -309,30 +317,40 @@
                     android:id="@+id/holiday"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_weight="19"
                     android:text="공휴일"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_margin="5dp"
                 android:orientation="horizontal"
+                android:gravity="center_vertical|center_horizontal"
                 android:background="@color/settingbackground">
                 <CheckBox
                     android:id="@+id/univer"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_weight="19"
                     android:text="학사 달력"
-                    android:textSize="20dp"/>
+                    android:textSize="15dp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
