@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee">
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <TimePicker
+            android:id="@+id/todohabitimepicker"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:timePickerMode="spinner"/>
+        <TextView
+            android:id="@+id/todohabittimepicker_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="시간"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/bsadf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="등록"
+                android:onClick="todohabit_regist"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/todohabiybadge_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="todohabit_unregist"
+                android:text="취소"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
