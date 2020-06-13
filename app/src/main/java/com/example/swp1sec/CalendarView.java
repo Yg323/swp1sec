@@ -61,7 +61,9 @@ import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -227,133 +229,6 @@ public class CalendarView extends AppCompatActivity {
         holidayBox = findViewById(R.id.holiday);
         schoolBox = findViewById(R.id.univer);
 
-        //맨 처음 세팅
-        PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
-        PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
-        PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
-
-        //음력 이벤트
-        lunarBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox"));
-        lunarBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(lunarBox.isChecked() == true){
-                    for(int i =0;i<lunar.length;i++) {
-                        lunar_push.add(lunar[i]);
-                    }
-                    LunarArray();
-                    //Toast toast = Toast.makeText(getApplicationContext(), lunar_push.get(1)[2], Toast.LENGTH_SHORT);
-                    //toast.show();
-                    PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",true);
-                }else{
-                    lunar_push.clear();
-                    PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
-                    //Toast toast = Toast.makeText(getApplicationContext(), "음력 체크 해제", Toast.LENGTH_SHORT);
-                    //toast.show();
-                    intent = new Intent(getApplicationContext(),CalendarView.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-            }
-        });
-        if(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox")){
-            for(int i =0;i<lunar.length;i++) {
-                lunar_push.add(lunar[i]);
-            }
-            LunarArray();
-            //Toast toast = Toast.makeText(getApplicationContext(), lunar_push.get(1)[2], Toast.LENGTH_SHORT);
-            //toast.show();
-            PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",true);
-        }
-        else{
-            lunar_push.clear();
-            PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
-            //Toast toast = Toast.makeText(getApplicationContext(), "음력 체크 해제된 상태", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
-
-        //공휴일 이벤트
-        holidayBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"holidayBox"));
-        holidayBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(holidayBox.isChecked() == true){
-                    for(int i =0;i<holiday.length;i++) {
-                        holiday_push.add(holiday[i]);
-                    }
-                    HolidayArray();
-                    //Toast toast = Toast.makeText(getApplicationContext(), holiday_push.get(1)[2], Toast.LENGTH_SHORT);
-                    //toast.show();
-                    PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",true);
-                }else{
-                    holiday_push.clear();
-                    PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
-                    //Toast toast = Toast.makeText(getApplicationContext(), "공휴일 체크 해제", Toast.LENGTH_SHORT);
-                    //toast.show();
-                    intent = new Intent(getApplicationContext(),CalendarView.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-            }
-        });
-        if(PreferenceManager.getBoolean(getApplicationContext(),"holidayBox")){
-            for(int i =0;i<holiday.length;i++) {
-                holiday_push.add(holiday[i]);
-            }
-            HolidayArray();
-            //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
-            //toast.show();
-            PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",true);
-        }
-        else{
-            holiday_push.clear();
-            PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
-            //Toast toast = Toast.makeText(getApplicationContext(), "공휴일 체크 해제된 상태", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
-
-        //학사일정 이벤트
-        schoolBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"schoolBox"));
-        schoolBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(schoolBox.isChecked() == true){
-                    for(int i =0;i<school.length;i++) {
-                        school_push.add(school[i]);
-                    }
-                    Array();
-                    //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
-                    //toast.show();
-                    PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",true);
-                }else{
-                    school_push.clear();
-                    PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
-                    //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제", Toast.LENGTH_SHORT);
-                    //toast.show();
-                    intent = new Intent(getApplicationContext(),CalendarView.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-            }
-        });
-        if(PreferenceManager.getBoolean(getApplicationContext(),"schoolBox")){
-            for(int i =0;i<school.length;i++) {
-                school_push.add(school[i]);
-            }
-            Array();
-            //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
-            //toast.show();
-            PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",true);
-        }
-        else{
-            school_push.clear();
-            PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
-            //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제된 상태", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
 
 
 
@@ -615,6 +490,123 @@ public class CalendarView extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //음력 이벤트
+        lunarBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox"));
+        lunarBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(lunarBox.isChecked()){
+                    lunar_push.addAll(Arrays.asList(lunar));
+                    LunarArray();
+                    //Toast toast = Toast.makeText(getApplicationContext(), lunar_push.get(1)[2], Toast.LENGTH_SHORT);
+                    //toast.show();
+                    PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",true);
+                }else{
+                    lunar_push.clear();
+                    PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
+                    //Toast toast = Toast.makeText(getApplicationContext(), "음력 체크 해제", Toast.LENGTH_SHORT);
+                    //toast.show();
+                    intent = new Intent(getApplicationContext(),CalendarView.class);
+                    startActivity(intent);
+                    lunar_push.clear();
+                    finish();
+                }
+
+            }
+        });
+        if(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox")){
+            lunarBox.setChecked(true);
+            lunar_push.addAll(Arrays.asList(lunar));
+            LunarArray();
+            //Toast toast = Toast.makeText(getApplicationContext(), lunar_push.get(1)[2], Toast.LENGTH_SHORT);
+            //toast.show();
+            PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",true);
+        }
+        else{
+            lunarBox.setChecked(false);
+            //lunar_push.clear();
+            PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
+            //Toast toast = Toast.makeText(getApplicationContext(), "음력 체크 해제된 상태", Toast.LENGTH_SHORT);
+            //toast.show();
+        }
+
+        //공휴일 이벤트
+        holidayBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"holidayBox"));
+        holidayBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(holidayBox.isChecked()){
+                    holiday_push.addAll(Arrays.asList(holiday));
+                    HolidayArray();
+                    //Toast toast = Toast.makeText(getApplicationContext(), holiday_push.get(1)[2], Toast.LENGTH_SHORT);
+                    //toast.show();
+                    PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",true);
+                }else{
+                    holiday_push.clear();
+                    PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
+                    //Toast toast = Toast.makeText(getApplicationContext(), "공휴일 체크 해제", Toast.LENGTH_SHORT);
+                    //toast.show();
+                    intent = new Intent(getApplicationContext(),CalendarView.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        });
+        if(PreferenceManager.getBoolean(getApplicationContext(),"holidayBox")){
+            holidayBox.setChecked(true);
+            holiday_push.addAll(Arrays.asList(holiday));
+            HolidayArray();
+            //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
+            //toast.show();
+            PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",true);
+        }
+        else{
+            holidayBox.setChecked(false);
+            holiday_push.clear();
+            PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
+            //Toast toast = Toast.makeText(getApplicationContext(), "공휴일 체크 해제된 상태", Toast.LENGTH_SHORT);
+            //toast.show();
+        }
+
+        //학사일정 이벤트
+        schoolBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"schoolBox"));
+        schoolBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(schoolBox.isChecked()){
+                    school_push.addAll(Arrays.asList(school));
+                    Array();
+                    //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
+                    //toast.show();
+                    PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",true);
+                }else{
+                    school_push.clear();
+                    PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
+                    //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제", Toast.LENGTH_SHORT);
+                    //toast.show();
+                    intent = new Intent(getApplicationContext(),CalendarView.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        });
+        if(PreferenceManager.getBoolean(getApplicationContext(),"schoolBox")){
+            schoolBox.setChecked(true);
+            Collections.addAll(school_push, school);
+            Array();
+            //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
+            //toast.show();
+            PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",true);
+        }
+        else{
+            schoolBox.setChecked(false);
+            school_push.clear();
+            PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
+            //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제된 상태", Toast.LENGTH_SHORT);
+            //toast.show();
+        }
 
 
         cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
