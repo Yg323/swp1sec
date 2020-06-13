@@ -4,11 +4,14 @@ public class cal_title_data {
     private String cal_title;
     private String usr_email;
     private  int performance;
+    private String id;
 
 
 
-    public cal_title_data(String cal_title) {
+
+    public cal_title_data(String cal_title,String id) {
         this.cal_title = cal_title;
+        this.id=id;
     }
 
     public void settitle(String cal_title) {
@@ -34,4 +37,13 @@ public class cal_title_data {
     public  int getperformance() {
         return performance;
     }
+
+    public void setid(String id) {
+        this.id = id;
+    }
+
+    public String getid() {
+        return id;
+    }
+
 }

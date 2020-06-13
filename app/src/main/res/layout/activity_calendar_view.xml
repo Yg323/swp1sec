@@ -568,7 +568,7 @@
                         android:text="   뱃지"/>
 
                     <TextView
-                        android:id="@+id/badge"
+                        android:id="@+id/badge_text"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

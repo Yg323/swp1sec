@@ -78,10 +78,19 @@
         <activity android:name="com.example.swp1sec.badge_dialog"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.habit_badge_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.todohabit_badge_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
         <activity android:name="com.example.swp1sec.cate_dataview"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
         <activity android:name="com.example.swp1sec.color_theme_dialog"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.Update_calendar"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
         <activity android:name="com.example.swp1sec.DayRemind"
@@ -90,6 +99,7 @@
         <activity android:name=".WeekRemind"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor"/>
+
 
         <!--상점-->
         <activity android:name=".Store_main"
@@ -126,6 +136,9 @@
         </activity>
 
         <receiver android:name=".Badge_Alarm"/>
+        <receiver android:name=".TodoHabit_Badge_Alarm"/>
+        <receiver android:name=".Habit_Badge_Alarm"/>
+
         <receiver android:name="com.example.swp1sec.Ex_AlarmReceiver"/>
         <receiver android:name="com.example.swp1sec.Nm_AlarmReceiver"/>
         <receiver android:name="com.example.swp1sec.Sbj_AlarmReceiver"/>

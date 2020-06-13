@@ -18,10 +18,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -61,6 +63,8 @@ public class badge_dialog extends AppCompatActivity {
     private TimePicker timepicker;
     private AlarmManager alarmManager;
     private int badgehour, badgeminute;
+    TextView todo_text,badge;
+
 
     //추가
     public static Context mContext;
@@ -69,6 +73,9 @@ public class badge_dialog extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        todo_text = findViewById(R.id.todotimepicker_text);
+
+
         //추가
         mContext = this;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -80,103 +87,34 @@ public class badge_dialog extends AppCompatActivity {
 
         //badge 투두
 
-
         email = PreferenceManager.getString(badge_dialog.this, "email");
         badge_todo_Data badge_todotask = new badge_todo_Data(); //밑에 만들었던 클래스 만들고
         badge_todotask.execute(badge_todoURL, email); //task 실행
 
-        todo = findViewById(R.id.badge_todo_);
+
         //badge 해빗
         email = PreferenceManager.getString(badge_dialog.this, "email");
         badge_habit_Data badge_habittask = new badge_habit_Data(); //밑에 만들었던 클래스 만들고
         badge_habittask.execute(badge_habitURL, email); //task 실행
 
-        todo_habit = findViewById(R.id.badge_todo_habit);
-        todo_habit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                thread = new Thread() {
-
-                    public void run() {
-                        while (true) {
-                            try {
-                                sleep(10000);
-
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            todohabithandler.sendEmptyMessage(0);
-                        }
-                    }
-                };
-                thread.start();
-
-                finish();
-
-            }
-        });
-
-
-// 해빗 뱃지
-        habit = findViewById(R.id.badge_habit);
-        habit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                thread = new Thread() {
-
-                    public void run() {
-                        while (true) {
-                            try {
-                                sleep(10000);
-
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            habithandler.sendEmptyMessage(0);
-                        }
-                    }
-                };
-                thread.start();
-
-                finish();
-
-            }
-        });
-
-//투두 뱃지
-        todo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               /* todocreateNotification(badge_todo_data.getbadge_todo());
-                finish();*/
-               setAlarm();
-
-                /*thread = new Thread() {
-                    public void run() {
-                        while (true) {
-                            try {
-                                sleep(5000);
-
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            todohandler.sendEmptyMessage(0);
-                        }
-                    }
-                };
-                thread.start();
-                thread.interrupt();
-                finish();*/
-
-            }
-        });
 
     }
     public void setAlarm(){
+
         todocreateNotification(badge_todo_data.getbadge_todo());
+        Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+    public void habitsetAlarm(){
+
+
+        habitcreateNotification(badge_habit_data.getbadge_habit());
+        Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+    public void todohabitsetAlarm(){
+
+        todohabitcreateNotification(badge_habit_data.getbadge_habit() + badge_todo_data.getbadge_todo());
         Toast.makeText(this, "호출성공", Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -215,7 +153,7 @@ public class badge_dialog extends AppCompatActivity {
         }
     };
     /*todo+habit badge*/
-    public static final String todohabitnotificationChannelId = "habit";
+    public static final String todohabitnotificationChannelId = "todohabit";
 
     @TargetApi(Build.VERSION_CODES.O)
     public void todohabitcreateNotificationChannel() {
@@ -614,6 +552,8 @@ public class badge_dialog extends AppCompatActivity {
         }
     }
 
+
+
     public void regist(View view) {
         Intent intent = new Intent(this, Badge_Alarm.class);
         PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -621,24 +561,35 @@ public class badge_dialog extends AppCompatActivity {
             badgehour = timepicker.getHour();
             badgeminute = timepicker.getMinute();
         }
+
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, badgehour);
         calendar.set(Calendar.MINUTE, badgeminute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+
         //지정한 시간에 매일 알림
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
-        Toast.makeText(this, "알람설정 완료", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, badgehour+":"+badgeminute+"알람설정 완료", Toast.LENGTH_SHORT).show();
+        finish();
+
+
+
 
     }
 
-    /*public void unregist(View view) {
+    public void unregist(View view) {
         Intent intent = new Intent(this, Badge_Alarm.class);
         PendingIntent plntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(plntent);
+        Toast.makeText(this, "할 일 알람취소 완료", Toast.LENGTH_SHORT).show();
+        removeNotification();
+        finish();
 
-    }*/
+
+    }
 
 
 }

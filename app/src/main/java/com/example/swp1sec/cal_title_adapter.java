@@ -18,10 +18,18 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     private ArrayList<cal_title_data> mList = null;
     private Activity context = null;
 
+    //title listener
+    public interface OnClickListener{
+        void onClick(View v, int position);
+    }
+    private OnClickListener mListener1 =null;
+    public void setOnClickListener(OnClickListener listener){
+        this.mListener1=listener;
+    }
     //checkbox listener
 
     public interface OnCheckedChangeListener {
-        void onCheckedChanged (CompoundButton compoundButton, int position);
+        void onCheckedChanged (CompoundButton compoundButton,int view, int position);
     }
     private cal_title_adapter.OnCheckedChangeListener mListener = null;
 
@@ -78,10 +86,16 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CustomViewHolder viewholder, final int position) {
+    public void onBindViewHolder(final CustomViewHolder viewholder, final int position) {
         viewholder.cal_title.setText(mList.get(position).gettitle());
         if(mList.get(position).getperformance()==1)viewholder.cal_check.setChecked(true);
         else if ((mList.get(position).getperformance()==0)) viewholder.cal_check.setChecked(false);
+        viewholder.cal_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener1 !=null) mListener1.onClick(viewholder.cal_title,viewholder.getAdapterPosition());
+            }
+        });
 
         viewholder.cal_check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -118,9 +132,10 @@ public class cal_title_adapter extends RecyclerView.Adapter<cal_title_adapter.Cu
                         }
                     }
                 }
-                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,position);
+                if(mListener != null)mListener.onCheckedChanged(viewholder.cal_check,0,position);
             }
         });
+
     }
     @Override
     public int getItemCount() {
