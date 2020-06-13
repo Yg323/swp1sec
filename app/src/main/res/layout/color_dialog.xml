@@ -13,6 +13,7 @@
             android:id="@+id/titleTV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:text="색상 추가"
             android:textSize="20sp"/>
     </LinearLayout>
@@ -21,57 +22,112 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp">
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="5dp">
         <ImageButton
-            android:id="@+id/ibtn_red"
+            android:id="@+id/ibtn_basic1"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/circle_red_stroke"/>
+            android:layout_marginRight="15dp"
+            android:background="@drawable/circle_000000"/>
 
         <ImageButton
-            android:id="@+id/ibtn_orange"
+            android:id="@+id/ibtn_basic2"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/circle_orange_stroke"/>
+            android:layout_marginRight="15dp"
+            android:background="@drawable/circle_ccc5ff"/>
 
         <ImageButton
-            android:id="@+id/ibtn_yellow"
+            android:id="@+id/ibtn_basic3"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/circle_yellow_stroke"/>
+            android:layout_marginRight="15dp"
+            android:background="@drawable/circle_ff9595"/>
 
         <ImageButton
-            android:id="@+id/ibtn_green"
+            android:id="@+id/ibtn_basic4"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/circle_green_stroke"/>
+            android:layout_marginRight="15dp"
+            android:background="@drawable/circle_ffffb4"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="5dp">
+        <ImageButton
+            android:id="@+id/ibtn_sbasic1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_ff5959"/>
 
         <ImageButton
-            android:id="@+id/ibtn_blue"
+            android:id="@+id/ibtn_sbasic2"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/circle_blue_stroke"/>
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_fdff6a"/>
 
         <ImageButton
-            android:id="@+id/ibtn_purple"
+            android:id="@+id/ibtn_sbasic3"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/circle_puple_stroke"/>
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_5b4fff"/>
 
+        <ImageButton
+            android:id="@+id/ibtn_sbasic4"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_82ff79"/>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|center_vertical"
+        android:padding="5dp">
+        <ImageButton
+            android:id="@+id/ibtn_spremium1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_ff78f0"/>
 
+        <ImageButton
+            android:id="@+id/ibtn_spremium2"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_a1fffe"/>
 
+        <ImageButton
+            android:id="@+id/ibtn_spremium3"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_ba7cff"/>
+
+        <ImageButton
+            android:id="@+id/ibtn_spremium4"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/lock_ffa11a"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
         android:orientation="horizontal">
 
