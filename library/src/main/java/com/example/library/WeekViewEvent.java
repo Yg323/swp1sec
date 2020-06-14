@@ -34,6 +34,8 @@ public class WeekViewEvent implements Parcelable {
     private int mDivision;
     private int ID;
 
+    private int Ndivision;
+
     public WeekViewEvent(){
 
     }
@@ -137,6 +139,7 @@ public class WeekViewEvent implements Parcelable {
         sTime = in.readString();
         eTime = in.readString();
         ID = in.readInt();
+        //Ndivision = in.readInt();
     }
 
     public static final Creator<WeekViewEvent> CREATOR = new Creator<WeekViewEvent>() {
@@ -151,6 +154,14 @@ public class WeekViewEvent implements Parcelable {
         }
     };
 
+
+    public int getNdivision() {
+        return Ndivision;
+    }
+
+    public void setNdivision(int ndivision) {
+        Ndivision = ndivision;
+    }
 
     public String getsTime() {
         return sTime;
@@ -356,5 +367,6 @@ public class WeekViewEvent implements Parcelable {
         dest.writeString(sTime);
         dest.writeString(eTime);
         dest.writeInt(ID);
+        //dest.writeInt(Ndivision);
     }
 }

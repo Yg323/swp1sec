@@ -320,7 +320,7 @@ public class CreateSubject extends AppCompatActivity {
                 String memo = et_subject_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
-                String enddate = end_date.getText().toString();
+                //String enddate = end_date.getText().toString();
                 String endtime = end_time.getText().toString();
                 int getcateid = getIntent().getIntExtra("cateid", 1);
                 int a_year, a_month, a_date, a_hour, a_hour_24, a_minute;
@@ -367,7 +367,7 @@ public class CreateSubject extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, division, responseListener);
+                CreateSubjectRequest createSubjectRequest = new CreateSubjectRequest(email, title, memo, date, time, endtime, importance, getcateid, division, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateSubject.this);
                 queue.add(createSubjectRequest);
 

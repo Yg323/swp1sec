@@ -51,7 +51,7 @@ import java.util.Locale;
 
 public class CreateNormal extends AppCompatActivity {
     private EditText et_normal_title,et_normal_memo;
-    private TextView start_date, start_time, end_date, end_time;
+    private TextView start_date, start_time, end_time;
     private Button btn_normal_save, btn_normal_cancel, btn_nor, btn_work;
     private RatingBar nor_star;
     private AlertDialog dialog;
@@ -238,7 +238,7 @@ public class CreateNormal extends AppCompatActivity {
                 String memo = et_normal_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
-                String enddate = end_date.getText().toString();
+                //String enddate = end_date.getText().toString();
                 String endtime = end_time.getText().toString();
                 int division = PreferenceManager.getInt(CreateNormal.this, "nor");
                 int importance = (int) nor_star.getRating();
@@ -278,7 +278,7 @@ public class CreateNormal extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateNormalRequest createNormalRequest = new CreateNormalRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, division, responseListener);
+                CreateNormalRequest createNormalRequest = new CreateNormalRequest(email, title, memo, date, time, endtime, importance, getcateid, division, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateNormal.this);
                 queue.add(createNormalRequest);
 

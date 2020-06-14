@@ -58,7 +58,7 @@ import java.util.Map;
 
 public class CreateNormalEdit extends AppCompatActivity {
     private EditText et_normal_title,et_normal_memo;
-    private TextView start_date, start_time, end_date, end_time;
+    private TextView start_date, start_time, end_time;
     private Button btn_normal_save, btn_normal_cancel, btn_nor, btn_work;
     private RatingBar nor_star;
     private AlertDialog dialog;
@@ -117,7 +117,28 @@ public class CreateNormalEdit extends AppCompatActivity {
         r1 = findViewById(R.id.radio_nor_check);
         r2 = findViewById(R.id.radio_work_check);
 
-        PreferenceManager.setInt(CreateNormalEdit.this, "nor", 0);
+        //저장된 값으로 설정되어 창에 뜨게끔.
+        //event = getIntent().getParcelableExtra()
+        event = (WeekViewEvent)getIntent().getParcelableExtra("eventnor");
+        //int Ndivision = event.getNdivision();//노멀 일정의 division을 가져오는 것임.
+
+        //Log.d("디비전", String.valueOf(Ndivision));
+
+        et_normal_title.setText(event.getName());
+        et_normal_memo.setText(event.getmMemo());
+        start_date.setText(event.getmStartDate());
+        start_time.setText(event.getsTime().substring(0, 5));
+        //end_date.setText(event.getmEndDate());
+        end_time.setText(event.geteTime().substring(0, 5));
+        nor_star.setRating(Float.valueOf(event.getmStar()));
+
+        /*if(Ndivision == 0){
+            radioGroup.check(R.id.radio_nor_check);
+        }else if(Ndivision == 1){
+            radioGroup.check(R.id.radio_work_check);
+        }*/
+
+        //PreferenceManager.setInt(CreateNormalEdit.this, "nor", 0);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -133,19 +154,6 @@ public class CreateNormalEdit extends AppCompatActivity {
                 }
             }
         });
-
-        //저장된 값으로 설정되어 창에 뜨게끔.
-        //event = getIntent().getParcelableExtra()
-        event = (WeekViewEvent)getIntent().getParcelableExtra("eventnor");
-        et_normal_title.setText(event.getName());
-        et_normal_memo.setText(event.getmMemo());
-        start_date.setText(event.getmStartDate());
-        start_time.setText(event.getsTime().substring(0, 5));
-        end_date.setText(event.getmEndDate());
-        end_time.setText(event.geteTime().substring(0, 5));
-        nor_star.setRating(Float.valueOf(event.getmStar()));
-
-
 
         t_picker = (TimePicker) findViewById(R.id.timePicker);
         t_picker.setIs24HourView(true);
@@ -244,7 +252,7 @@ public class CreateNormalEdit extends AppCompatActivity {
                 final String memo = et_normal_memo.getText().toString();
                 final String date = start_date.getText().toString();
                 final String time = start_time.getText().toString();
-                final String enddate = end_date.getText().toString();
+                //final String enddate = end_date.getText().toString();
                 final String endtime = end_time.getText().toString();
                 final int division = PreferenceManager.getInt(CreateNormalEdit.this, "nor");
                 final int importance = (int) nor_star.getRating();
@@ -300,7 +308,7 @@ public class CreateNormalEdit extends AppCompatActivity {
                         params.put("date", date);
                         params.put("time", time);
                         params.put("importance", String.valueOf(importance));
-                        params.put("enddate", enddate);
+                        //params.put("enddate", enddate);
                         params.put("endtime", endtime);
                         params.put("division", String.valueOf(division));
 

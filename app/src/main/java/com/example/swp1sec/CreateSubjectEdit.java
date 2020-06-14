@@ -65,7 +65,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
     //private EditText mEditTextMemo;
     //private EditText mEditTextEnd;
     private TextView Result;
-    private TextView start_date, start_time, end_date, end_time;
+    private TextView start_date, start_time, end_time;
     //알람
     private TextView alm_set, alm_date_set;
     Date currentDateTime;
@@ -168,7 +168,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
         et_subject_memo.setText(event.getmMemo());
         start_date.setText(event.getmStartDate());
         start_time.setText(event.getsTime().substring(0, 5));
-        end_date.setText(event.getmEndDate());
+        //end_date.setText(event.getmEndDate());
         end_time.setText(event.geteTime().substring(0, 5));
         sub_star.setRating(Float.valueOf(event.getmStar()));
 
@@ -309,7 +309,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
                 final String memo = et_subject_memo.getText().toString();
                 final String date = start_date.getText().toString();
                 final String time = start_time.getText().toString();
-                final String enddate = end_date.getText().toString();
+                //final String enddate = end_date.getText().toString();
                 final String endtime = end_time.getText().toString();
                 final int importance = (int) sub_star.getRating();
                 final int getcateid = getIntent().getIntExtra("cateid", 1);
@@ -357,7 +357,7 @@ public class CreateSubjectEdit extends AppCompatActivity {
                         params.put("date", date);
                         params.put("time", time);
                         params.put("importance", String.valueOf(importance));
-                        params.put("enddate", enddate);
+                        //params.put("enddate", enddate);
                         params.put("endtime", endtime);
 
                         return params;

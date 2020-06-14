@@ -47,7 +47,7 @@ import java.util.Locale;
 
 public class CreateExercise extends AppCompatActivity {
     private EditText et_exercise_title,et_exercise_memo;
-    private TextView start_date, start_time, end_date, end_time;
+    private TextView start_date, start_time, end_time;
     private Button btn_exercise_save, btn_exercise_cancel;
     private RatingBar ex_star;
     private AlertDialog dialog;
@@ -207,7 +207,7 @@ public class CreateExercise extends AppCompatActivity {
                 String memo = et_exercise_memo.getText().toString();
                 String date = start_date.getText().toString();
                 String time = start_time.getText().toString();
-                final String enddate = end_date.getText().toString();
+                //final String enddate = end_date.getText().toString();
                 String endtime = end_time.getText().toString();
                 int a_year, a_month, a_date, a_hour, a_hour_24, a_minute;
                 String am_pm;
@@ -230,7 +230,7 @@ public class CreateExercise extends AppCompatActivity {
                             JSONObject jasonObject = new JSONObject(response);//Register2 php에 response
                             boolean success = jasonObject.getBoolean("success");//Register2 php에 sucess
                             if (success) {//저장 완료
-                                Log.d(TAG, "test = " + enddate);
+                                //Log.d(TAG, "test = " + enddate);
                                 Toast toast = Toast.makeText(getApplicationContext(), "운동이 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
@@ -251,7 +251,7 @@ public class CreateExercise extends AppCompatActivity {
                     }
                 };
                 //서버로 volley를 이용해서 요청을 함
-                CreateExerciseRequest createExerciseRequest = new CreateExerciseRequest(email, title, memo, date, time, enddate, endtime, importance, getcateid, responseListener);
+                CreateExerciseRequest createExerciseRequest = new CreateExerciseRequest(email, title, memo, date, time, endtime, importance, getcateid, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateExercise.this);
                 queue.add(createExerciseRequest);
 

@@ -54,7 +54,7 @@ import java.util.Map;
 
 public class CreateExerciseEdit extends AppCompatActivity {
     private EditText et_exercise_title,et_exercise_memo;
-    private TextView start_date, start_time, end_date, end_time;
+    private TextView start_date, start_time, end_time;
     private Button btn_exercise_save, btn_exercise_cancel;
     private RatingBar ex_star;
     private AlertDialog dialog;
@@ -120,7 +120,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
         et_exercise_memo.setText(event.getmMemo());
         start_date.setText(event.getmStartDate());
         start_time.setText(event.getsTime().substring(0, 5));
-        end_date.setText(event.getmEndDate());
+        //end_date.setText(event.getmEndDate());
         end_time.setText(event.geteTime().substring(0, 5));
         ex_star.setRating(Float.valueOf(event.getmStar()));
 
@@ -219,7 +219,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
                 final String memo = et_exercise_memo.getText().toString();
                 final String date = start_date.getText().toString();
                 final String time = start_time.getText().toString();
-                final String enddate = end_date.getText().toString();
+                //final String enddate = end_date.getText().toString();
                 final String endtime = end_time.getText().toString();
                 int a_year, a_month, a_date, a_hour, a_hour_24, a_minute;
                 String am_pm;
@@ -272,7 +272,7 @@ public class CreateExerciseEdit extends AppCompatActivity {
                         params.put("date", date);
                         params.put("time", time);
                         params.put("importance", String.valueOf(importance));
-                        params.put("enddate", enddate);
+                        //params.put("enddate", enddate);
                         params.put("endtime", endtime);
                         //params.put("division", String.valueOf(division));
 

@@ -2,7 +2,8 @@ package com.example.swp1sec;
 
 public class WeekCalendarSub {
     private String title;
-    private int division;
+    private int division;//카테고리의 디비전
+    private int Ndivision;//노멀 일정의 디비전
     private String color;
     private String date;
     private String time;
@@ -22,6 +23,14 @@ public class WeekCalendarSub {
     private String endtime;
 
     private int startday;
+
+    public int getNdivision() {
+        return Ndivision;
+    }
+
+    public void setNdivision(int ndivision) {
+        Ndivision = ndivision;
+    }
 
     public int getStar() {
         return star;

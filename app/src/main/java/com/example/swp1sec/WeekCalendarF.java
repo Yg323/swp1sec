@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -61,7 +62,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     //버튼 및 DB json 내용
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private Intent intent;
-    private String catejsonString;
+    private String weekjsonString;
     private static String WEEKURL = "http://159.89.193.200//getweek.php";
     private static String TAG = "getweek";
 
@@ -75,6 +76,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
     //이메일
     String email;
+    String calendar_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +117,11 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
 
         email =  PreferenceManager.getString(this,"email");
-        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+        calendar_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
 
         WeekCalendarF.GetData weektask = new WeekCalendarF.GetData(); //밑에 만들었던 클래스 만들고
 
-        weektask.execute(WEEKURL, email,cal_title); //task 실행
+        weektask.execute(WEEKURL, email, calendar_title); //task 실행
 
 
 
@@ -504,7 +506,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 //mTextViewResult.setText(errorString);
             }
             else {
-                catejsonString = result; //크롬으로 확인했던 문자열 받아오고
+                weekjsonString = result; //크롬으로 확인했던 문자열 받아오고
                 ShowResult(); //밑에 ShowResult함수 실행
             }
         }
@@ -575,15 +577,15 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         String TAG_TIME = "time";
         String TAG_ENDDATE = "enddate";
         String TAG_ENDTIME = "endtime";
-        String TAG_DIVISION = "division";
-
+        String TAG_DIVISION = "division";//카테고리 division을 말함.
+        String TAG_NDIVISION = "Ndivision";//노멀 일정 divsion을 가져옴.
         String TAG_ID = "id";
         String TAG_COLOR = "color";
         String TAG_MEMO = "memo";
         String TAG_IMPORTANCE = "importance";
 
         try {
-            JSONObject jsonObject = new JSONObject(catejsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            JSONObject jsonObject = new JSONObject(weekjsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
 
             for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
@@ -597,8 +599,21 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 String EndDate = item.getString(TAG_ENDDATE);
                 String EndTime = item.getString(TAG_ENDTIME);
                 int ID = item.getInt(TAG_ID);
+
+
                 int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
+
+                /*String Ndivision = null;
+                int iNdivision = 0;
+
+                if(TextUtils.isEmpty(TAG_NDIVISION)){
+                    //Ndivision = "3";
+
+                }else
+                    Ndivision = item.getString(TAG_NDIVISION);
+
+                iNdivision = Integer.valueOf(Ndivision);*/
 
                 String Memo = item.getString(TAG_MEMO);
                 int Importance = item.getInt(TAG_IMPORTANCE);
@@ -617,6 +632,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 we.setId(ID);
                 we.setMemo(Memo);
                 we.setStar(Importance);
+
+                //we.setNdivision(iNdivision);
 
                 eventList.add(we);
                 mWeekView.notifyDatasetChanged();
@@ -649,6 +666,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             String Memo = eventList.get(i).getMemo();
             int ID = eventList.get(i).getId();
 
+            int NDivision = eventList.get(i).getNdivision();
 
             Random rndId = new Random();
             int Id = rndId.nextInt(3000);
@@ -669,7 +687,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             //int edate = Integer.parseInt(EndDate.substring(8,10));
 
 
-            if(StartTime != "null"){
+            if(!StartTime.equals("null")){
                 shour = Integer.parseInt(StartTime.substring(0,2));
                 sminute = Integer.parseInt(StartTime.substring(3,5));
             }else{
@@ -677,7 +695,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 sminute = 0;
             }
 
-            if(EndTime != "null"){
+            if(!EndTime.equals("null")){
                 ehour = Integer.parseInt(EndTime.substring(0,2));
                 eminute = Integer.parseInt(EndTime.substring(3,5));
 
@@ -723,6 +741,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             weekViewEvent.setmEndDate(EndDate);
             weekViewEvent.seteTime(EndTime);
             weekViewEvent.setID(ID);
+
+            weekViewEvent.setNdivision(NDivision);
             myEvents.add(weekViewEvent);
 
             //mWeekView.notifyDatasetChanged();
@@ -743,6 +763,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             {
                 Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
                 deleteCalendarData(String.valueOf(idd), division);
+                intent = new Intent(getApplicationContext(),WeekCalendarF.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -757,6 +780,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+
     }
 
 
