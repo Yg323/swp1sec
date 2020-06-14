@@ -61,9 +61,7 @@ import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,33 +71,14 @@ import java.util.Random;
 
 public class CalendarView extends AppCompatActivity {
 
-    //학사일정
-    private String[][] school = {{"1", "1학기 개강일", "2019-03-16"}, {"2", "1학기 수강신청 확인 및정정", "2019-03-16"}, {"3", "1학기 수강신청 확인 및정정", "2020-03-17"}, {"4", "1학기 수강신청 확인 및정정", "2020-03-18"}, {"5", "1학기 수강신청 확인 및정정", "2020-03-19"}, {"6", "1학기 수업일수", "2020-04-08"}, {"7", "1학기 중간시험시작", "2020-04-28"},  {"8", "근로자의 날", "2020-05-01"}, {"9", "1학기 중간시험 끝", "2020-05-08"}, {"10", "1학기 교육실습 시작", "2020-05-11"},
-            {"11", "1학기 교육실습 끝", "2020-06-05"}, {"12", "1학기 기말시험 시작", "2020-06-22"}, {"13", "1학기 기말시험 끝", "2020-07-01"}, {"14", "1학기 종강일", "2020-07-01"}, {"15", "하계 계절학기 시작", "2020-07-13"}, {"16", "하계방학 시작", "2020-07-14"}, {"17", "하계 계절학기 끝", "2020-07-31"}, {"18", "하계방학 종료", "2020-08-31"},  {"19", "2학기 복학신청 시작", "2020-07-14"}, {"20", "2학기 복학신청 끝", "2020-09-24"},
-            {"21", "2학기 휴학신청 시작", "2020-07-14"},  {"22", "2학기 휴학신청 끝", "2020-07-24"}, {"23", "2학기 수강신청 시작", "2020-08-07"}, {"24", "2학기 수강신청 끝", "2020-08-12"}, {"25", "2학기 재학생등록 시작", "2020-08-25"}, {"26", "2학기 재학생등록 끝", "2020-08-28"}, {"27", "2019학년도 후기 학위수여식", "2020-08-28"}, {"28", "2학기 개강일 시작", "2020-09-01"}, {"29", "2학기 개강일 끝", "2020-09-07"}, {"30", "개척 대동제 시작", "2020-10-14"},
-            {"31", "개척 대동제 끝", "2020-10-16"}, {"32", "개교 기념일", "2020-10-20"}, {"33", "2학기 중간시험 시작", "2020-10-26"}, {"34", "2학기 중간시험 끝", "2020-10-30"}, {"35", "2021년 재입학 신청 시작", "2020-12-01"}, {"36", "2021년 재입학 신청 끝", "2020-12-11"}, {"37", "2학기 기말시험 시작", "2020-12-07"},{"38", "2학기 기말시험 끝", "2020-12-21"}, {"39", "2학기 종강", "2020-12-21"}, {"40", "동계방학 시작", "2020-12-22"},
-            {"41", "동계 계절학기 시작", "2020-12-28"}};
-    private ArrayList<String[]> school_push;
-
-    //음력
-    private String[][] lunar = {{"1", "음력 12.15", "2020-01-09"},{"2", "음력 1.1", "2020-01-25"},{"3", "음력 1.15", "2020-02-08"},{"4", "음력 2.1", "2020-02-24"},{"5", "음력 2.15", "2020-03-09"},{"6", "음력 3.1", "2020-03-24"},{"7", "음력 3.15", "2020-04-07"},{"8", "음력 4.1", "2020-04-23"},{"9", "음력 4.15", "2020-05-07"},{"10", "음력 5.1", "2020-06-21"},
-            {"11", "음력 5.15", "2020-07-05"},{"12", "음력 6.1", "2020-07-21"}, {"13", "음력 6.15", "2020-08-04"},{"14", "음력 7.1", "2020-08-19"},{"15", "음력 7.15", "2020-09-02"},{"16", "음력 8.1", "2020-09-17"},{"17", "음력 8.15", "2020-10-01"},{"350", "음력 9.1", "2020-10-17"},{"18", "음력 9.15", "2020-10-31"},{"19", "음력 10.1", "2020-11-15"},{"20", "음력 10.15", "2020-11-29"},
-            {"21", "음력 11.1", "2020-12-15"},{"22", "음력 11.15", "2020-12-29"}};
-    private ArrayList<String[]> lunar_push;
-
-    //공휴일
-    private String[][] holiday = {{"1", "신정", "2020-01-01"}, {"2", "설날", "2020-01-24"}, {"3", "설날", "2020-01-25"}, {"4", "설날", "2020-01-26"}, {"5", "대체 휴일", "2020-01-27"}, {"6", "대체 휴일", "2020-03-01"}, {"7", "부처님 오신날", "2020-04-30"}, {"8", "어린이날", "2020-05-05"}, {"9", "현충일", "2020-06-06"}, {"10", "광복절", "2020-08-15"},
-            {"11", "추석", "2020-09-30"}, {"12", "추석", "2020-10-01"}, {"13", "추석", "2020-10-02"}, {"14", "개천절", "2020-10-03"}, {"15", "한글날", "2020-10-09"}, {"16", "크리스마스", "2020-12-25"}};
-    private ArrayList<String[]> holiday_push;
-
-
+    private final static int CREATE_EVENT_REQUEST_CODE = 100;
     private ImageButton ibtn_calender, ibtn_calenderlist, ibtn_calenderplus, ibtn_tracker, ibtn_store;
     private String[] mShortMonths;
     private com.example.swp1sec.CalendarViewM mCalendarView;
     private CalendarDialog mCalendarDialog;
     private Intent intent;
     private CalendarDialog.OnCalendarDialogListener mListener;
-
+    public static TextView badge_time_text;
     //setting
     RecyclerView cateRecyclerView, calRecyclerView;
     private Intent cateintent;
@@ -140,22 +119,38 @@ public class CalendarView extends AppCompatActivity {
     private String check1, check2, check3;
 
 
-    //체크박스
-    private CheckBox lunarBox, holidayBox, schoolBox;
-    private List<Event> ArrEventList = new ArrayList<>();
+    //개인 설정 공휴일
+    private String holidayjsonString;
+    private static String HOLIDAYURL = "http://159.89.193.200//getHoliday.php";
+    private static String HOLIDAYTAG = "getholiday";
+    private List<Event> hEventList = new ArrayList<>();
+    private Calendar hCalendar;
+
+    //개인 설정 음력
+    private String lunarjsonString;
+    private static String LURNARURL = "http://159.89.193.200//getLunar.php";
+    private static String LURNARTAG = "getlunar";
+    private List<Event> lEventList = new ArrayList<>();
+    private Calendar lCalendar;
+
+    //개인 설정 학사일정
+    private String academicjsonString;
+    private static String ACAURL = "http://159.89.193.200//getAcademic.php";
+    private static String ACATAG = "getacademic";
+    private List<Event> aEventList = new ArrayList<>();
+    private Calendar aCalendar;
+
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, CalendarView.class);
+    }
 
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mShortMonths = new DateFormatSymbols().getShortMonths();
-
         setContentView(R.layout.activity_calendar_view);
-
-        //학사.공휴일,음력 푸시
-        school_push = new ArrayList<String[]>();
-        holiday_push = new ArrayList<String[]>();
-        lunar_push = new ArrayList<String[]>();
 
         ibtn_calender = findViewById(R.id.ibtn_calendar);
         ibtn_calenderlist = findViewById(R.id.ibtn_calendarlist);
@@ -166,6 +161,8 @@ public class CalendarView extends AppCompatActivity {
         setting_theme = findViewById(R.id.setting_theme);
         setting_start_day=findViewById(R.id.setting_start_day);
         badge_text = findViewById(R.id.badge_text);
+        badge_time_text=findViewById(R.id.badge_time_text);
+
         badge_text.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -216,11 +213,59 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
+        //맨 처음 세팅값.
+        //PreferenceManager.setString(CalendarView.this, "check1", "l");
+        //PreferenceManager.setString(CalendarView.this, "check2", "h");
+        //PreferenceManager.setString(CalendarView.this, "check3", "u");
+
+        check1 = PreferenceManager.getString(CalendarView.this, "check1");
+        check2 = PreferenceManager.getString(CalendarView.this, "check2");
+        check3 = PreferenceManager.getString(CalendarView.this, "check3");
 
         //개인 설정 체크박스
-        lunarBox = findViewById(R.id.lunar);
-        holidayBox = findViewById(R.id.holiday);
-        schoolBox = findViewById(R.id.univer);
+        CheckBox lunarBox = findViewById(R.id.lunar);
+        CheckBox holidayBox = findViewById(R.id.holiday);
+        CheckBox univerBox = findViewById(R.id.univer);
+
+        if(check1 == "l"){
+            lunarBox.setChecked(false);
+        }else
+            lunarBox.setChecked(true);
+        if(check2 == "h"){
+            lunarBox.setChecked(false);
+        }else
+            lunarBox.setChecked(true);
+        if(check3 == "u"){
+            lunarBox.setChecked(false);
+        }else
+            lunarBox.setChecked(true);
+
+
+        //박스 선택시 preferencemanager에 값 넘겨줌.
+        if(lunarBox.isChecked()){
+            PreferenceManager.setString(CalendarView.this, "check1", "ll");
+            lunarBox.setChecked(true);
+        }else{
+            PreferenceManager.setString(CalendarView.this, "check1", "l");
+            lunarBox.setChecked(false);
+        }
+
+        if(holidayBox.isChecked()){
+            PreferenceManager.setString(CalendarView.this, "check2", "hh");
+            holidayBox.setChecked(true);
+        }else{
+            PreferenceManager.setString(CalendarView.this, "check2", "h");
+            holidayBox.setChecked(false);
+        }
+
+        if(univerBox.isChecked()){
+            PreferenceManager.setString(CalendarView.this, "check3", "uu");
+            univerBox.setChecked(true);
+        }else{
+            PreferenceManager.setString(CalendarView.this, "check3", "u");
+            univerBox.setChecked(false);
+        }
+
 
 
         //툴바
@@ -424,11 +469,15 @@ public class CalendarView extends AppCompatActivity {
         //월간
         monthArrayList = new ArrayList<>();
         monthGetData monthtask = new monthGetData(); //밑에 만들었던 클래스 만들고
-        monthtask.execute(MONTHURL, email, calendar_title); //task 실행
+        monthtask.execute(MONTHURL, email); //task 실행
 
-
+        //음력, 공휴일, 학사일정
+        //personalArrayList = new ArrayList<>();
+        personalGetData personaltask = new personalGetData();
+        personaltask.execute(HOLIDAYURL, check1, check2, check3);
 
         //setting
+
 
         drawerLayout = findViewById(R.id.activity_calendar_view);
         drawer_left = findViewById(R.id.drawer_left);
@@ -514,123 +563,7 @@ public class CalendarView extends AppCompatActivity {
         });
 
 
-//음력 이벤트
-        lunarBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox"));
-        lunarBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(lunarBox.isChecked()){
-                    lunar_push.addAll(Arrays.asList(lunar));
-                    LunarArray();
-                    //Toast toast = Toast.makeText(getApplicationContext(), lunar_push.get(1)[2], Toast.LENGTH_SHORT);
-                    //toast.show();
-                    PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",true);
-                }else{
-                    lunar_push.clear();
-                    PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
-                    //Toast toast = Toast.makeText(getApplicationContext(), "음력 체크 해제", Toast.LENGTH_SHORT);
-                    //toast.show();
-                    intent = new Intent(getApplicationContext(),CalendarView.class);
-                    startActivity(intent);
-                    lunar_push.clear();
-                    finish();
-                }
 
-            }
-        });
-        if(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox")){
-            lunarBox.setChecked(true);
-            lunar_push.addAll(Arrays.asList(lunar));
-            LunarArray();
-            //Toast toast = Toast.makeText(getApplicationContext(), lunar_push.get(1)[2], Toast.LENGTH_SHORT);
-            //toast.show();
-            PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",true);
-        }
-        else{
-            lunarBox.setChecked(false);
-            //lunar_push.clear();
-            PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
-            //Toast toast = Toast.makeText(getApplicationContext(), "음력 체크 해제된 상태", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
-
-        //공휴일 이벤트
-        holidayBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"holidayBox"));
-        holidayBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(holidayBox.isChecked()){
-                    holiday_push.addAll(Arrays.asList(holiday));
-                    HolidayArray();
-                    //Toast toast = Toast.makeText(getApplicationContext(), holiday_push.get(1)[2], Toast.LENGTH_SHORT);
-                    //toast.show();
-                    PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",true);
-                }else{
-                    holiday_push.clear();
-                    PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
-                    //Toast toast = Toast.makeText(getApplicationContext(), "공휴일 체크 해제", Toast.LENGTH_SHORT);
-                    //toast.show();
-                    intent = new Intent(getApplicationContext(),CalendarView.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-            }
-        });
-        if(PreferenceManager.getBoolean(getApplicationContext(),"holidayBox")){
-            holidayBox.setChecked(true);
-            holiday_push.addAll(Arrays.asList(holiday));
-            HolidayArray();
-            //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
-            //toast.show();
-            PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",true);
-        }
-        else{
-            holidayBox.setChecked(false);
-            holiday_push.clear();
-            PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
-            //Toast toast = Toast.makeText(getApplicationContext(), "공휴일 체크 해제된 상태", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
-
-        //학사일정 이벤트
-        schoolBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"schoolBox"));
-        schoolBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(schoolBox.isChecked()){
-                    school_push.addAll(Arrays.asList(school));
-                    Array();
-                    //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
-                    //toast.show();
-                    PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",true);
-                }else{
-                    school_push.clear();
-                    PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
-                    //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제", Toast.LENGTH_SHORT);
-                    //toast.show();
-                    intent = new Intent(getApplicationContext(),CalendarView.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-            }
-        });
-        if(PreferenceManager.getBoolean(getApplicationContext(),"schoolBox")){
-            schoolBox.setChecked(true);
-            Collections.addAll(school_push, school);
-            Array();
-            //Toast toast = Toast.makeText(getApplicationContext(), school_push.get(1)[2], Toast.LENGTH_SHORT);
-            //toast.show();
-            PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",true);
-        }
-        else{
-            schoolBox.setChecked(false);
-            school_push.clear();
-            PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
-            //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제된 상태", Toast.LENGTH_SHORT);
-            //toast.show();
-        }
 
         /*cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
             @Override
@@ -1477,7 +1410,6 @@ public class CalendarView extends AppCompatActivity {
         });
         builder.show();
     }
-
     void badgeshow()
     {
 
@@ -1561,9 +1493,9 @@ public class CalendarView extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
-            String cal_title =(String)params[2];
+            //String cal_title =(String)params[2];
 
-            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
@@ -1686,165 +1618,202 @@ public class CalendarView extends AppCompatActivity {
                 mEventList.add(event); // 일간 다이얼로그에 값 넣어줌
                 //월간 캘린더 표시에 값 넣어줌
                 mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
+
             }
+
+
         } catch (JSONException e) {
             Log.d(MONTHTAG, "showResult : ", e);
         }
+
+
     }
 
-    //학사일정 일정 표시
-    public void Array(){
 
-        Event event = new Event();
+    //월간 일정 표시
 
-        for(int i = 0; i < school_push.size(); i++){
-            String Title = school_push.get(i)[1];
-            String Date = school_push.get(i)[2];
-            String Id = school_push.get(i)[0];
+    private class personalGetData extends AsyncTask<String, Void, String> { //php읽어서 디비에서 데이터 가져오는 전체 프로세스를 클래스로 생성
+        //모든일은 background 에서 AsyncTask로 발생
+        //결과만 눈에 보임 -> 리사이클러뷰에 값출력
+        ProgressDialog progressDialog;
+        String errorString = null;
 
-            //캘린더에 일정 저장하는 부분
-            mCalendar = Calendar.getInstance();
-            int year = Integer.parseInt(Date.substring(0,4));
-            int month = Integer.parseInt(Date.substring(5,7))-1;
-            int date = Integer.parseInt(Date.substring(8,10));
-            int hour = 0;
-            int minute = 0;
-            String Time = "null";
-            if(Time != "null"){
-                hour = Integer.parseInt(Time.substring(0,2));
-                minute = Integer.parseInt(Time.substring(3,5));
-            }else{
-                hour = 0;
-                minute = 0;
-            }
-            mCalendar.set(Calendar.HOUR_OF_DAY, hour);
-            mCalendar.set(Calendar.MINUTE, minute);
-            mCalendar.set(Calendar.SECOND, 0);
-            mCalendar.set(Calendar.MILLISECOND, 0);
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, date);
-
-            //캘린더 id 랜덤으로
-            //Random rndId = new Random();
-            //int Id = rndId.nextInt(3000);
-            event.setmID(Id);
-            event.setmTitle(Title);
-            event.setmColor(R.color.school);
-            //event.setmDate(Calendar.getInstance());
-            event.setmDate(mCalendar);
-            //event.setmDate(Calendar.MINUTE, );
-            event.setCompleted(false);
-            ArrEventList.add(event); // 일간 다이얼로그에 값 넣어줌
-            //월간 캘린더 표시에 값 넣어줌
-            mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
-            Log.d("id", ArrEventList.get(i).getID());
-            Log.d("title", ArrEventList.get(i).getTitle());
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(CalendarView.this,
+                    "Please Wait", null, true, true);
         }
-    }
 
-    //공휴일 일정 표시
-    public void HolidayArray(){
 
-        Event event = new Event();
+        @Override
+        protected void onPostExecute(String result) { //이게 onCreate에서 task.execute(PHPURL, email) 할때 발생하는 일
+            super.onPostExecute(result);
 
-        for(int i = 0; i < holiday_push.size(); i++){
-            String Title = holiday_push.get(i)[1];
-            String Date = holiday_push.get(i)[2];
-            String Id = holiday_push.get(i)[0];
 
-            //캘린더에 일정 저장하는 부분
-            mCalendar = Calendar.getInstance();
-            int year = Integer.parseInt(Date.substring(0,4));
-            int month = Integer.parseInt(Date.substring(5,7))-1;
-            int date = Integer.parseInt(Date.substring(8,10));
-            int hour = 0;
-            int minute = 0;
-            String Time = "null";
-            if(Time != "null"){
-                hour = Integer.parseInt(Time.substring(0,2));
-                minute = Integer.parseInt(Time.substring(3,5));
-            }else{
-                hour = 0;
-                minute = 0;
+            progressDialog.dismiss();
+            //mTextViewResult.setText(result);
+            Log.d(HOLIDAYTAG, "response - " + result);
+
+            if (result == null){
+                //mTextViewResult.setText(errorString);
             }
-            mCalendar.set(Calendar.HOUR_OF_DAY, hour);
-            mCalendar.set(Calendar.MINUTE, minute);
-            mCalendar.set(Calendar.SECOND, 0);
-            mCalendar.set(Calendar.MILLISECOND, 0);
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, date);
-
-            //캘린더 id 랜덤으로
-            //Random rndId = new Random();
-            //int Id = rndId.nextInt(3000);
-            event.setmID(Id);
-            event.setmTitle(Title);
-            event.setmColor(R.color.holiday);
-            //event.setmDate(Calendar.getInstance());
-            event.setmDate(mCalendar);
-            //event.setmDate(Calendar.MINUTE, );
-            event.setCompleted(false);
-            ArrEventList.add(event); // 일간 다이얼로그에 값 넣어줌
-            //월간 캘린더 표시에 값 넣어줌
-            mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
-            Log.d("id", ArrEventList.get(i).getID());
-            Log.d("title", ArrEventList.get(i).getTitle());
-        }
-    }
-
-    //음력 일정 표시
-    public void LunarArray(){
-
-        Event event = new Event();
-
-        for(int i = 0; i < lunar_push.size(); i++){
-            String Title = lunar_push.get(i)[1];
-            String Date = lunar_push.get(i)[2];
-            String Id = lunar_push.get(i)[0];
-
-            //캘린더에 일정 저장하는 부분
-            mCalendar = Calendar.getInstance();
-            int year = Integer.parseInt(Date.substring(0,4));
-            int month = Integer.parseInt(Date.substring(5,7))-1;
-            int date = Integer.parseInt(Date.substring(8,10));
-            int hour = 0;
-            int minute = 0;
-            String Time = "null";
-            if(Time != "null"){
-                hour = Integer.parseInt(Time.substring(0,2));
-                minute = Integer.parseInt(Time.substring(3,5));
-            }else{
-                hour = 0;
-                minute = 0;
+            else {
+                holidayjsonString = result; //크롬으로 확인했던 문자열 받아오고
+                PersonalResult(); //밑에 ShowResult함수 실행
             }
-            mCalendar.set(Calendar.HOUR_OF_DAY, hour);
-            mCalendar.set(Calendar.MINUTE, minute);
-            mCalendar.set(Calendar.SECOND, 0);
-            mCalendar.set(Calendar.MILLISECOND, 0);
-            mCalendar.set(Calendar.YEAR, year);
-            mCalendar.set(Calendar.MONTH, month);
-            mCalendar.set(Calendar.DAY_OF_MONTH, date);
-
-            //캘린더 id 랜덤으로
-            //Random rndId = new Random();
-            //int Id = rndId.nextInt(3000);
-            event.setmID(Id);
-            event.setmTitle(Title);
-            event.setmColor(R.color.lunar);
-            //event.setmDate(Calendar.getInstance());
-            event.setmDate(mCalendar);
-            //event.setmDate(Calendar.MINUTE, );
-            event.setCompleted(false);
-            ArrEventList.add(event); // 일간 다이얼로그에 값 넣어줌
-            //월간 캘린더 표시에 값 넣어줌
-            mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
-            Log.d("id", ArrEventList.get(i).getID());
-            Log.d("title", ArrEventList.get(i).getTitle());
         }
+
+        @Override
+        protected String doInBackground(String... params) { //task.excute로 넘겨주는 매개변수들
+
+            String serverURL = params[0]; //PHPURL
+            //String email = (String)params[1]; //email
+            //int check1 = PreferenceManager.getInt(CalendarView.this, "check1");
+            //int check2 = PreferenceManager.getInt(CalendarView.this, "check2");
+            //int check3 = PreferenceManager.getInt(CalendarView.this, "check3");
+            String check1 = (String)params[1]; //
+            String check2 = (String)params[2];
+            String check3 = (String)params[3];
+
+            String postParameters = "email=" + email + "&" + "check1=" + check1 + "&" + "check2=" + check2 + "&" + "check3=" + check3; //php 파일에 $_POST 변수가 받기 위한 코드
+
+
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(HOLIDAYTAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(HOLIDAYTAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+
     }
 
+    private void PersonalResult() { //이부분 잘봐
+
+        String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
+        String TAG_TITLE = "title";
+        String TAG_DATE = "date";
+        //String TAG_TIME = "time";
+        // TAG_ENDDATE = "enddate";
+        //String TAG_ENDTIME = "endtime";
+        //String TAG_DIVISION = "division"; //디비전으로 일정 다이얼로그에 해당 일정 창에 맞게 뜨도록 유도.
+        String TAG_ID = "id";
+        //String TAG_COLOR = "color";
+
+        try {
+            JSONObject jsonObject = new JSONObject(holidayjsonString); // 전체 문자열이 {}로 묶여있으니까 {} 이만큼을 jsonObject로 받아와
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON); // 그 jsonObject 에서 "data":[{"title":"~~"}, ... {"title":"~~"}]얘를 jsonArray로 받아와
+
+            for (int i = 0; i < jsonArray.length(); i++) { //"data":[{"title":"~~"}, ... {"title":"~~"}] 아까 얘에서 각각 {"title":"~~"} 이렇게 묶여있는 jsonObject가져오기
+                JSONObject item = jsonArray.getJSONObject(i);
+
+
+                //DB에서 받아오기
+                String Title = item.getString(TAG_TITLE);
+                String Date = item.getString(TAG_DATE);
+                //String Time = item.getString(TAG_TIME);
+                //String EndDate = item.getString(TAG_ENDDATE);
+                //String EndTime = item.getString(TAG_ENDTIME);
+                int ID = item.getInt(TAG_ID);
+                //int division = item.getInt(TAG_DIVISION);
+                //String Color = item.getString(TAG_COLOR);
+
+                String Time = "null";
+
+                //캘린더 id 랜덤으로
+                Random rndId = new Random();
+                int Id = rndId.nextInt(3000);
+
+                //캘린더에 일정 저장하는 부분
+                Event event = new Event();
+                hCalendar = Calendar.getInstance();
+                int year = Integer.parseInt(Date.substring(0,4));
+                int month = Integer.parseInt(Date.substring(5,7))-1;
+                int date = Integer.parseInt(Date.substring(8,10));
+                int hour = 0;
+                int minute = 0;
+                if(Time != "null"){
+                    hour = Integer.parseInt(Time.substring(0,2));
+                    minute = Integer.parseInt(Time.substring(3,5));
+                }else{
+                    hour = 0;
+                    minute = 0;
+                }
+                //int hour = Integer.parseInt(Time.substring(0,2));
+                //int minute = Integer.parseInt(Time.substring(3,5));
+                hCalendar.set(Calendar.HOUR_OF_DAY, hour);
+                hCalendar.set(Calendar.MINUTE, minute);
+                hCalendar.set(Calendar.SECOND, 0);
+                hCalendar.set(Calendar.MILLISECOND, 0);
+
+                hCalendar.set(Calendar.YEAR, year);
+                hCalendar.set(Calendar.MONTH, month);
+                hCalendar.set(Calendar.DAY_OF_MONTH, date);
+
+                //event.setMdivision(division); // 디비전 값 저장
+                //android.graphics.Color.parseColor(Color);
+                event.setmID(String.valueOf(Id));
+                event.setmTitle(Title);
+                event.setmColor(R.color.black);
+                //event.setmDate(Calendar.getInstance());
+                event.setmDate(hCalendar);
+                //event.setmDate(Calendar.MINUTE, );
+                event.setCompleted(false);
+                hEventList.add(event); // 일간 다이얼로그에 값 넣어줌
+                //월간 캘린더 표시에 값 넣어줌
+                mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
+
+            }
+
+
+        } catch (JSONException e) {
+            Log.d(HOLIDAYTAG, "showResult : ", e);
+        }
+
+    }
 
 
 

@@ -535,20 +535,22 @@
                     android:layout_height="40dp"
                     android:orientation="horizontal">
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:textSize="20sp"
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/nanumsquare_acr"
-                        android:text="  습관 알림 시간 설정"/>
+                        android:text="  뱃지 알림 시간 "/>
 
                     <TextView
+                        android:id="@+id/badge_time_text"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textSize="20sp"
-                        android:text="오후 9시"
+                        android:text=""
 
                         android:gravity="center"
                         android:fontFamily="@font/nanumsquare_acr"/>

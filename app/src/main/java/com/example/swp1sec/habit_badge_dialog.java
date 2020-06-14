@@ -23,6 +23,8 @@ import java.util.Calendar;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static com.example.swp1sec.CalendarView.badge_time_text;
+
 public class habit_badge_dialog  extends AppCompatActivity {
 
     public String email;
@@ -104,6 +106,7 @@ public class habit_badge_dialog  extends AppCompatActivity {
     }
 
     public void habit_regist(View view) {
+
         Intent intent = new Intent(this, Habit_Badge_Alarm.class);
         PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -121,6 +124,7 @@ public class habit_badge_dialog  extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
         Toast.makeText(this, badgehour+" : "+badgeminute +" 습관 설정완료", Toast.LENGTH_SHORT).show();
+        badge_time_text.setText("습관 "+badgehour+":"+badgeminute);
         finish();
 
 
@@ -136,6 +140,7 @@ public class habit_badge_dialog  extends AppCompatActivity {
         alarmManager.cancel(plntent);
         Toast.makeText(this, "알람취소 완료", Toast.LENGTH_SHORT).show();
         habitremoveNotification();
+        badge_time_text.setText("");
         finish();
 
 
