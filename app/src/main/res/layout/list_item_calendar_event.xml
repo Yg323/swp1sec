@@ -16,8 +16,8 @@
 
     <View
         android:id="@+id/rcl_calendar_event_icon"
-        android:layout_width="4dp"
-        android:layout_height="4dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:background="?attr/colorPrimary"
         android:layout_marginTop="9dp"
         />
@@ -41,15 +41,37 @@
             android:lines="1"
             android:ellipsize="end"
             tools:text="Exercise Plan" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_calendar_event_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#979797"
+                        android:textSize="13sp"
+                        android:lines="1"
+                        tools:text="08:00"/>
+                    <TextView
+                        android:id="@+id/tv_calendar_event_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#979797"
+                        android:textSize="13sp"
+                        android:lines="1"
+                        android:text="  -  "
+                        tools:text=" - "/>
 
-        <TextView
-            android:id="@+id/tv_calendar_event_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#979797"
-            android:textSize="13sp"
-            android:lines="1"
-            tools:text="08:00"/>
+
+                <TextView
+                        android:id="@+id/tv_calendar_event_endstatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#979797"
+                        android:textSize="13sp"
+                        android:lines="1"
+                        tools:text="08:00"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -120,6 +120,7 @@ public class CalendarView extends AppCompatActivity {
     private static String MONTHTAG = "getmonth";
     private List<Event> mEventList = new ArrayList<>();
     private Calendar mCalendar;
+    private Calendar eCalendar;
     //새로고침
     SwipeRefreshLayout mSwipe;
 
@@ -1659,7 +1660,7 @@ public class CalendarView extends AppCompatActivity {
         String TAG_DATE = "date";
         String TAG_TIME = "time";
         // TAG_ENDDATE = "enddate";
-        //String TAG_ENDTIME = "endtime";
+        String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division"; //디비전으로 일정 다이얼로그에 해당 일정 창에 맞게 뜨도록 유도.
         String TAG_ID = "id";
         String TAG_COLOR = "color";
@@ -1675,7 +1676,7 @@ public class CalendarView extends AppCompatActivity {
                 String Date = item.getString(TAG_DATE);
                 String Time = item.getString(TAG_TIME);
                 //String EndDate = item.getString(TAG_ENDDATE);
-                //String EndTime = item.getString(TAG_ENDTIME);
+                String EndTime = item.getString(TAG_ENDTIME);
                 int ID = item.getInt(TAG_ID);
                 int division = item.getInt(TAG_DIVISION);
                 String Color = item.getString(TAG_COLOR);
@@ -1699,6 +1700,15 @@ public class CalendarView extends AppCompatActivity {
                     hour = 0;
                     minute = 0;
                 }
+
+                int ehour = Integer.parseInt(EndTime.substring(0,2));
+                int eminute = Integer.parseInt(EndTime.substring(3,5));
+
+                /*if(ehour <= hour){
+                    ehour = hour + 1;
+                }*/
+
+
                 //int hour = Integer.parseInt(Time.substring(0,2));
                 //int minute = Integer.parseInt(Time.substring(3,5));
                 mCalendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -1711,6 +1721,12 @@ public class CalendarView extends AppCompatActivity {
                 mCalendar.set(Calendar.DAY_OF_MONTH, date);
 
 
+                eCalendar = Calendar.getInstance();
+                eCalendar.set(Calendar.HOUR_OF_DAY, ehour);
+                eCalendar.set(Calendar.MINUTE, eminute);
+                eCalendar.set(Calendar.SECOND, 0);
+                eCalendar.set(Calendar.MILLISECOND, 0);
+
                 event.setMdivision(division); // 디비전 값 저장
                 //android.graphics.Color.parseColor(Color);
                 event.setmID(String.valueOf(Id));
@@ -1720,6 +1736,8 @@ public class CalendarView extends AppCompatActivity {
                 event.setmDate(mCalendar);
                 //event.setmDate(Calendar.MINUTE, );
                 event.setCompleted(false);
+
+                event.setEdate(eCalendar);
                 mEventList.add(event); // 일간 다이얼로그에 값 넣어줌
                 //월간 캘린더 표시에 값 넣어줌
                 mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));

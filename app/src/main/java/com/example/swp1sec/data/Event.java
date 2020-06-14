@@ -24,6 +24,7 @@ public class Event implements Parcelable {
     private int mdivision;
     private String memo;
     private int star;
+    private Calendar Edate;
 
     public Event(){ }
 
@@ -35,6 +36,14 @@ public class Event implements Parcelable {
         this.isCompleted = isCompleted;
 
 
+    }
+
+    public Calendar getEdate() {
+        return Edate;
+    }
+
+    public void setEdate(Calendar edate) {
+        Edate = edate;
     }
 
     public String getMemo() {

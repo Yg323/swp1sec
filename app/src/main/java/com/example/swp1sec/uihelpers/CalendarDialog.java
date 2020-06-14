@@ -371,12 +371,16 @@ public class CalendarDialog extends AppCompatActivity {
             View rclEventIcon;
             TextView tvEventName;
             TextView tvEventStatus;
+            //추가
+            TextView tvEndEventStatus;
 
             ViewHolder(View view) {
                 super(view);
                 rclEventIcon = view.findViewById(R.id.rcl_calendar_event_icon);
                 tvEventName = view.findViewById(R.id.tv_calendar_event_name);
                 tvEventStatus = view.findViewById(R.id.tv_calendar_event_status);
+                //추가
+                tvEndEventStatus = view.findViewById(R.id.tv_calendar_event_endstatus);
                 //view.setOnClickListener(this);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -424,6 +428,7 @@ public class CalendarDialog extends AppCompatActivity {
             holder.tvEventName.setText(title);
             holder.rclEventIcon.setBackgroundColor(event.getColor());
             holder.tvEventStatus.setText(timeFormat.format(event.getDate().getTime()));
+            holder.tvEndEventStatus.setText(timeFormat.format(event.getEdate().getTime()));
         }
 
         @Override
