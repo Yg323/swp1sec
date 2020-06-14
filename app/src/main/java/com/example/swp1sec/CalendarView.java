@@ -139,8 +139,6 @@ public class CalendarView extends AppCompatActivity {
     private static String ACATAG = "getacademic";
     private List<Event> aEventList = new ArrayList<>();
     private Calendar aCalendar;
-    public static TextView badge_time_text;
-    String badgehour,badgeminute;
 
 
     public static Intent makeIntent(Context context) {
@@ -154,10 +152,6 @@ public class CalendarView extends AppCompatActivity {
         mShortMonths = new DateFormatSymbols().getShortMonths();
 
         setContentView(R.layout.activity_calendar_view);
-        badge_time_text = findViewById(R.id.badge_time_text);
-        badgehour = PreferenceManager.getString(CalendarView.this,badgehour);
-        badgeminute=PreferenceManager.getString(CalendarView.this,badgeminute);
-
 
         ibtn_calender = findViewById(R.id.ibtn_calendar);
         ibtn_calenderlist = findViewById(R.id.ibtn_calendarlist);
@@ -177,7 +171,6 @@ public class CalendarView extends AppCompatActivity {
 
 
 
-        badge_time_text.setText(badgehour+""+badgeminute);
         setting_theme.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
