@@ -489,6 +489,7 @@
                         android:fontFamily="@font/nanumsquare_acr"
                         android:text="  주간 리마인더"/>
                     <Switch
+                        android:id="@+id/week_remind"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -508,6 +509,7 @@
                         android:fontFamily="@font/nanumsquare_acr"
                         android:text="  일간 리마인더"/>
                     <Switch
+                        android:id="@+id/day_remind"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -542,15 +544,15 @@
                         android:textSize="20sp"
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/nanumsquare_acr"
-                        android:text="  뱃지 알림 시간 "/>
+                        android:text="   뱃지 알림 시간 "/>
 
                     <TextView
                         android:id="@+id/badge_time_text"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:textSize="20sp"
-                        android:text=""
+                        android:textSize="15sp"
+                        android:text="뱃지 설정을 먼저 해주세요."
 
                         android:gravity="center"
                         android:fontFamily="@font/nanumsquare_acr"/>

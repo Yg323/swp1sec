@@ -44,15 +44,20 @@ public class Loding extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                    else if(nweek==2){ //오늘 접속한 적이 없고 월요일이다.
+                    else if(nweek==2&&PreferenceManager.getBoolean(getApplicationContext(),"week_remind")){ //오늘 접속한 적이 없고 월요일이고 주간리마인드가 켜져있으면
                         PreferenceManager.setInt(Loding.this, "nweek",nweek);
                         intent = new Intent(Loding.this,WeekRemind.class);
                         startActivity(intent);
                         finish();
                     }
-                    else {//오늘 접속한 적이 없고 월요일이 아니다.
+                    else if(PreferenceManager.getBoolean(getApplicationContext(),"day_remind")) {//오늘 접속한 적이 없고 월요일이 아니고 데이리마인드가 켜져있으면
                         intent = new Intent(Loding.this,DayRemind.class);
                         PreferenceManager.setInt(Loding.this, "nweek",nweek);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        intent = new Intent(Loding.this,CalendarView.class);
                         startActivity(intent);
                         finish();
                     }

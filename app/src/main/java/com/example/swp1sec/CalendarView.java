@@ -23,6 +23,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -140,7 +141,8 @@ public class CalendarView extends AppCompatActivity {
     private List<Event> aEventList = new ArrayList<>();
     private Calendar aCalendar;
 
-
+    //리마인드 설정
+    private Switch day_remind, week_remind;
     public static Intent makeIntent(Context context) {
         return new Intent(context, CalendarView.class);
     }
@@ -169,7 +171,8 @@ public class CalendarView extends AppCompatActivity {
                 badgeshow();
             }
         });
-
+        week_remind = findViewById(R.id.week_remind);
+        day_remind = findViewById(R.id.day_remind);
 
 
         setting_theme.setOnClickListener(new View.OnClickListener(){
@@ -686,7 +689,23 @@ public class CalendarView extends AppCompatActivity {
                 }
             }
         });
-
+        //리마인드 설정
+        day_remind.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"day_remind"));
+        week_remind.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"week_remind"));
+        day_remind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) PreferenceManager.setBoolean(getApplicationContext(),"day_remind",true);
+                else PreferenceManager.setBoolean(getApplicationContext(),"day_remind",false);
+            }
+        });
+        week_remind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) PreferenceManager.setBoolean(getApplicationContext(),"week_remind",true);
+                else PreferenceManager.setBoolean(getApplicationContext(),"week_remind",false);
+            }
+        });
 
         //Timepicker
         morningtime = findViewById(R.id.morning_time);

@@ -71,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                                 PreferenceManager.setBoolean(getApplicationContext(),"lunarBox",false);
                                 PreferenceManager.setBoolean(getApplicationContext(),"holidayBox",false);
                                 PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
+                                PreferenceManager.setBoolean(getApplicationContext(),"week_remind",false);
+                                PreferenceManager.setBoolean(getApplicationContext(),"day_remind",false);
                                 startActivity(intent);
                                 finish();
                             }
