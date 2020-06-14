@@ -30,7 +30,7 @@
             android:includeFontPadding="false"
             android:text="TITLE"
             android:textColor="@android:color/black"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textStyle="bold"
             android:fontFamily="@font/nanumsquare_acr" />
 
