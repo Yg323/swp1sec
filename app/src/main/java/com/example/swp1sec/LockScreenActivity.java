@@ -126,12 +126,37 @@ public class LockScreenActivity extends  AppCompatActivity{
 
         ArrayList<HashMap<String, String>> childListA = new ArrayList<>();
         if (res1.size() == 0) {
-            System.out.print("설정된 할일이 없습니다.");
+            HashMap<String, String> childAA = new HashMap<>();
+            childAA.put("group", "할 일");
+            childAA.put("name", "설정된 할일이 없습니다.");
+            childListA.add(childAA);
+
+            HashMap<String, String> childAB = new HashMap<>();
+            childAB.put("group", "할 일");
+            childAB.put("name", "설정된 할일이 없습니다.");
+            childListA.add(childAB);
+
+            HashMap<String, String> childAC = new HashMap<>();
+            childAC.put("group", "할 일");
+            childAC.put("name", "설정된 할일이 없습니다.");
+            childListA.add(childAC);
+
+            childData.add(childListA);
         } else if (res1.size() == 1) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
             childAA.put("name", res1.get(0).toString());
             childListA.add(childAA);
+
+            HashMap<String, String> childAB = new HashMap<>();
+            childAB.put("group", "할 일");
+            childAB.put("name", "설정된 할일이 없습니다.");
+            childListA.add(childAB);
+
+            HashMap<String, String> childAC = new HashMap<>();
+            childAC.put("group", "할 일");
+            childAC.put("name", "설정된 할일이 없습니다.");
+            childListA.add(childAC);
 
             childData.add(childListA);
         } else if (res1.size() == 2) {
@@ -144,6 +169,11 @@ public class LockScreenActivity extends  AppCompatActivity{
             childAB.put("group", "할 일");
             childAB.put("name", res1.get(1).toString());
             childListA.add(childAB);
+
+            HashMap<String, String> childAC = new HashMap<>();
+            childAC.put("group", "할 일");
+            childAC.put("name", "설정된 할일이 없습니다.");
+            childListA.add(childAC);
 
             childData.add(childListA);
         }else {
@@ -182,12 +212,35 @@ public class LockScreenActivity extends  AppCompatActivity{
         ArrayList<HashMap<String, String>> childListB = new ArrayList<>();
 
         if(res1.size() == 0){
-            System.out.print("설정된 주요 일정이 없습니다.");
+            HashMap<String, String> childBA = new HashMap<>();
+            childBA.put("group", "주요 일정");
+            childBA.put("name", "설정된 주요 일정이 없습니다.");
+            childListB.add(childBA);
+
+            HashMap<String, String> childBB = new HashMap<>();
+            childBB.put("group", "주요 일정");
+            childBB.put("name", "설정된 주요 일정이 없습니다.");
+            childListB.add(childBB);
+
+            HashMap<String, String> childBC = new HashMap<>();
+            childBC.put("group", "주요 일정");
+            childBC.put("name", "설정된 주요 일정이 없습니다.");
+            childListB.add(childBC);
         }else if(res1.size() == 1) {
             HashMap<String, String> childBA = new HashMap<>();
             childBA.put("group", "주요 일정");
             childBA.put("name", res1.get(0).toString());
             childListB.add(childBA);
+
+            HashMap<String, String> childBB = new HashMap<>();
+            childBB.put("group", "주요 일정");
+            childBB.put("name", "설정된 주요 일정이 없습니다.");
+            childListB.add(childBB);
+
+            HashMap<String, String> childBC = new HashMap<>();
+            childBC.put("group", "주요 일정");
+            childBC.put("name", "설정된 주요 일정이 없습니다.");
+            childListB.add(childBC);
 
             childData.add(childListB);
         }else if(res1.size() == 2) {
@@ -200,6 +253,11 @@ public class LockScreenActivity extends  AppCompatActivity{
             childBB.put("group", "주요 일정");
             childBB.put("name", res1.get(1).toString());
             childListB.add(childBB);
+
+            HashMap<String, String> childBC = new HashMap<>();
+            childBC.put("group", "주요 일정");
+            childBC.put("name", "설정된 주요 일정이 없습니다.");
+            childListB.add(childBC);
 
             childData.add(childListB);
         }else {
@@ -237,12 +295,37 @@ public class LockScreenActivity extends  AppCompatActivity{
         ArrayList<HashMap<String, String>> childListC = new ArrayList<>();
 
         if(res1.size() == 0){
-            System.out.print("설정된 습관이 없습니다.");
+            HashMap<String, String> childCA = new HashMap<>();
+            childCA.put("group", "습관");
+            childCA.put("name", "설정된 습관이 없습니다.");
+            childListC.add(childCA);
+
+            HashMap<String, String> childCB = new HashMap<>();
+            childCB.put("group", "습관");
+            childCB.put("name", "설정된 습관이 없습니다.");
+            childListC.add(childCB);
+
+            HashMap<String, String> childCC = new HashMap<>();
+            childCC.put("group", "습관");
+            childCC.put("name", "설정된 습관이 없습니다.");
+            childListC.add(childCC);
+
+            childData.add(childListC);
         }else if(res1.size() == 1) {
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
             childCA.put("name", res1.get(0).toString());
             childListC.add(childCA);
+
+            HashMap<String, String> childCB = new HashMap<>();
+            childCB.put("group", "습관");
+            childCB.put("name", "설정된 습관이 없습니다.");
+            childListC.add(childCB);
+
+            HashMap<String, String> childCC = new HashMap<>();
+            childCC.put("group", "습관");
+            childCC.put("name", "설정된 습관이 없습니다.");
+            childListC.add(childCC);
 
             childData.add(childListC);
         }else if(res1.size() == 2) {
@@ -255,6 +338,11 @@ public class LockScreenActivity extends  AppCompatActivity{
             childCB.put("group", "습관");
             childCB.put("name", res1.get(1).toString());
             childListC.add(childCB);
+
+            HashMap<String, String> childCC = new HashMap<>();
+            childCC.put("group", "습관");
+            childCC.put("name", "설정된 습관이 없습니다.");
+            childListC.add(childCC);
 
             childData.add(childListC);
         }else{
