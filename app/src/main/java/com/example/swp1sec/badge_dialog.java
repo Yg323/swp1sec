@@ -26,6 +26,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +42,8 @@ import java.net.URL;
 import java.util.Calendar;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
+
+import static com.example.swp1sec.CalendarView.badge_time_text;
 
 /*import com.github.arturogutierrez.Badges;
 import com.github.arturogutierrez.BadgesNotSupportedException;*/
@@ -73,6 +78,10 @@ public class badge_dialog extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
 
         //추가
         mContext = this;
@@ -316,8 +325,10 @@ public class badge_dialog extends AppCompatActivity {
 
             String serverURL = params[0]; //PHPURL
             String email = (String) params[1]; //email
+            String cal_title = (String) params[2];
 
-            String postParameters = "email=" + email; //php 파일에 $_POST 변수가 받기 위한 코드
+            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
+
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
@@ -332,6 +343,8 @@ public class badge_dialog extends AppCompatActivity {
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 outputStream.write(postParameters.getBytes("UTF-8"));
+
+
                 outputStream.flush();
                 outputStream.close();
 
@@ -507,6 +520,7 @@ public class badge_dialog extends AppCompatActivity {
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void regist(View view) {
         Intent intent = new Intent(this, Badge_Alarm.class);
         PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -525,6 +539,8 @@ public class badge_dialog extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
         Toast.makeText(this, badgehour+" : "+badgeminute +" 할일 설정완료", Toast.LENGTH_SHORT).show();
+
+        badge_time_text.setText("할 일 "+badgehour+":"+badgeminute);
         finish();
 
 
@@ -539,6 +555,8 @@ public class badge_dialog extends AppCompatActivity {
         alarmManager.cancel(plntent);
         Toast.makeText(this, "할 일 알람취소 완료", Toast.LENGTH_SHORT).show();
         removeNotification();
+        badge_time_text.setText("");
+
         finish();
 
 
