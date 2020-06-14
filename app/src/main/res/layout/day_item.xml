@@ -4,11 +4,10 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="20dp"
+    android:paddingLeft="10dp"
     android:paddingRight="20dp"
     android:gravity="center_vertical"
-    android:layout_marginBottom="8dp"
-    android:background="@android:color/white">
+    android:layout_marginBottom="8dp">
 
     <ImageView
         android:id="@+id/day_logo"
@@ -20,9 +19,9 @@
         android:layout_width="0dp"
         android:layout_height="75dp"
         android:layout_weight="1"
-        android:background="@color/cardview_shadow_start_color"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="18dp">
 
         <TextView
             android:id="@+id/day_title"
@@ -31,9 +30,9 @@
             android:includeFontPadding="false"
             android:text="TITLE"
             android:textColor="@android:color/black"
-            android:textSize="25dp"
+            android:textSize="30dp"
             android:textStyle="bold"
-            android:fontFamily="@font/nanumsquare_acr"/>
+            android:fontFamily="@font/nanumsquare_acr" />
 
         <TextView
             android:id="@+id/day_time"
@@ -49,7 +48,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:background="@color/cardview_shadow_start_color"
+        android:layout_weight="0.1"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -66,7 +65,7 @@
             android:includeFontPadding="false"
             android:text="X5"
             android:textColor="@android:color/black"
-            android:textSize="25dp"
+            android:textSize="35dp"
             android:fontFamily="@font/nanumsquare_acr"/>
     </LinearLayout>
 
