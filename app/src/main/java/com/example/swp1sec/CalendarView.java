@@ -78,7 +78,7 @@ public class CalendarView extends AppCompatActivity {
     private CalendarDialog mCalendarDialog;
     private Intent intent;
     private CalendarDialog.OnCalendarDialogListener mListener;
-
+    public static TextView badge_time_text;
     //setting
     RecyclerView cateRecyclerView, calRecyclerView;
     private Intent cateintent;
@@ -150,7 +150,7 @@ public class CalendarView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mShortMonths = new DateFormatSymbols().getShortMonths();
-
+        badge_time_text=findViewById(R.id.badge_time_text);
         setContentView(R.layout.activity_calendar_view);
 
         ibtn_calender = findViewById(R.id.ibtn_calendar);
