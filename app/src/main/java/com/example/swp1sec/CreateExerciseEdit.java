@@ -248,8 +248,11 @@ public class CreateExerciseEdit extends AppCompatActivity {
                             public void onResponse(String response) {
 
                                 Toast.makeText(CreateExerciseEdit.this,response,Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(CreateExerciseEdit.this, CalendarView.class);
+                                //Intent intent = new Intent(CreateExerciseEdit.this, CalendarView.class);
+                                //startActivity(intent);
+                                Intent intent = new Intent(getApplicationContext(), WeekCalendarF.class);
                                 startActivity(intent);
+                                finish();
                                 progressDialog.dismiss();
                             }
                         },new Response.ErrorListener(){

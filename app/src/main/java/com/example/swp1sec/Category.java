@@ -82,6 +82,7 @@ public class Category extends AppCompatActivity {
                                         intent.putExtra("divison", 0);
                                         //PreferenceManager.setInt(Category.this, "di",0);
                                         intent.putExtra("cateid", cateid);
+                                        //intent.addFlags(intent.FLAG_ACTIVITY_NEW_DOCUMENT);
                                         startActivity(intent);
                                         break;
                                     }
@@ -91,6 +92,7 @@ public class Category extends AppCompatActivity {
                                         intent2.putExtra("division", 1);
                                         //PreferenceManager.setInt(Category.this, "di",1);
                                         intent2.putExtra("cateid", cateid);
+                                        //intent2.addFlags(intent2.FLAG_ACTIVITY_NEW_DOCUMENT);
                                         startActivity(intent2);
                                         break;
                                     }
@@ -100,6 +102,7 @@ public class Category extends AppCompatActivity {
                                         intent3.putExtra("division", 0);
                                         //PreferenceManager.setInt(Category.this, "di",0);
                                         intent3.putExtra("cateid", cateid);
+                                        //intent3.addFlags(intent3.FLAG_ACTIVITY_NEW_DOCUMENT);
                                         startActivity(intent3);
                                         break;
                                     }
@@ -118,12 +121,14 @@ public class Category extends AppCompatActivity {
                     case 1:
                         Intent intent2 = new Intent(v.getContext(), CreateExercise.class);
                         intent2.putExtra("cateid", cateid);
+                        //intent2.addFlags(intent2.FLAG_ACTIVITY_NEW_DOCUMENT);
                         v.getContext().startActivity(intent2);
                         break;
 
                     case 2:
                         Intent intent3 = new Intent(v.getContext(), CreateNormal.class);
                         intent3.putExtra("cateid", cateid);
+                        //intent3.addFlags(intent3.FLAG_ACTIVITY_NEW_DOCUMENT);
                         v.getContext().startActivity(intent3);
                         break;
                 }

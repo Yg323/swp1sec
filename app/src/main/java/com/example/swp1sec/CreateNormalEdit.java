@@ -284,8 +284,11 @@ public class CreateNormalEdit extends AppCompatActivity {
                             public void onResponse(String response) {
 
                                 Toast.makeText(CreateNormalEdit.this,response,Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(CreateNormalEdit.this, CalendarView.class);
+                                //Intent intent = new Intent(CreateNormalEdit.this, CalendarView.class);
+                                //startActivity(intent);
+                                Intent intent = new Intent(getApplicationContext(),WeekCalendarF.class);
                                 startActivity(intent);
+                                finish();
                                 progressDialog.dismiss();
                             }
                         },new Response.ErrorListener(){

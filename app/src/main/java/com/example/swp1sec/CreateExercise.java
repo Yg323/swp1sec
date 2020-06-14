@@ -55,6 +55,7 @@ public class CreateExercise extends AppCompatActivity {
     DatePicker d_picker;
     AlarmManager alarmManager;
 
+
     //현재시간으로 세팅
     long now = System.currentTimeMillis();
     Date datenow = new Date(now);
@@ -234,10 +235,10 @@ public class CreateExercise extends AppCompatActivity {
                                 Toast toast = Toast.makeText(getApplicationContext(), "운동이 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                                 toast.show();
-                                Intent intent = new Intent(CreateExercise.this, CalendarView.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                                Intent intent = new Intent(getApplicationContext(), CalendarView.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                                CreateExercise.this.finish();
+                                finish();
 
                             } else {//저장 실패한 경우
                                 Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);

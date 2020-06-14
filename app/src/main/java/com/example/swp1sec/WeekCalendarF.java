@@ -140,9 +140,9 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             public void onClick(View v) {
 
                 // 액티비티 전환 코드
-                Intent intent = new Intent(getApplicationContext(), CalendarView.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent = new Intent(getApplicationContext(),CalendarView.class);
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -360,7 +360,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
     //이벤트 클릭시
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(this, "Clicked " + event.getmDivision(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Clicked " + event.getmDivision(), Toast.LENGTH_SHORT).show();
 
         if(event.getmDivision() == 0){
 
@@ -413,7 +413,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
         }
 
-        Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
 
         //다이얼로그 띄우고 삭제 선택으로.
         //deleteCalendarData(String.valueOf(event.getID()));
@@ -421,7 +421,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
     @Override
     public void onEmptyViewLongPress(Calendar time) {
-        Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
 
     public WeekView getWeekView() {
@@ -434,10 +434,10 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                     @Override
                     public void onResponse(String response) {
                         if(response.equalsIgnoreCase("Data Deleted")){
-                            Toast.makeText(WeekCalendarF.this,"Data Deleted Successfully",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WeekCalendarF.this,"일정 삭제 완료했습니다.",Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(WeekCalendarF.this,"Data Not Deleted",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WeekCalendarF.this,"일정 삭제에 실패했습니다.",Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -761,7 +761,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
-                Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
                 deleteCalendarData(String.valueOf(idd), division);
                 intent = new Intent(getApplicationContext(),WeekCalendarF.class);
                 startActivity(intent);
@@ -773,7 +773,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             @Override
             public void onClick(DialogInterface dialog, int id)
             {
-                Toast.makeText(getApplicationContext(), "Cancel Click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_SHORT).show();
 
             }
         });

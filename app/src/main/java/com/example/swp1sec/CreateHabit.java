@@ -199,8 +199,12 @@ public class CreateHabit extends AppCompatActivity {
                                 Toast toast = Toast.makeText(getApplicationContext(), "습관이 등록되었습니다. ", Toast.LENGTH_SHORT);
                                 toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
                                 toast.show();
-                                Intent intent = new Intent(CreateHabit.this, CalendarView.class);
+                                //Intent intent = new Intent(CreateHabit.this, CalendarView.class);
+                                //startActivity(intent);
+                                Intent intent = new Intent(getApplicationContext(),CalendarView.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
+                                finish();
                             }
                             else{//저장 실패한 경우
                                 Toast toast = Toast.makeText(getApplicationContext(), "업로드 되지 않았습니다.", Toast.LENGTH_SHORT);
