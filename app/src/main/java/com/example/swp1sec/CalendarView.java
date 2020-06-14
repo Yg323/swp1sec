@@ -1357,7 +1357,7 @@ public class CalendarView extends AppCompatActivity {
                 }
                 cal_title_data cal_title_data = new cal_title_data(Title,id);
                 cal_title_data.settitle(Title);
-                cal_title_data.settitle(id);
+                cal_title_data.setid(id);
                 cal_title_data.setperformance(performnace);
 
 
