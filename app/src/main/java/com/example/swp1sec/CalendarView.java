@@ -107,7 +107,7 @@ public class CalendarView extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
     ImageButton imgLeft, imgRight;
     LinearLayout drawer_right, drawer_left;
-    TextView morningtime, nighttime,setting_theme,setting_start_day,badge;
+    TextView morningtime, nighttime,setting_theme,setting_start_day,badge_text;
     int mHour, mMinute, nHour, nMinute;
     private TextView txt_logout;
 
@@ -129,7 +129,7 @@ public class CalendarView extends AppCompatActivity {
     private static String CATETAG = "getcategory";
     //달력
     private cal_title_adapter cal_title_adapter;
-    private ArrayList<cal_title_data> calArrayList;
+    public static ArrayList<cal_title_data> calArrayList;
     private String caljsonString;
     private static String CALURL = "http://159.89.193.200//caltitle.php";
     private static String CALTAG = "getcal";
@@ -140,15 +140,9 @@ public class CalendarView extends AppCompatActivity {
     private String check1, check2, check3;
 
 
-    private List<Event> ArrEventList = new ArrayList<>();
-
     //체크박스
     private CheckBox lunarBox, holidayBox, schoolBox;
-
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, CalendarView.class);
-    }
+    private List<Event> ArrEventList = new ArrayList<>();
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -162,9 +156,6 @@ public class CalendarView extends AppCompatActivity {
         school_push = new ArrayList<String[]>();
         holiday_push = new ArrayList<String[]>();
         lunar_push = new ArrayList<String[]>();
-        //list.add(new String[]{"1", "공휴일1", "2020-06-11"});
-        //list.add(new String[]{"2", "공휴일2", "2020-06-12"});
-        //list.add(new String[]{"3", "공휴일3", "2020-06-13"});
 
         ibtn_calender = findViewById(R.id.ibtn_calendar);
         ibtn_calenderlist = findViewById(R.id.ibtn_calendarlist);
@@ -174,6 +165,16 @@ public class CalendarView extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setting_theme = findViewById(R.id.setting_theme);
         setting_start_day=findViewById(R.id.setting_start_day);
+        badge_text = findViewById(R.id.badge_text);
+        badge_text.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                badgeshow();
+            }
+        });
+
+
+
         setting_theme.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -194,14 +195,14 @@ public class CalendarView extends AppCompatActivity {
         calendar_title = PreferenceManager.getString(CalendarView.this,"cal_title");
 
         //뱃지
-        badge=findViewById(R.id.badge);
+        /*badge=findViewById(R.id.badge);
                 badge.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(CalendarView.this, badge_dialog.class);
                         startActivity(intent);
             }
-        });
+        });*/
 
         //로그아웃
         txt_logout = findViewById(R.id.txt_logout);
@@ -215,14 +216,6 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
-        //맨 처음 세팅값.
-        //PreferenceManager.setString(CalendarView.this, "check1", "l");
-        //PreferenceManager.setString(CalendarView.this, "check2", "h");
-        //PreferenceManager.setString(CalendarView.this, "check3", "u");
-
-        //check1 = PreferenceManager.getString(CalendarView.this, "check1");
-        //check2 = PreferenceManager.getString(CalendarView.this, "check2");
-        //check3 = PreferenceManager.getString(CalendarView.this, "check3");
 
         //개인 설정 체크박스
         lunarBox = findViewById(R.id.lunar);
@@ -230,59 +223,39 @@ public class CalendarView extends AppCompatActivity {
         schoolBox = findViewById(R.id.univer);
 
 
-
-
-        /*
-        if(check1 == "l"){
-            lunarBox.setChecked(false);
-
-        }else {
-            lunarBox.setChecked(true);
-
-        }
-        if(check2 == "h"){
-            holidayBox.setChecked(false);
-        }else {
-            holidayBox.setChecked(true);
-
-        }
-        if(check3 == "u"){
-            univerBox.setChecked(false);
-        }else {
-            univerBox.setChecked(true);
-        }
-
-        //박스 선택시 preferencemanager에 값 넘겨줌.
-        if(lunarBox.isChecked()){
-            PreferenceManager.setString(CalendarView.this, "check1", "ll");
-            lunarBox.setChecked(true);
-        }else{
-            PreferenceManager.setString(CalendarView.this, "check1", "l");
-            lunarBox.setChecked(false);
-        }
-
-        if(holidayBox.isChecked()){
-            PreferenceManager.setString(CalendarView.this, "check2", "hh");
-            holidayBox.setChecked(true);
-        }else{
-            PreferenceManager.setString(CalendarView.this, "check2", "h");
-            holidayBox.setChecked(false);
-        }
-
-        if(univerBox.isChecked()){
-            PreferenceManager.setString(CalendarView.this, "check3", "uu");
-            univerBox.setChecked(true);
-        }else{
-            PreferenceManager.setString(CalendarView.this, "check3", "u");
-            univerBox.setChecked(false);
-        }*/
-
-
-
-
         //툴바
         setSupportActionBar(toolbar);
         mCalendarView = findViewById(R.id.calendarView);
+
+        //캘린더
+        calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
+        LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        calRecyclerView.setLayoutManager(calLayoutManager);
+        calArrayList = new ArrayList<>();
+
+
+        cal_title_adapter = new cal_title_adapter(this, calArrayList);
+        calRecyclerView.setAdapter(cal_title_adapter);
+
+        calArrayList.clear();
+        cal_title_adapter.notifyDataSetChanged();
+        calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
+        caltask.execute(CALURL, email); //task 실행
+
+        //카테고리
+        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
+        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        cateRecyclerView.setLayoutManager(cateLayoutManager);
+        categoryArrayList = new ArrayList<>();
+        category_title_adapter = new category_title_adapter(this, categoryArrayList);
+        cateRecyclerView.setAdapter(category_title_adapter);
+
+        categoryArrayList.clear();
+        category_title_adapter.notifyDataSetChanged();
+        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+        catetask.execute(CATEURL, email, calendar_title); //task 실행
+
+
         //상단 툴바에 뜨는 달(Title)이랑 년도(subtitle) 설정 움직일때 변경되는 것
         mCalendarView.setOnMonthChangedListener(new com.example.swp1sec.CalendarViewM.OnMonthChangedListener() {
             @Override // 여기에 int day 추가했음
@@ -310,8 +283,6 @@ public class CalendarView extends AppCompatActivity {
                 }
             }
         });
-
-
 
 
         //상단 액션바와 연관 움직일때x 초기화면을 말함
@@ -422,35 +393,11 @@ public class CalendarView extends AppCompatActivity {
             }
         });
 
-        //캘린더
-        calRecyclerView = (RecyclerView) findViewById(R.id.cal_title_list);
-        LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        calRecyclerView.setLayoutManager(calLayoutManager);
-        calArrayList = new ArrayList<>();
 
-
-        cal_title_adapter = new cal_title_adapter(this, calArrayList);
-        calRecyclerView.setAdapter(cal_title_adapter);
-
-        calArrayList.clear();
-        cal_title_adapter.notifyDataSetChanged();
-        calGetData caltask = new calGetData(); //밑에 만들었던 클래스 만들고
-        caltask.execute(CALURL, email); //task 실행
 
         //캘린더 데이터
 
-        //카테고리
-        cateRecyclerView = (RecyclerView) findViewById(R.id.category_title_list);
-        LinearLayoutManager cateLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        cateRecyclerView.setLayoutManager(cateLayoutManager);
-        categoryArrayList = new ArrayList<>();
-        category_title_adapter = new category_title_adapter(this, categoryArrayList);
-        cateRecyclerView.setAdapter(category_title_adapter);
 
-        categoryArrayList.clear();
-        category_title_adapter.notifyDataSetChanged();
-        cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
-        catetask.execute(CATEURL, email, calendar_title); //task 실행
 
 
         //상단 액션바와 연관 움직일때x 초기화면을 말함
@@ -482,6 +429,7 @@ public class CalendarView extends AppCompatActivity {
 
 
         //setting
+
         drawerLayout = findViewById(R.id.activity_calendar_view);
         drawer_left = findViewById(R.id.drawer_left);
         drawer_right = findViewById(R.id.drawer_right);
@@ -489,8 +437,84 @@ public class CalendarView extends AppCompatActivity {
         imgRight = findViewById(R.id.imgRight);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        cal_title_adapter.setOnClickListener(new cal_title_adapter.OnClickListener() {
+            @Override
+            public void onClick(View v, final int position) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(calRecyclerView.getContext());
+                ProgressDialog progressDialog = new ProgressDialog(calRecyclerView.getContext());
 
-        //음력 이벤트
+                CharSequence[] dialogItem ={"edit data","delete data"};
+                builder.setTitle(calArrayList.get(position).gettitle());
+                builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        switch (i){
+                            case 0:
+                                    cateintent = new Intent(getApplicationContext(),Update_calendar.class);
+                                    cateintent.putExtra("position",position);
+                                    startActivity(cateintent);
+
+                                break;
+
+                            case 1:
+                                caldeleteData(calArrayList.get(position).getid());
+
+                                break;
+                        }
+
+                    }
+                });
+                builder.create().show();
+            }
+        });
+
+
+        cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, int pos){
+                //String cal_title = calArrayList.get(pos).gettitle();
+                String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+                int cal_pos = PreferenceManager.getInt(getApplicationContext(),"cal_pos");
+                //Toast.makeText(CalendarView.this, cal_title +Integer.toString(calArrayList.get(cal_pos).getperformance()), Toast.LENGTH_SHORT).show();
+
+                category_title_adapter.notifyDataSetChanged();
+                categoryArrayList.clear();
+
+                cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
+                catetask.execute(CATEURL, email, cal_title);
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jasonObject=new JSONObject(response);
+                            boolean success=jasonObject.getBoolean("success");
+                            if (success) {
+
+                            }
+                            else{
+                                Toast toast = Toast.makeText(getApplicationContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                                toast.show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                cal_check_request cal_check_request =new cal_check_request(email,cal_title,Integer.toString(calArrayList.get(cal_pos).getperformance()),responseListener);
+                RequestQueue queue=Volley.newRequestQueue(CalendarView.this);
+                queue.add(cal_check_request);
+
+
+            }
+
+
+        });
+
+
+//음력 이벤트
         lunarBox.setChecked(PreferenceManager.getBoolean(getApplicationContext(),"lunarBox"));
         lunarBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -607,54 +631,6 @@ public class CalendarView extends AppCompatActivity {
             //Toast toast = Toast.makeText(getApplicationContext(), "학사일정 체크 해제된 상태", Toast.LENGTH_SHORT);
             //toast.show();
         }
-
-
-        cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, int pos){
-                //String cal_title = calArrayList.get(pos).gettitle();
-                String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
-                int cal_pos = PreferenceManager.getInt(getApplicationContext(),"cal_pos");
-                //Toast.makeText(CalendarView.this, cal_title +Integer.toString(calArrayList.get(cal_pos).getperformance()), Toast.LENGTH_SHORT).show();
-
-                category_title_adapter.notifyDataSetChanged();
-                categoryArrayList.clear();
-
-                cateGetData catetask = new cateGetData(); //밑에 만들었던 클래스 만들고
-                catetask.execute(CATEURL, email, cal_title);
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jasonObject=new JSONObject(response);
-                            boolean success=jasonObject.getBoolean("success");
-                            if (success) {
-
-                            }
-                            else{
-                                Toast toast = Toast.makeText(getApplicationContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                                toast.show();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                cal_check_request cal_check_request =new cal_check_request(email,cal_title,Integer.toString(calArrayList.get(cal_pos).getperformance()),responseListener);
-                RequestQueue queue=Volley.newRequestQueue(CalendarView.this);
-                queue.add(cal_check_request);
-
-
-            }
-
-
-        });
-
-
-
 
         /*cal_title_adapter.setOnCheckedChangeListener(new cal_title_adapter.OnCheckedChangeListener(){
             @Override
@@ -1066,7 +1042,37 @@ public class CalendarView extends AppCompatActivity {
         dlg.show();
     }
 
+    private void caldeleteData(final String id) {
+        StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/caldeletedata.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equalsIgnoreCase("Data Deleted")){
+                            Toast.makeText(CalendarView.this,"Data Deleted Successfully",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(CalendarView.this,"Data Not Deleted",Toast.LENGTH_SHORT).show();
+                        }
 
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CalendarView.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String,String>();
+                params.put("id", id);
+
+                return params;
+            }
+        };
+        RequestQueue queue= Volley.newRequestQueue(this);
+        queue.add(request);
+
+    }
 
     private void deleteData(final String id) {
         StringRequest request =new StringRequest(Request.Method.POST, "http://159.89.193.200/deletedata.php",
@@ -1400,6 +1406,7 @@ public class CalendarView extends AppCompatActivity {
         String TAG_JSON = "data"; //jsonencode 문자열에서 "data":[]인 jsonarray를 가져오기 위한 태그
         String TAG_TITLE = "cal_title";
         String TAg_Performance ="performance";
+        String TAG_ID = "id";
 
 
         try {
@@ -1410,13 +1417,15 @@ public class CalendarView extends AppCompatActivity {
                 JSONObject item = jsonArray.getJSONObject(i);
                 //반복문인점 주의!
                 String Title = item.getString(TAG_TITLE); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
+                String id = item.getString(TAG_ID); //그럼 거기서 이제 "title"에 해당하는 문자열 값 가져와서 저장
                 int performnace = item.getInt(TAg_Performance);
                 if(performnace == 1){
                     PreferenceManager.setString(CalendarView.this,"cal_title",Title);
                     PreferenceManager.setInt(CalendarView.this,"cal_pos",i);
                 }
-                cal_title_data cal_title_data = new cal_title_data(Title);
+                cal_title_data cal_title_data = new cal_title_data(Title,id);
                 cal_title_data.settitle(Title);
+                cal_title_data.setid(id);
                 cal_title_data.setperformance(performnace);
 
 
@@ -1469,6 +1478,49 @@ public class CalendarView extends AppCompatActivity {
         builder.show();
     }
 
+    void badgeshow()
+    {
+
+        final List<String> ListItems = new ArrayList<>();
+        ListItems.add("할일");
+        ListItems.add("습관");
+        ListItems.add("할일 + 습관");
+
+        final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("뱃지 설정");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int pos) {
+                switch (pos){
+                    case 0:
+                        Intent intent=new Intent(CalendarView.this, badge_dialog.class);
+                        startActivity(intent);
+                        badge_text.setText("할일");
+
+
+
+                        break;
+                    case 1:
+                        Intent intent1=new Intent(CalendarView.this, habit_badge_dialog.class);
+                        startActivity(intent1);
+                        badge_text.setText("습관");
+                        break;
+                    case 2:
+                        Intent intent2=new Intent(CalendarView.this, todohabit_badge_dialog.class);
+                        startActivity(intent2);
+                        badge_text.setText("할일 + 습관");
+
+                        break;
+
+                }
+                String selectedText = items[pos].toString();
+                Toast.makeText(CalendarView.this, selectedText, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
+    }
+
 
     //월간 일정 표시
 
@@ -1501,8 +1553,6 @@ public class CalendarView extends AppCompatActivity {
             else {
                 monthjsonString = result; //크롬으로 확인했던 문자열 받아오고
                 MonthResult(); //밑에 ShowResult함수 실행
-                //추가
-                //Array(); ??
             }
         }
 
@@ -1636,17 +1686,11 @@ public class CalendarView extends AppCompatActivity {
                 mEventList.add(event); // 일간 다이얼로그에 값 넣어줌
                 //월간 캘린더 표시에 값 넣어줌
                 mCalendarView.addCalendarObject(new com.example.swp1sec.CalendarViewM.CalendarObject(event.getID(), event.getDate(), event.getTitle(), event.getColor()));
-
             }
-
-
         } catch (JSONException e) {
             Log.d(MONTHTAG, "showResult : ", e);
         }
-
-
     }
-
 
     //학사일정 일정 표시
     public void Array(){
@@ -1800,24 +1844,6 @@ public class CalendarView extends AppCompatActivity {
             Log.d("title", ArrEventList.get(i).getTitle());
         }
     }
-
-
-    /*public void ArrayRemove(){
-        for(int i = 0; i<ArrEventList.size(); i++) {
-                //ArrEventList.remove(oldEvent);
-                mCalendarView.removeCalendarObjectByID(new CalendarViewM.CalendarObject(String.valueOf(1), ArrEventList.get(i).getDate(), ArrEventList.get(i).getTitle(), ArrEventList.get(i).getColor()));
-                Log.d("id", ArrEventList.get(i).getID());
-
-                Log.d("타이틀", ArrEventList.get(i).getTitle());
-
-                Log.d("i번", String.valueOf(i));
-                Log.d("번호1", ArrEventList.get(1).getID());
-                Log.d("번호1", ArrEventList.get(2).getID());
-                Log.d("번호1", ArrEventList.get(2).getID());
-                //mCalendarDialog.setEventList(mEventList);
-        }
-
-    }*/
 
 
 

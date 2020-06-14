@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:timePickerMode="spinner"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,47 +28,21 @@
                 android:id="@+id/bsadf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="할일"
+                android:text="등록"
                 android:onClick="regist"
                 android:layout_weight="1"/>
             <Button
                 android:id="@+id/badge_cancle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="할일"
+                android:onClick="unregist"
+                android:text="취소"
                 android:layout_weight="1"/>
 
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/badge_todo_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="할일"
-            android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/badge_habit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="습관"
-            android:onClick="up_cate_OK"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/badge_todo_habit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="할일 + 습관"
-            android:onClick="up_cate_OK"
-            android:layout_weight="1"/>
-        <Button
-            android:id="@+id/badge_cancl1e"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="종료"
-            android:onClick="up_cate_OK"
-            android:layout_weight="1"/>
 
     </LinearLayout>
 
