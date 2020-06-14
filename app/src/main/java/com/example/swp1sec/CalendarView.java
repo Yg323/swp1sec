@@ -150,7 +150,6 @@ public class CalendarView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mShortMonths = new DateFormatSymbols().getShortMonths();
-        badge_time_text=findViewById(R.id.badge_time_text);
         setContentView(R.layout.activity_calendar_view);
 
         ibtn_calender = findViewById(R.id.ibtn_calendar);
@@ -162,6 +161,8 @@ public class CalendarView extends AppCompatActivity {
         setting_theme = findViewById(R.id.setting_theme);
         setting_start_day=findViewById(R.id.setting_start_day);
         badge_text = findViewById(R.id.badge_text);
+        badge_time_text=findViewById(R.id.badge_time_text);
+
         badge_text.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
