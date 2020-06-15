@@ -49,7 +49,7 @@ public class DDayListPActivity extends AppCompatActivity {
     private String jsonString;
     private static String URL = "http://159.89.193.200//getdpluslist.php";
     private static String TAG = "get";
-
+    private String cal_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,7 +165,7 @@ public class DDayListPActivity extends AppCompatActivity {
             }
         });
         String email = PreferenceManager.getString(DDayListPActivity.this, "email");
-        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+        cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         // 목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -204,7 +204,7 @@ public class DDayListPActivity extends AppCompatActivity {
                         }
                     }
                 };
-                CalendarListRequest calendarlistrequest=new CalendarListRequest(email,title,cate_title,Integer.toString(dDayList.getDday()),responseListener);
+                CalendarListRequest calendarlistrequest=new CalendarListRequest(email,title,cal_title,cate_title,Integer.toString(dDayList.getDday()),responseListener);
                 RequestQueue queue= Volley.newRequestQueue(DDayListPActivity.this);
                 queue.add(calendarlistrequest);
             }
