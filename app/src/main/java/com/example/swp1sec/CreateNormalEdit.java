@@ -282,8 +282,10 @@ public class CreateNormalEdit extends AppCompatActivity {
                         new Response.Listener<String>(){
                             @Override
                             public void onResponse(String response) {
-
-                                Toast.makeText(CreateNormalEdit.this,response,Toast.LENGTH_SHORT).show();
+                                Toast toast = Toast.makeText(getApplicationContext(), "수정되었습니다. ", Toast.LENGTH_SHORT);
+                                //toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                                toast.show();
+                                //Toast.makeText(CreateNormalEdit.this,response,Toast.LENGTH_SHORT).show();
                                 //Intent intent = new Intent(CreateNormalEdit.this, CalendarView.class);
                                 //startActivity(intent);
                                 Intent intent = new Intent(getApplicationContext(),WeekCalendarF.class);
@@ -294,7 +296,10 @@ public class CreateNormalEdit extends AppCompatActivity {
                         },new Response.ErrorListener(){
                     @Override
                     public void onErrorResponse(VolleyError error){
-                        Toast.makeText(CreateNormalEdit.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(getApplicationContext(), "수정되지 않았습니다. ", Toast.LENGTH_SHORT);
+                        //toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.show();
+                        //Toast.makeText(CreateNormalEdit.this,error.getMessage(),Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
 
                     }
