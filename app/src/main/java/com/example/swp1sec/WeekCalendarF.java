@@ -121,7 +121,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
         WeekCalendarF.GetData weektask = new WeekCalendarF.GetData(); //밑에 만들었던 클래스 만들고
 
-        weektask.execute(WEEKURL, email, calendar_title); //task 실행
+        weektask.execute(WEEKURL, email); //,calendar_title//task 실행
 
 
 
@@ -519,8 +519,8 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
 
             String serverURL = params[0]; //PHPURL
             String email = (String)params[1]; //email
-            String cal_title = (String)params[2];
-            String postParameters = "email=" + email +"&"+"cal_title="+cal_title; //php 파일에 $_POST 변수가 받기 위한 코드
+            //String cal_title = (String)params[2];
+            String postParameters = "email=" + email ; //+"&"+"cal_title="+cal_title//php 파일에 $_POST 변수가 받기 위한 코드
 
             try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
 
@@ -581,7 +581,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
         String TAG_ENDDATE = "enddate";
         String TAG_ENDTIME = "endtime";
         String TAG_DIVISION = "division";//카테고리 division을 말함.
-        String TAG_NDIVISION = "Ndivision";//노멀 일정 divsion을 가져옴.
+        //String TAG_NDIVISION = "Ndivision";//노멀 일정 divsion을 가져옴.
         String TAG_ID = "id";
         String TAG_COLOR = "color";
         String TAG_MEMO = "memo";
@@ -628,7 +628,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
                 we.setTitle(Title);
                 we.setDate(Date);
                 we.setTime(Time);
-                we.setEnddate(EndDate);
+                //we.setEnddate(EndDate);
                 we.setEndtime(EndTime);
                 we.setColor(Color);
                 we.setDivision(division);
@@ -660,7 +660,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             String Title = eventList.get(i).getTitle();
             String StartDate = eventList.get(i).getDate();
             String StartTime = eventList.get(i).getTime();
-            String EndDate = eventList.get(i).getEnddate();
+            //String EndDate = eventList.get(i).getEnddate();
             String EndTime = eventList.get(i).getEndtime();
             String Color = eventList.get(i).getColor();
 
@@ -741,7 +741,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             weekViewEvent.setmStar(Star);
             weekViewEvent.setmStartDate(StartDate);
             weekViewEvent.setsTime(StartTime);
-            weekViewEvent.setmEndDate(EndDate);
+            //weekViewEvent.setmEndDate(EndDate);
             weekViewEvent.seteTime(EndTime);
             weekViewEvent.setID(ID);
 
