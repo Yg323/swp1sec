@@ -18,7 +18,7 @@ public class Habit_Badge_Alarm extends BroadcastReceiver {
         ((habit_badge_dialog)habit_badge_dialog.habitContext).habitsetAlarm();
 
 
-        Toast.makeText(context,"알람이 울립니다 ",Toast.LENGTH_SHORT).show();
+
         Log.e("알람","알람입니다");
     }
 

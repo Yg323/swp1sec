@@ -116,7 +116,7 @@ public class habit_badge_dialog  extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, badgehour);
-        calendar.set(Calendar.MINUTE, badgeminute-1);
+        calendar.set(Calendar.MINUTE, badgeminute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
@@ -124,7 +124,10 @@ public class habit_badge_dialog  extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pIntent);
         Toast.makeText(this, badgehour+" : "+badgeminute +" 습관 설정완료", Toast.LENGTH_SHORT).show();
-        badge_time_text.setText("습관 "+badgehour+":"+badgeminute);
+        PreferenceManager.setString(habit_badge_dialog.this,"badgetime",badgehour+" : "+badgeminute);
+        PreferenceManager.setString(habit_badge_dialog.this,"badgetype","습관");
+        habitremoveNotification();
+        badge_time_text.setText(badgehour+" : "+badgeminute);
         finish();
 
 

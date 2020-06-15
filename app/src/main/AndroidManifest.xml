@@ -87,6 +87,9 @@
         <activity android:name="com.example.swp1sec.cate_dataview"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
+        <activity android:name="com.example.swp1sec.cate_dataview_exnm"
+            android:theme="@style/addTheme"
+            android:screenOrientation="fullSensor"/>
         <activity android:name="com.example.swp1sec.color_theme_dialog"
             android:theme="@style/addTheme"
             android:screenOrientation="fullSensor"/>
