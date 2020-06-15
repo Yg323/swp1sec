@@ -420,7 +420,7 @@ public class CreateSubject extends AppCompatActivity {
                 //triggertime = Long.parseLong(date_text);
 
                 InsertData task = new InsertData();
-                task.execute("http://" + IP_ADDRESS, date_text);
+                task.execute("http://" + IP_ADDRESS, date_text, email);
                 diaryNotification(calendar);
             }
         });
@@ -456,9 +456,10 @@ public class CreateSubject extends AppCompatActivity {
         protected String doInBackground(String...params){
             String severurl = (String)params[0];
             String alm = (String)params[1];
+            String email = (String)params[2];
             String postParameters;
 
-            postParameters = "alm=" + alm;
+            postParameters = "alm=" + alm + "&email=" + email;
             //postParameters = "normal=" + Integer.toString(n_theme1) + "&premium=" + Integer.toString(p_theme1);
 
             Log.d(TAG, "postparam = " + postParameters);

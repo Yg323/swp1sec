@@ -55,7 +55,9 @@ public class LockScreenActivity extends  AppCompatActivity{
     String outPut;
     ArrayList res1 = new ArrayList();
     ArrayList res2 = new ArrayList();
-    ArrayList res3 = new ArrayList();
+    ArrayList res_nm = new ArrayList();
+    ArrayList res_ex = new ArrayList();
+    ArrayList res_hb = new ArrayList();
     int ind;
     String email;
 
@@ -133,11 +135,11 @@ public class LockScreenActivity extends  AppCompatActivity{
 */
 
         NetworkTask networkTask1 = new NetworkTask(nm_url, email);
-        networkTask1.execute();
+        networkTask1.execute(nm_url, email);
         //nm_doJSONParser(outPut);
-        Log.d(TAG, "res3.size- " + res3.size());
+
         ArrayList<HashMap<String, String>> childListA = new ArrayList<>();
-        if (res3.size() == 0) {
+        if (res_nm.size() == 0) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
             childAA.put("name", "설정된 할일이 없습니다.");
@@ -154,10 +156,10 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListA.add(childAC);
 
             childData.add(childListA);
-        } else if (res3.size() == 1) {
+        } else if (res_nm.size() == 1) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
-            childAA.put("name", res3.get(0).toString());
+            childAA.put("name", res_nm.get(0).toString());
             childListA.add(childAA);
 
             HashMap<String, String> childAB = new HashMap<>();
@@ -171,15 +173,15 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListA.add(childAC);
 
             childData.add(childListA);
-        } else if (res3.size() == 2) {
+        } else if (res_nm.size() == 2) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
-            childAA.put("name", res3.get(0).toString());
+            childAA.put("name", res_nm.get(0).toString());
             childListA.add(childAA);
 
             HashMap<String, String> childAB = new HashMap<>();
             childAB.put("group", "할 일");
-            childAB.put("name", res3.get(1).toString());
+            childAB.put("name", res_nm.get(1).toString());
             childListA.add(childAB);
 
             HashMap<String, String> childAC = new HashMap<>();
@@ -191,17 +193,17 @@ public class LockScreenActivity extends  AppCompatActivity{
         }else {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
-            childAA.put("name", res3.get(0).toString());
+            childAA.put("name", res_nm.get(0).toString());
             childListA.add(childAA);
 
             HashMap<String, String> childAB = new HashMap<>();
             childAB.put("group", "할 일");
-            childAB.put("name", res3.get(1).toString());
+            childAB.put("name", res_nm.get(1).toString());
             childListA.add(childAB);
 
             HashMap<String, String> childAC = new HashMap<>();
             childAC.put("group", "할 일");
-            childAC.put("name", res3.get(2).toString());
+            childAC.put("name", res_nm.get(2).toString());
             childListA.add(childAC);
 
             childData.add(childListA);
@@ -222,10 +224,10 @@ public class LockScreenActivity extends  AppCompatActivity{
         //Log.d(TAG, "ind = " + ind);*/
 
         NetworkTask networkTask2 = new NetworkTask(ex_url, email);
-        networkTask2.execute();
+        networkTask2.execute(ex_url, email);
         ArrayList<HashMap<String, String>> childListB = new ArrayList<>();
-
-        if(res1.size() == 0){
+        Log.d(TAG, "hb-" + res_ex.size());
+        if(res_ex.size() == 0){
             HashMap<String, String> childBA = new HashMap<>();
             childBA.put("group", "주요 일정");
             childBA.put("name", "설정된 주요 일정이 없습니다.");
@@ -240,10 +242,10 @@ public class LockScreenActivity extends  AppCompatActivity{
             childBC.put("group", "주요 일정");
             childBC.put("name", "설정된 주요 일정이 없습니다.");
             childListB.add(childBC);
-        }else if(res1.size() == 1) {
+        }else if(res_ex.size() == 1) {
             HashMap<String, String> childBA = new HashMap<>();
             childBA.put("group", "주요 일정");
-            childBA.put("name", res1.get(0).toString());
+            childBA.put("name", res_ex.get(0).toString());
             childListB.add(childBA);
 
             HashMap<String, String> childBB = new HashMap<>();
@@ -257,15 +259,15 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListB.add(childBC);
 
             childData.add(childListB);
-        }else if(res1.size() == 2) {
+        }else if(res_ex.size() == 2) {
             HashMap<String, String> childBA = new HashMap<>();
             childBA.put("group", "주요 일정");
-            childBA.put("name", res1.get(0).toString());
+            childBA.put("name", res_ex.get(0).toString());
             childListB.add(childBA);
 
             HashMap<String, String> childBB = new HashMap<>();
             childBB.put("group", "주요 일정");
-            childBB.put("name", res1.get(1).toString());
+            childBB.put("name", res_ex.get(1).toString());
             childListB.add(childBB);
 
             HashMap<String, String> childBC = new HashMap<>();
@@ -277,17 +279,17 @@ public class LockScreenActivity extends  AppCompatActivity{
         }else {
             HashMap<String, String> childBA = new HashMap<>();
             childBA.put("group", "주요 일정");
-            childBA.put("name", res1.get(0).toString());
+            childBA.put("name", res_ex.get(0).toString());
             childListB.add(childBA);
 
             HashMap<String, String> childBB = new HashMap<>();
             childBB.put("group", "주요 일정");
-            childBB.put("name", res1.get(1).toString());
+            childBB.put("name", res_ex.get(1).toString());
             childListB.add(childBB);
 
             HashMap<String, String> childBC = new HashMap<>();
             childBC.put("group", "주요 일정");
-            childBC.put("name", res1.get(2).toString());
+            childBC.put("name", res_ex.get(2).toString());
             childListB.add(childBC);
 
             childData.add(childListB);
@@ -306,11 +308,11 @@ public class LockScreenActivity extends  AppCompatActivity{
         hb_doJSONParser(outPut);
         Log.d(TAG, "ind = "+ind);*/
 
-        NetworkTask networkTask3 = new NetworkTask(nm_url, email);
-        networkTask3.execute();
+        NetworkTask networkTask3 = new NetworkTask(hb_url, email);
+        networkTask3.execute(hb_url, email);
         ArrayList<HashMap<String, String>> childListC = new ArrayList<>();
 
-        if(res2.size() == 0){
+        if(res_hb.size() == 0){
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
             childCA.put("name", "설정된 습관이 없습니다.");
@@ -327,10 +329,10 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListC.add(childCC);
 
             childData.add(childListC);
-        }else if(res2.size() == 1) {
+        }else if(res_hb.size() == 1) {
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
-            childCA.put("name", res2.get(0).toString());
+            childCA.put("name", res_hb.get(0).toString());
             childListC.add(childCA);
 
             HashMap<String, String> childCB = new HashMap<>();
@@ -344,15 +346,15 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListC.add(childCC);
 
             childData.add(childListC);
-        }else if(res2.size() == 2) {
+        }else if(res_hb.size() == 2) {
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
-            childCA.put("name", res2.get(0).toString());
+            childCA.put("name", res_hb.get(0).toString());
             childListC.add(childCA);
 
             HashMap<String, String> childCB = new HashMap<>();
             childCB.put("group", "습관");
-            childCB.put("name", res2.get(1).toString());
+            childCB.put("name", res_hb.get(1).toString());
             childListC.add(childCB);
 
             HashMap<String, String> childCC = new HashMap<>();
@@ -364,17 +366,17 @@ public class LockScreenActivity extends  AppCompatActivity{
         }else{
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
-            childCA.put("name", res2.get(0).toString());
+            childCA.put("name", res_hb.get(0).toString());
             childListC.add(childCA);
 
             HashMap<String, String> childCB = new HashMap<>();
             childCB.put("group", "습관");
-            childCB.put("name", res2.get(1).toString());
+            childCB.put("name", res_hb.get(1).toString());
             childListC.add(childCB);
 
             HashMap<String, String> childCC = new HashMap<>();
             childCC.put("group", "습관");
-            childCC.put("name", res2.get(2).toString());
+            childCC.put("name", res_hb.get(2).toString());
             childListC.add(childCC);
 
             childData.add(childListC);
@@ -590,7 +592,7 @@ public class LockScreenActivity extends  AppCompatActivity{
                 //Log.d(TAG, "result = " + result);
 
             }
-            res1 = result;
+            res_ex = result;
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "ex_doJSONParser = ", e);}
@@ -611,7 +613,7 @@ public class LockScreenActivity extends  AppCompatActivity{
                 //Log.d(TAG,"ind = " + ind);
                 //Log.d(TAG, "result = " + result);
             }
-            res2 = result;
+            res_hb = result;
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "hb_doJSONParser = ", e);}
@@ -630,7 +632,7 @@ public class LockScreenActivity extends  AppCompatActivity{
                 result.add(i, title);
                 //Log.d(TAG, "result = " + result);
             }
-            res3 = result;
+            res_nm = result;
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "nm_doJSONParser = ", e);}
@@ -685,7 +687,7 @@ public class LockScreenActivity extends  AppCompatActivity{
             super(fragmentManager);
             this.title = title;
             this.dday = dday;
-            //Log.d(TAG, "title= "+title);
+            Log.d(TAG, "title= "+title);
         }
 
         // Returns total number of pages
@@ -697,15 +699,28 @@ public class LockScreenActivity extends  AppCompatActivity{
         // Returns the fragment to display for that page
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return FirstFragment.newInstance(0,title.get(0).toString() +  "\nD" + dday.get(0).toString());
-                case 1:
-                    return SecondFragment.newInstance(1,title.get(1).toString() + "\nD" + dday.get(1).toString());
-                case 2:
-                    return ThirdFragment.newInstance(2, title.get(2).toString() + "\nD" + dday.get(2).toString());
-                default:
-                    return null;
+            if(title.size() == 0){
+                switch (position) {
+                    case 0:
+                        return FirstFragment.newInstance(0, "일정이 없습니다.");
+                    case 1:
+                        return SecondFragment.newInstance(1, "일정이 없습니다.");
+                    case 2:
+                        return ThirdFragment.newInstance(2, "일정이 없습니다.");
+                    default:
+                        return null;
+                }
+            }else {
+                switch (position) {
+                    case 0:
+                        return FirstFragment.newInstance(0, title.get(0).toString() + "\nD" + dday.get(0).toString());
+                    case 1:
+                        return SecondFragment.newInstance(1, title.get(1).toString() + "\nD" + dday.get(1).toString());
+                    case 2:
+                        return ThirdFragment.newInstance(2, title.get(2).toString() + "\nD" + dday.get(2).toString());
+                    default:
+                        return null;
+                }
             }
         }
 
