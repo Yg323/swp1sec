@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                                 PreferenceManager.setBoolean(getApplicationContext(),"schoolBox",false);
                                 PreferenceManager.setBoolean(getApplicationContext(),"week_remind",true);
                                 PreferenceManager.setBoolean(getApplicationContext(),"day_remind",true);
+                                PreferenceManager.setString(getApplicationContext(), "start_week_title", "월요일");
                                 startActivity(intent);
                                 finish();
                             }

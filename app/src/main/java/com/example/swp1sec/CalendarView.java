@@ -1518,7 +1518,7 @@ public class CalendarView extends AppCompatActivity {
 
                 }
                 String selectedText = items[pos].toString();
-                Toast.makeText(CalendarView.this, selectedText, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CalendarView.this, selectedText, Toast.LENGTH_SHORT).show();
             }
         });
         builder.show();
