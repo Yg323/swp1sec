@@ -96,6 +96,7 @@ public class DayRemind extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DayRemind.this, CalendarView.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
