@@ -103,6 +103,7 @@ public class HabitListActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 intent = new Intent(HabitListActivity.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_todolist.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +111,7 @@ public class HabitListActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 intent = new Intent(HabitListActivity.this, TodoListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_habitlist.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +119,7 @@ public class HabitListActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 intent = new Intent(HabitListActivity.this, HabitListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_ddaylist.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +127,7 @@ public class HabitListActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 intent = new Intent(HabitListActivity.this, DDayListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

@@ -109,6 +109,7 @@ public class MonthTrackerActivity extends AppCompatActivity{
             public void onClick(View v) {
                 intent = new Intent(MonthTrackerActivity.this, DayTrackerActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_monthtracker.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +117,7 @@ public class MonthTrackerActivity extends AppCompatActivity{
             public void onClick(View v) {
                 intent = new Intent(MonthTrackerActivity.this, MonthTrackerActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
