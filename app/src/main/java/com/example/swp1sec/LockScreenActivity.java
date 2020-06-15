@@ -15,7 +15,13 @@ import android.widget.TextView;
 
 import me.relex.circleindicator.CircleIndicator;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,10 +53,11 @@ public class LockScreenActivity extends  AppCompatActivity{
     TextView textTime;
     FragmentPagerAdapter adapterViewPager;
     String outPut;
-    ArrayList res1;
-    ArrayList res2;
+    ArrayList res1 = new ArrayList();
+    ArrayList res2 = new ArrayList();
+    ArrayList res3 = new ArrayList();
     int ind;
-
+    String email;
 
     //private static String IP_ADDRESS = "159.89.193.200";
     //private static String TAG = "db";
@@ -67,20 +74,22 @@ public class LockScreenActivity extends  AppCompatActivity{
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
 
-        NetworkTask date_networkTask = new NetworkTask(date_url, null);
-        try {
+        email = PreferenceManager.getString(this, "email");
+
+        NetworkTask networkTask = new NetworkTask(date_url, email);
+        /*try {
             outPut = date_networkTask.execute().get();
         } catch (Exception e) {
             e.printStackTrace();
         }
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
-        //Log.d(TAG,"outPut: "+ outPut);
-
-        date_title_doJSONParser(outPut);
+        //Log.d(TAG,"outPut: "+ outPut);*/
+        networkTask.execute(date_url, email);
+        /*date_title_doJSONParser(outPut);
         Log.d(TAG, "title = " + res1);
         date_dday_doJSONParser(outPut);
-        //Log.d(TAG, "ind = " + ind);
+        //Log.d(TAG, "ind = " + ind);*/
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), res1, res2);
 
         //list.add(EX_ArrayList);
@@ -112,7 +121,7 @@ public class LockScreenActivity extends  AppCompatActivity{
         groupData.add(groupC);
 
         // 자식 리스트에 요소를 추가한다. (1)
-        NetworkTask nm_networkTask = new NetworkTask(nm_url, null);
+        /*NetworkTask nm_networkTask = new NetworkTask(nm_url, null);
         try {
             outPut = nm_networkTask.execute().get();
         } catch (Exception e) {
@@ -121,11 +130,14 @@ public class LockScreenActivity extends  AppCompatActivity{
         //outPut = networkTask.getTv_outPut();
         //String ex_title = tv_outPut;
         //Log.d(TAG,"outPut: "+ outPut);
+*/
 
-        nm_doJSONParser(outPut);
-
+        NetworkTask networkTask1 = new NetworkTask(nm_url, email);
+        networkTask1.execute();
+        //nm_doJSONParser(outPut);
+        Log.d(TAG, "res3.size- " + res3.size());
         ArrayList<HashMap<String, String>> childListA = new ArrayList<>();
-        if (res1.size() == 0) {
+        if (res3.size() == 0) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
             childAA.put("name", "설정된 할일이 없습니다.");
@@ -142,10 +154,10 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListA.add(childAC);
 
             childData.add(childListA);
-        } else if (res1.size() == 1) {
+        } else if (res3.size() == 1) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
-            childAA.put("name", res1.get(0).toString());
+            childAA.put("name", res3.get(0).toString());
             childListA.add(childAA);
 
             HashMap<String, String> childAB = new HashMap<>();
@@ -159,15 +171,15 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListA.add(childAC);
 
             childData.add(childListA);
-        } else if (res1.size() == 2) {
+        } else if (res3.size() == 2) {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
-            childAA.put("name", res1.get(0).toString());
+            childAA.put("name", res3.get(0).toString());
             childListA.add(childAA);
 
             HashMap<String, String> childAB = new HashMap<>();
             childAB.put("group", "할 일");
-            childAB.put("name", res1.get(1).toString());
+            childAB.put("name", res3.get(1).toString());
             childListA.add(childAB);
 
             HashMap<String, String> childAC = new HashMap<>();
@@ -179,24 +191,24 @@ public class LockScreenActivity extends  AppCompatActivity{
         }else {
             HashMap<String, String> childAA = new HashMap<>();
             childAA.put("group", "할 일");
-            childAA.put("name", res1.get(0).toString());
+            childAA.put("name", res3.get(0).toString());
             childListA.add(childAA);
 
             HashMap<String, String> childAB = new HashMap<>();
             childAB.put("group", "할 일");
-            childAB.put("name", res1.get(1).toString());
+            childAB.put("name", res3.get(1).toString());
             childListA.add(childAB);
 
             HashMap<String, String> childAC = new HashMap<>();
             childAC.put("group", "할 일");
-            childAC.put("name", res1.get(2).toString());
+            childAC.put("name", res3.get(2).toString());
             childListA.add(childAC);
 
             childData.add(childListA);
         }
 
         // 자식 리스트에 요소를 추가한다. (2)
-        NetworkTask ex_networkTask = new NetworkTask(ex_url, null);
+        /*NetworkTask ex_networkTask = new NetworkTask(ex_url, null);
         try{
             outPut = ex_networkTask.execute().get();
         }catch (Exception e){
@@ -207,8 +219,10 @@ public class LockScreenActivity extends  AppCompatActivity{
         //Log.d(TAG,"outPut: "+ outPut);
 
         ex_doJSONParser(outPut);
-        //Log.d(TAG, "ind = " + ind);
+        //Log.d(TAG, "ind = " + ind);*/
 
+        NetworkTask networkTask2 = new NetworkTask(ex_url, email);
+        networkTask2.execute();
         ArrayList<HashMap<String, String>> childListB = new ArrayList<>();
 
         if(res1.size() == 0){
@@ -279,7 +293,7 @@ public class LockScreenActivity extends  AppCompatActivity{
             childData.add(childListB);
         }
         // 자식 리스트에 요소를 추가한다. (3)
-        NetworkTask hb_networkTask = new NetworkTask(hb_url, null);
+        /*NetworkTask hb_networkTask = new NetworkTask(hb_url, null);
         try{
             outPut = hb_networkTask.execute().get();
         }catch (Exception e){
@@ -290,11 +304,13 @@ public class LockScreenActivity extends  AppCompatActivity{
         //Log.d(TAG,"outPut: "+ outPut);
 
         hb_doJSONParser(outPut);
-        Log.d(TAG, "ind = "+ind);
+        Log.d(TAG, "ind = "+ind);*/
 
+        NetworkTask networkTask3 = new NetworkTask(nm_url, email);
+        networkTask3.execute();
         ArrayList<HashMap<String, String>> childListC = new ArrayList<>();
 
-        if(res1.size() == 0){
+        if(res2.size() == 0){
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
             childCA.put("name", "설정된 습관이 없습니다.");
@@ -311,10 +327,10 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListC.add(childCC);
 
             childData.add(childListC);
-        }else if(res1.size() == 1) {
+        }else if(res2.size() == 1) {
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
-            childCA.put("name", res1.get(0).toString());
+            childCA.put("name", res2.get(0).toString());
             childListC.add(childCA);
 
             HashMap<String, String> childCB = new HashMap<>();
@@ -328,15 +344,15 @@ public class LockScreenActivity extends  AppCompatActivity{
             childListC.add(childCC);
 
             childData.add(childListC);
-        }else if(res1.size() == 2) {
+        }else if(res2.size() == 2) {
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
-            childCA.put("name", res1.get(0).toString());
+            childCA.put("name", res2.get(0).toString());
             childListC.add(childCA);
 
             HashMap<String, String> childCB = new HashMap<>();
             childCB.put("group", "습관");
-            childCB.put("name", res1.get(1).toString());
+            childCB.put("name", res2.get(1).toString());
             childListC.add(childCB);
 
             HashMap<String, String> childCC = new HashMap<>();
@@ -348,17 +364,17 @@ public class LockScreenActivity extends  AppCompatActivity{
         }else{
             HashMap<String, String> childCA = new HashMap<>();
             childCA.put("group", "습관");
-            childCA.put("name", res1.get(0).toString());
+            childCA.put("name", res2.get(0).toString());
             childListC.add(childCA);
 
             HashMap<String, String> childCB = new HashMap<>();
             childCB.put("group", "습관");
-            childCB.put("name", res1.get(1).toString());
+            childCB.put("name", res2.get(1).toString());
             childListC.add(childCB);
 
             HashMap<String, String> childCC = new HashMap<>();
             childCC.put("group", "습관");
-            childCC.put("name", res1.get(2).toString());
+            childCC.put("name", res2.get(2).toString());
             childListC.add(childCC);
 
             childData.add(childListC);
@@ -454,27 +470,81 @@ public class LockScreenActivity extends  AppCompatActivity{
 
     }//OnCreate end
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask extends AsyncTask<String, Void, String> {
 
         private String url;
+        private String email;
         private ContentValues values;
         private String tv_outPut;
+        String errorString = null;
         private static final String TAG = "networktask";
 
-        public NetworkTask(String url, ContentValues values) {
+        public NetworkTask(String url, String email) {
 
             this.url = url;
-            this.values = values;
+            this.email = email;
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
+        protected String doInBackground(String ... params) {
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
+
+            /*String result; // 요청 결과를 저장할 변수.
             RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            Log.d(TAG, "url = " + url);
             result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
             Log.d(TAG, "result = " + result);
 
-            return result;
+            return result;*/
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
         }
 
         @Override
@@ -487,12 +557,21 @@ public class LockScreenActivity extends  AppCompatActivity{
             super.onPostExecute(s);
 
             tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
             tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
+
+            if(url.equals("http://159.89.193.200/getdate.php")) {
+                date_title_doJSONParser(s);
+                date_dday_doJSONParser(s);
+            }else if(url.equals("http://159.89.193.200/nm_json.php")) {
+                nm_doJSONParser(s);
+            }else if(url.equals("http://159.89.193.200/ex_json.php")) {
+                ex_doJSONParser(s);
+            }else if(url.equals("http://159.89.193.200/hb_json.php")){
+                hb_doJSONParser(s);
+            }
+            //추가
+
+            outPut = s;
         }
     }
 
@@ -532,7 +611,7 @@ public class LockScreenActivity extends  AppCompatActivity{
                 //Log.d(TAG,"ind = " + ind);
                 //Log.d(TAG, "result = " + result);
             }
-            res1 = result;
+            res2 = result;
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "hb_doJSONParser = ", e);}
@@ -551,7 +630,7 @@ public class LockScreenActivity extends  AppCompatActivity{
                 result.add(i, title);
                 //Log.d(TAG, "result = " + result);
             }
-            res1 = result;
+            res3 = result;
             //Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "nm_doJSONParser = ", e);}
