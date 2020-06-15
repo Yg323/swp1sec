@@ -147,18 +147,19 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             }
         });
 
-        ibtn_calender.setOnClickListener(new View.OnClickListener() {
+        /*ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(WeekCalendarF.this, CalendarView.class);
                 startActivity(intent);
             }
-        });
+        });*/
         ibtn_calenderlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(WeekCalendarF.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         /*ibtn_calenderplus.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +174,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             public void onClick(View v) {
                 intent = new Intent(WeekCalendarF.this, DayTrackerActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         ibtn_store.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +182,7 @@ public class WeekCalendarF extends AppCompatActivity implements WeekView.EventCl
             public void onClick(View v) {
                 intent=new Intent(WeekCalendarF.this, Store_main.class);
                 startActivity(intent);
+                finish();
             }
         });
 

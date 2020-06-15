@@ -316,13 +316,13 @@ public class CalendarView extends AppCompatActivity {
                     public void onEventClick(Event event) {
                         onEventSelected(event);
                         mListener.onEventClick(event);
-                        Log.d("머야",String.valueOf(event.getTitle()));
+                        //Log.d("머야",String.valueOf(event.getTitle()));
 
 
                         //event = mEventList.get()
                         //mListener.onEventClick(mEventList.get(getAdapterPosition());
-                        Log.d("이벤트 : ", String.valueOf(event.getMdivision()));
-                        Log.d("타이틀", String.valueOf(event.getTitle()));
+                        //Log.d("이벤트 : ", String.valueOf(event.getMdivision()));
+                        //Log.d("타이틀", String.valueOf(event.getTitle()));
                         if(event.getMdivision() == 0){
 
                             Intent intent = new Intent(getApplicationContext(),CreateSubject.class);
@@ -381,18 +381,19 @@ public class CalendarView extends AppCompatActivity {
         });
 
 
-        ibtn_calender.setOnClickListener(new View.OnClickListener() {
+        /*ibtn_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(CalendarView.this, CalendarView.class);
                 startActivity(intent);
             }
-        });
+        });*/
         ibtn_calenderlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(CalendarView.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         ibtn_tracker.setOnClickListener(new View.OnClickListener() {
@@ -400,6 +401,7 @@ public class CalendarView extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarView.this, DayTrackerActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         ibtn_store.setOnClickListener(new View.OnClickListener() {
@@ -407,6 +409,7 @@ public class CalendarView extends AppCompatActivity {
             public void onClick(View v) {
                 intent=new Intent(CalendarView.this, Store_main.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -1774,14 +1777,16 @@ public class CalendarView extends AppCompatActivity {
             int date = Integer.parseInt(Date.substring(8,10));
             int hour = 0;
             int minute = 0;
-            String Time = "null";
+            int ehour = 0;
+            int eminute = 0;
+            /*String Time = "null";
             if(Time != "null"){
                 hour = Integer.parseInt(Time.substring(0,2));
                 minute = Integer.parseInt(Time.substring(3,5));
             }else{
                 hour = 0;
                 minute = 0;
-            }
+            }*/
             mCalendar.set(Calendar.HOUR_OF_DAY, hour);
             mCalendar.set(Calendar.MINUTE, minute);
             mCalendar.set(Calendar.SECOND, 0);
@@ -1790,12 +1795,19 @@ public class CalendarView extends AppCompatActivity {
             mCalendar.set(Calendar.MONTH, month);
             mCalendar.set(Calendar.DAY_OF_MONTH, date);
 
+
+            eCalendar = Calendar.getInstance();
+            eCalendar.set(Calendar.HOUR_OF_DAY, ehour);
+            eCalendar.set(Calendar.MINUTE, eminute);
+            eCalendar.set(Calendar.SECOND, 0);
+            eCalendar.set(Calendar.MILLISECOND, 0);
+
             //캘린더 id 랜덤으로
             //Random rndId = new Random();
             //int Id = rndId.nextInt(3000);
             event.setmID(Id);
             event.setmTitle(Title);
-            event.setmColor(R.color.school);
+            event.setmColor(android.graphics.Color.parseColor("#6633FF"));
             //event.setmDate(Calendar.getInstance());
             event.setmDate(mCalendar);
             //event.setmDate(Calendar.MINUTE, );
@@ -1846,7 +1858,8 @@ public class CalendarView extends AppCompatActivity {
             //int Id = rndId.nextInt(3000);
             event.setmID(Id);
             event.setmTitle(Title);
-            event.setmColor(R.color.holiday);
+            //event.setmColor(R.color.holiday);
+            event.setmColor(android.graphics.Color.parseColor("#FF0033"));
             //event.setmDate(Calendar.getInstance());
             event.setmDate(mCalendar);
             //event.setmDate(Calendar.MINUTE, );
@@ -1897,7 +1910,8 @@ public class CalendarView extends AppCompatActivity {
             //int Id = rndId.nextInt(3000);
             event.setmID(Id);
             event.setmTitle(Title);
-            event.setmColor(R.color.lunar);
+            //event.setmColor(R.color.lunar);
+            event.setmColor(android.graphics.Color.parseColor("#666666"));
             //event.setmDate(Calendar.getInstance());
             event.setmDate(mCalendar);
             //event.setmDate(Calendar.MINUTE, );
