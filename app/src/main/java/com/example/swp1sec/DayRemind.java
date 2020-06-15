@@ -54,7 +54,7 @@ public class DayRemind extends AppCompatActivity {
         String date_text = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentTime);
         now = date_text;
         email = PreferenceManager.getString(this, "email");
-
+        btn_redayclose = findViewById(R.id.btn_redayclose);
         Log.d(TAG, "now= " + now);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
@@ -64,33 +64,15 @@ public class DayRemind extends AppCompatActivity {
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         adapter = new D_Reminder_RecylerViewAdapter(list);
         recyclerView.setAdapter(adapter);
-
+        res_title.clear();
+        res_date.clear();
+        res_imp.clear();
+        res_time.clear();
+        adapter.notifyDataSetChanged();
         NetworkTask networkTask = new NetworkTask();
-        /*try{
-            outPut = networkTask.execute().get();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        //Log.d(TAG, "outPut = " + outPut);
-
-        date_doJSONParser(outPut);
-        //Log.d(TAG, "res_date_length= " + res_date.size());
-        title_doJSONParser(outPut);
-        //Log.d(TAG, "res_title_length= " + res_title.size());
-        time_doJSONParser(outPut);
-        //Log.d(TAG, "res_title= " + res_title);
-        imp_doJSONParser(outPut);*/
         networkTask.execute(url, email);
-        if(res_title.size() != 0) {
-            //Log.d(TAG, "res_size = " + res_title.size());
-            for (int i = 0; i < res_title.size(); i++) {
-                //Log.d(TAG, "title= " + res_title.get(i).toString());
-                //Log.d(TAG, "time= " + res_time.get(i).toString());
-                 addItem(getDrawable(R.drawable.d_r_logo), getDrawable(R.drawable.importance), res_title.get(i).toString(), res_time.get(i).toString(), res_imp.get(i).toString());
-            }
-        }else
-            addItem(getDrawable(R.drawable.d_r_logo), getDrawable(R.drawable.importance), "예정된 일정이 없습니다.", "예정된 일정이 없습니다.", "0");
-        btn_redayclose = findViewById(R.id.btn_redayclose);
+
+
         btn_redayclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +191,17 @@ public class DayRemind extends AppCompatActivity {
             //Log.d(TAG, "res_title= " + res_title);
             imp_doJSONParser(s);
             //추가
-
+            if(res_title.size() != 0) {
+                //Log.d(TAG, "res_size = " + res_title.size());
+                for (int i = 0; i < res_title.size(); i++) {
+                    //Log.d(TAG, "title= " + res_title.get(i).toString());
+                    //Log.d(TAG, "time= " + res_time.get(i).toString());
+                    addItem(getDrawable(R.drawable.d_r_logo), getDrawable(R.drawable.importance), res_title.get(i).toString(), res_time.get(i).toString(), res_imp.get(i).toString());
+                }
+            }
+            else
+                addItem(getDrawable(R.drawable.d_r_logo), getDrawable(R.drawable.importance), "예정된 일정이 없습니다.", "예정된 일정이 없습니다.", "0");
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -220,6 +212,7 @@ public class DayRemind extends AppCompatActivity {
             JSONArray index = object.getJSONArray("exercise");
             //Log.d(TAG, "res_date = " + res_date);
             //Log.d(TAG, "P_now = " + now);
+
             for(int i = 0; i < index.length(); i++){
                 Log.d(TAG, "res_date.get= " + res_date.get(i).toString());
                 if(res_date.get(i).toString().equals(now)) {
