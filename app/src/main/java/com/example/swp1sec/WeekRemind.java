@@ -1,6 +1,5 @@
 package com.example.swp1sec;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -19,10 +17,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,8 +101,16 @@ public class WeekRemind extends AppCompatActivity {
         btn_reweekclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WeekRemind.this,DayRemind.class);
-                startActivity(intent);
+                if(PreferenceManager.getBoolean(getApplicationContext(),"day_remind")) {
+                    Intent intent = new Intent(WeekRemind.this, DayRemind.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    Intent intent = new Intent(WeekRemind.this, CalendarView.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }
