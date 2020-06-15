@@ -43,14 +43,16 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "msg= " + "fucklkkkkk");
+        email = PreferenceManager.getString(context, "email");
+
+        NetworkTask networkTask = new NetworkTask();
+        networkTask.execute(url, email);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, CalendarView.class);
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        email = PreferenceManager.getString(context, "email");
 
-        NetworkTask networkTask = new NetworkTask();
         /*try{
             outPut = networkTask.execute().get();
         }catch (Exception e){
@@ -61,9 +63,8 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
         Log.d(TAG,"outPut: "+ outPut);
 
         alm_doJSONParser(outPut);*/
-        networkTask.execute(url, email);
         //alm_doJSONParser(outPut);
-        Log.d(TAG, "JSONReult = ");
+        Log.d(TAG, "JSONReult = " +res);
 
         PendingIntent pendingI = PendingIntent.getActivity(context, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

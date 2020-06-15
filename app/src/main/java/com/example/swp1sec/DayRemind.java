@@ -267,7 +267,7 @@ public class DayRemind extends AppCompatActivity {
                 Log.d(TAG, "i= " + i);
                 if(res_date.get(i).toString().equals(now)) {
                     JSONObject tt = index.getJSONObject(i);
-                    String imp = tt.getString("time");
+                    String imp = tt.getString("importance");
                     Log.d(TAG, "i= " + i);
                     result.add(imp);
 

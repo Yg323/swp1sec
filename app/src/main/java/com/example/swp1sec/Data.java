@@ -65,9 +65,7 @@ public class Data {
         this.m_resId = m_resId;
     }
 
-    public int getc_ResId() {
-        return c_resId;
-    }
+    public int getc_ResId() { return c_resId; }
     public void setc_ResId(int c_resId) {
         this.c_resId = c_resId;
     }

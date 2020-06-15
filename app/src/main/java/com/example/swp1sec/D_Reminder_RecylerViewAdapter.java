@@ -43,6 +43,7 @@ public class D_Reminder_RecylerViewAdapter extends RecyclerView.Adapter<D_Remind
         holder.time.setText(item.getContent());
         holder.logo.setImageDrawable(item.get_l_ResId());
         holder.importance_img.setImageDrawable(item.get_s_ResId());
+        holder.importance_txt.setText(item.getImp());
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
