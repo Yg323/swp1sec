@@ -49,7 +49,7 @@ public class CalendarListActivity extends AppCompatActivity {
     private String caljsonString;
     private static String CalURL = "http://159.89.193.200//getcallist.php";
     private static String CalTAG = "getcal";
-
+    private String cal_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +173,7 @@ public class CalendarListActivity extends AppCompatActivity {
             }
         });
         String email = PreferenceManager.getString(CalendarListActivity.this, "email");
-        final String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+        cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         // 일정 목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
