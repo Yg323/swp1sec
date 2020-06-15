@@ -59,9 +59,10 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
         //String ex_title = tv_outPut;
         Log.d(TAG,"outPut: "+ outPut);
 
-        alm_doJSONParser(outPut);
-        // Log.d(TAG, "JSONReult = " + res);*/
+        alm_doJSONParser(outPut);*/
         networkTask.execute(url, email);
+        //alm_doJSONParser(outPut);
+        Log.d(TAG, "JSONReult = " + res);
 
         PendingIntent pendingI = PendingIntent.getActivity(context, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -95,8 +96,8 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.icon_personsetting)
                 .setTicker("{Time to watch some cool stuff!}")
-                .setContentText("1Sec.")
                 .setContentTitle(res)
+                .setContentText("당신만의 비서 1Sec.")
                 .setContentInfo("INFO")
                 .setContentIntent(pendingI);
 
@@ -117,7 +118,7 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
 
             Date currentDateTime = nextNotifyTime.getTime();
             String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(currentDateTime);
-            Toast.makeText(context.getApplicationContext(),"다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context.getApplicationContext(),"다음 알람은 " + date_text + "으로 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -205,9 +206,9 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-/*
+
             tv_outPut = new String();
-            tv_outPut = s;*/
+            tv_outPut = s;
 
             alm_doJSONParser(s);
             //추가
@@ -230,7 +231,7 @@ public class Ex_AlarmReceiver extends BroadcastReceiver {
             }
 
             res = result;
-            //Log.d(TAG,"tv_OUTPUT = " + res);
+            Log.d(TAG,"tv_OUTPUT = " + res);
         }catch (JSONException e){
             Log.d(TAG, "ex_doJSONParser = ", e);}
     }

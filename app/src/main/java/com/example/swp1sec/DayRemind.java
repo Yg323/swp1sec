@@ -17,6 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,10 +35,11 @@ public class DayRemind extends AppCompatActivity {
     String TAG = "dayremind";
     String outPut;
     String now;
-    ArrayList res_title;
-    ArrayList res_time;
-    ArrayList res_date;
-    ArrayList res_imp;
+    String email;
+    ArrayList res_title = new ArrayList();
+    ArrayList res_time = new ArrayList();
+    ArrayList res_date = new ArrayList();
+    ArrayList res_imp = new ArrayList();
     ArrayList spend = new ArrayList();
     ArrayList<Data> list = new ArrayList<Data>();
 
@@ -46,6 +53,7 @@ public class DayRemind extends AppCompatActivity {
         Date currentTime = Calendar.getInstance().getTime();
         String date_text = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentTime);
         now = date_text;
+        email = PreferenceManager.getString(this, "email");
 
         Log.d(TAG, "now= " + now);
 
@@ -57,8 +65,8 @@ public class DayRemind extends AppCompatActivity {
         adapter = new D_Reminder_RecylerViewAdapter(list);
         recyclerView.setAdapter(adapter);
 
-        NetworkTask networkTask = new NetworkTask(url, null);
-        try{
+        NetworkTask networkTask = new NetworkTask();
+        /*try{
             outPut = networkTask.execute().get();
         }catch (Exception e){
             e.printStackTrace();
@@ -71,7 +79,8 @@ public class DayRemind extends AppCompatActivity {
         //Log.d(TAG, "res_title_length= " + res_title.size());
         time_doJSONParser(outPut);
         //Log.d(TAG, "res_title= " + res_title);
-        imp_doJSONParser(outPut);
+        imp_doJSONParser(outPut);*/
+        networkTask.execute(url, email);
         if(res_title.size() != 0) {
             //Log.d(TAG, "res_size = " + res_title.size());
             for (int i = 0; i < res_title.size(); i++) {
@@ -103,28 +112,80 @@ public class DayRemind extends AppCompatActivity {
         list.add(item);
     }
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
+    public class NetworkTask extends AsyncTask<String, Void, String> {
 
         private String url;
         private ContentValues values;
         private String tv_outPut;
+        String errorString = null;
         private static final String TAG = "networktask";
 
-        public NetworkTask(String url, ContentValues values) {
+        /*public NetworkTask(String url, ContentValues values) {
 
             this.url = url;
             this.values = values;
-        }
+        }   */
 
         @Override
-        protected String doInBackground(Void... params) {
-            String result; // 요청 결과를 저장할 변수.
-            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
-            //Log.d(TAG, "url = " + url);
-            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            //Log.d(TAG, "result = " + result);
+        protected String doInBackground(String ... params) {
+            String serverURL = params[0]; //PHPURL
+            String email = (String)params[1]; //email
 
-            return result;
+            /*String result; // 요청 결과를 저장할 변수.
+            RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
+            Log.d(TAG, "url = " + url);
+            result = requestHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
+            Log.d(TAG, "result = " + result);
+
+            return result;*/
+            String postParameters = "email=" + email ; //php 파일에 $_POST 변수가 받기 위한 코드
+
+            try { //여기부턴 php코드 한줄씩 읽는거니까 그냥 읽기만 해봐
+
+                java.net.URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+
+                Log.d(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
         }
 
         @Override
@@ -137,12 +198,17 @@ public class DayRemind extends AppCompatActivity {
             super.onPostExecute(s);
 
             tv_outPut = new String();
-            //Log.d(TAG, "response = " + s);
-            //doInBackground()로 부터 리턴된 값이 onPostExecute()의 매개변수로 넘어오므로 s를 출력한다.
-            //tv_outPut.setText(s);
-            //doJSONParser(s);
             tv_outPut = s;
-            //Log.d(TAG, "tv_output = " + tv_outPut);
+
+            date_doJSONParser(s);
+            //Log.d(TAG, "res_date_length= " + res_date.size());
+            title_doJSONParser(s);
+            //Log.d(TAG, "res_title_length= " + res_title.size());
+            time_doJSONParser(s);
+            //Log.d(TAG, "res_title= " + res_title);
+            imp_doJSONParser(s);
+            //추가
+
         }
     }
 
