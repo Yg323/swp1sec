@@ -35,10 +35,10 @@ public class cate_dataview extends AppCompatActivity {
         title.setText("제목: " +CalendarView.categoryArrayList.get(position).gettitle());
         proname.setText("교수님 성함: " +CalendarView.categoryArrayList.get(position).getpro_name());
         proemail.setText("교수님 이메일: " +CalendarView.categoryArrayList.get(position).getpro_email());
-        day.setText("날짜: " +CalendarView.categoryArrayList.get(position).getday());
+        day.setText( CalendarView.categoryArrayList.get(position).getday());
         classstart.setText(CalendarView.categoryArrayList.get(position).getclass_start());
         classends.setText(CalendarView.categoryArrayList.get(position).getclass_ends());
-        day1.setText("날짜: " +CalendarView.categoryArrayList.get(position).getday1());
+        day1.setText( CalendarView.categoryArrayList.get(position).getday1());
         classstart1.setText(CalendarView.categoryArrayList.get(position).getclass_start1());
         classends1.setText(CalendarView.categoryArrayList.get(position).getclass_ends1());
         lectureroom.setText("강의실: " +CalendarView.categoryArrayList.get(position).getlectureroom());

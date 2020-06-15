@@ -13,7 +13,7 @@
             android:id="@+id/titleTV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="  운동,과목 카테고리 "
+            android:hint="  운동,일반 카테고리 "
             android:textSize="20sp"/>
     </LinearLayout>
 

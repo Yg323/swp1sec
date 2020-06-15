@@ -17,7 +17,6 @@ public class Badge_Alarm extends BroadcastReceiver {
 
         ((badge_dialog)badge_dialog.mContext).setAlarm();
 
-        Toast.makeText(context,"알람이 울립니다 ",Toast.LENGTH_SHORT).show();
         Log.e("알람","알람입니다");
     }
 

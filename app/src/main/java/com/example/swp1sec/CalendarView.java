@@ -200,6 +200,10 @@ public class CalendarView extends AppCompatActivity {
         });
         String text = PreferenceManager.getString(CalendarView.this,"start_week_title");
         setting_start_day.setText(text);
+        String badge = PreferenceManager.getString(CalendarView.this,"badgetype");
+        badge_text.setText(badge);
+        String badge_time = PreferenceManager.getString(CalendarView.this,"badgetime");
+        badge_time_text.setText(badge_time);
 
         email =  PreferenceManager.getString(CalendarView.this,"email");
         calendar_title = PreferenceManager.getString(CalendarView.this,"cal_title");
@@ -574,7 +578,7 @@ public class CalendarView extends AppCompatActivity {
                 AlertDialog.Builder builder= new AlertDialog.Builder(calRecyclerView.getContext());
                 ProgressDialog progressDialog = new ProgressDialog(calRecyclerView.getContext());
 
-                CharSequence[] dialogItem ={"edit data","delete data"};
+                CharSequence[] dialogItem ={"달력 수정","달력 삭제"};
                 builder.setTitle(calArrayList.get(position).gettitle());
                 builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
                     @Override
@@ -699,7 +703,7 @@ public class CalendarView extends AppCompatActivity {
                     AlertDialog.Builder builder= new AlertDialog.Builder(cateRecyclerView.getContext());
                     ProgressDialog progressDialog = new ProgressDialog(cateRecyclerView.getContext());
 
-                    CharSequence[] dialogItem ={"view data","edit data","delete data"};
+                    CharSequence[] dialogItem ={"카테고리 보기","카테고리 수정","카테고리 삭제"};
                     builder.setTitle(categoryArrayList.get(position).gettitle());
                     builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
                         @Override

@@ -111,6 +111,7 @@ public class DDayListPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(DDayListPActivity.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_todolist.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +119,7 @@ public class DDayListPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(DDayListPActivity.this, TodoListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_habitlist.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +127,7 @@ public class DDayListPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(DDayListPActivity.this, HabitListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_ddaylist.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +135,7 @@ public class DDayListPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(DDayListPActivity.this, DDayListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_dmin.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +143,7 @@ public class DDayListPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(DDayListPActivity.this, DDayListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_dplus.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +151,7 @@ public class DDayListPActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(DDayListPActivity.this, DDayListPActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -155,6 +161,7 @@ public class DDayListPActivity extends AppCompatActivity {
                 intent = new Intent(DDayListPActivity.this,SearchActivity.class);
                 intent.putExtra("search",et_search.getText().toString());
                 startActivity(intent);
+                finish();
             }
         });
         String email = PreferenceManager.getString(DDayListPActivity.this, "email");
