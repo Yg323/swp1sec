@@ -112,6 +112,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_todolist.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +120,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this, TodoListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_habitlist.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +128,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this, HabitListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_ddaylist.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +136,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this, DDayListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_calalign.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +144,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_importancealign.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +152,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this, CalendarListImActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_categoryalign.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +160,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(CalendarListImActivity.this,CalendarListCaActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_search.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +169,7 @@ public class CalendarListImActivity extends AppCompatActivity {
                 intent = new Intent(CalendarListImActivity.this,SearchActivity.class);
                 intent.putExtra("search",et_search.getText().toString());
                 startActivity(intent);
+                finish();
             }
         });
         String email = PreferenceManager.getString(CalendarListImActivity.this, "email");

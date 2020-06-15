@@ -114,6 +114,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this, CalendarListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_todolist.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +122,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this, TodoListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_habitlist.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +130,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this, HabitListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_ddaylist.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +138,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this, DDayListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_calalign.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +146,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this, TodoListActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_importancealign.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +154,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this, TodoListImActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_categoryalign.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +162,7 @@ public class TodoListCaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(TodoListCaActivity.this,TodoListCaActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_search.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +171,7 @@ public class TodoListCaActivity extends AppCompatActivity {
                 intent = new Intent(TodoListCaActivity.this,SearchActivity.class);
                 intent.putExtra("search",et_search.getText().toString());
                 startActivity(intent);
+                finish();
             }
         });
         email = PreferenceManager.getString(TodoListCaActivity.this, "email");
