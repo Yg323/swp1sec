@@ -1,8 +1,6 @@
 package com.example.swp1sec;
 
-import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,13 +11,20 @@ import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
-import me.relex.circleindicator.CircleIndicator;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -27,22 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import com.example.swp1sec.FirstFragment;
-import com.example.swp1sec.R;
-import com.example.swp1sec.RequestHttpURLConnection;
-import com.example.swp1sec.SecondFragment;
-import com.example.swp1sec.ThirdFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -242,6 +231,8 @@ public class LockScreenActivity extends  AppCompatActivity{
             childBC.put("group", "주요 일정");
             childBC.put("name", "설정된 주요 일정이 없습니다.");
             childListB.add(childBC);
+
+            childData.add(childListB);
         }else if(res_ex.size() == 1) {
             HashMap<String, String> childBA = new HashMap<>();
             childBA.put("group", "주요 일정");
