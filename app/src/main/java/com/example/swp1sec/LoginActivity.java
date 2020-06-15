@@ -62,9 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                             if (success) {//로그인 성공한 경우
                                 String email = jasonObject.getString("email");
                                 String password = jasonObject.getString("password");
-                                Toast toast = Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
-                                toast.show();
                                 Intent intent = new Intent(LoginActivity.this, TutorialActivity.class);
                                 PreferenceManager.setString(LoginActivity.this, "email",email);
                                 //맨 처음 세팅
