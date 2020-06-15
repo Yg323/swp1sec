@@ -173,7 +173,7 @@ public class CalendarListActivity extends AppCompatActivity {
             }
         });
         String email = PreferenceManager.getString(CalendarListActivity.this, "email");
-        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+        final String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         // 일정 목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -212,7 +212,7 @@ public class CalendarListActivity extends AppCompatActivity {
                         }
                     }
                 };
-                CalendarListRequest calendarlistrequest=new CalendarListRequest(email,title,cate_title,Integer.toString(calendarList.getDday()),responseListener);
+                CalendarListRequest calendarlistrequest=new CalendarListRequest(email,title,cal_title,cate_title,Integer.toString(calendarList.getDday()),responseListener);
                 RequestQueue queue= Volley.newRequestQueue(CalendarListActivity.this);
                 queue.add(calendarlistrequest);
             }

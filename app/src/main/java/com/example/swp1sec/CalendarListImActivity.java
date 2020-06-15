@@ -49,7 +49,7 @@ public class CalendarListImActivity extends AppCompatActivity {
     private String caljsonString;
     private static String CalURL = "http://159.89.193.200//getcallist_im.php";
     private static String CalTAG = "getcal";
-
+    private String cal_title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +173,7 @@ public class CalendarListImActivity extends AppCompatActivity {
             }
         });
         String email = PreferenceManager.getString(CalendarListImActivity.this, "email");
-        String cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
+        cal_title = PreferenceManager.getString(getApplicationContext(),"cal_title");
         // 일정 목록 출력
         recy_cal = (RecyclerView) findViewById(R.id.recy_cal);
         LinearLayoutManager calLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -212,7 +212,7 @@ public class CalendarListImActivity extends AppCompatActivity {
                         }
                     }
                 };
-                CalendarListRequest calendarlistrequest=new CalendarListRequest(email,title,cate_title,Integer.toString(calendarList.getDday()),responseListener);
+                CalendarListRequest calendarlistrequest=new CalendarListRequest(email,title,cal_title,cate_title,Integer.toString(calendarList.getDday()),responseListener);
                 RequestQueue queue= Volley.newRequestQueue(CalendarListImActivity.this);
                 queue.add(calendarlistrequest);
             }
