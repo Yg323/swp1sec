@@ -161,25 +161,34 @@ public class History extends Fragment {
                 date_doJSONParser();
                 spend_doJSONParser();//밑에 dayHabitShowResult함수 실행
                 Log.d(TAG, "res_title.size()= " + res_title.size());
-                for (int j = res_title.size(); j > 0; j--) {
-                    // 각 List의 값들을 data 객체에 set 해줍니다.
-                    //Log.d(TAG, "ListSize=" + listTitle.size());
+                if(res_title.size() == 0){
                     Data data = new Data();
-                    Log.d(TAG, "res_title.get(j).toString() = " + res_title.get(j-1).toString());
-                    data.setTitle(res_title.get(j-1).toString());
-                    //Log.d(TAG, "res_title= " + data.getTitle());
-                    data.setContent(res_date.get(j-1).toString());
-                    //Log.d(TAG, "res_date= " + data.getContent());
-                    data.setspent(res_spend.get(j-1).toString());
-                    //Log.d(TAG, "listContent= "+listContent.get(i));
+                    data.setTitle("시간을 벌어보세요!");
+                    data.setContent("획득, 사용한 시간이 표시됩니다!");
+                    data.setspent("0");
 
-                    if(Integer.parseInt(spend.get(j-1).toString()) >= 0)
-                        data.setm_ResId(R.drawable.add_time);
-                    else
-                        data.setm_ResId(R.drawable.desease_time);
-                    //Log.d(TAG, "data= "+data.getm_ResId());
-                    // 각 값이 들어간 data를 adapter에 추가합니다.
                     adapter.addItem(data);
+                }else {
+                    for (int j = res_title.size(); j > 0; j--) {
+                        // 각 List의 값들을 data 객체에 set 해줍니다.
+                        //Log.d(TAG, "ListSize=" + listTitle.size());
+                        Data data = new Data();
+                        //Log.d(TAG, "res_title.get(j).toString() = " + res_title.get(j-1).toString());
+                        data.setTitle(res_title.get(j - 1).toString());
+                        //Log.d(TAG, "res_title= " + data.getTitle());
+                        data.setContent(res_date.get(j - 1).toString());
+                        //Log.d(TAG, "res_date= " + data.getContent());
+                        data.setspent(res_spend.get(j - 1).toString());
+                        //Log.d(TAG, "listContent= "+listContent.get(i));
+
+                        if (Integer.parseInt(spend.get(j - 1).toString()) >= 0)
+                            data.setm_ResId(R.drawable.add_time);
+                        else
+                            data.setm_ResId(R.drawable.desease_time);
+                        //Log.d(TAG, "data= "+data.getm_ResId());
+                        // 각 값이 들어간 data를 adapter에 추가합니다.
+                        adapter.addItem(data);
+                    }
                 }
 
                 // adapter의 값이 변경되었다는 것을 알려줍니다.
